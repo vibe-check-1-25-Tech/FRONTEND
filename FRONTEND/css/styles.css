@@ -1,0 +1,270 @@
+
+/* =========================
+   RESET
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================
+   BODY
+========================= */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  color: #222;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+.container {
+  max-width: 600px;
+  margin: 80px auto;
+  padding: 20px;
+}
+
+/* =========================
+   TITLE
+========================= */
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* =========================
+   MENU
+========================= */
+.menu-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  font-size: 22px;
+  padding: 10px 12px;
+  border: none;
+  background: white;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100vh;
+  background: white;
+  padding: 60px 20px;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.navbar a:hover {
+  background: #f0f0f0;
+}
+
+/* =========================
+   CHECK-IN
+========================= */
+.score-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.score-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #e0e0e0;
+  cursor: pointer;
+}
+
+.score-btn:hover {
+  background: #d5d5d5;
+}
+
+/* textarea */
+textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+}
+
+/* save */
+.save-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+/* =========================
+   JOURNAL CARD
+========================= */
+.journal-card {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.note-text {
+  margin: 10px 0;
+}
+
+.score {
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+/* =========================
+   INSIGHTS
+========================= */
+.chart-block {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.chart-placeholder {
+  height: 150px;
+  background: #eaeaea;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================
+   TAGS (display inside check-in / journal)
+========================= */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.tag {
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #e0e0e0;
+  font-size: 12px;
+}
+
+/* =========================
+   TAG LIST PAGE
+========================= */
+.tags-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.tag-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: white;
+  padding: 12px;
+  border-radius: 10px;
+
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* =========================
+   DELETE BUTTON (NEW ICON)
+========================= */
+.delete-btn {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  color: #c62828;
+}
+
+
+
+/* hover */
+.delete-btn:hover {
+  transform: scale(1.1);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+  .navbar {
+    width: 160px;
+  }
+
+  .container {
+    margin-left: 180px;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 15px;
+  }
+
+  .container {
+    margin: 100px auto;
+  }
+}
+
+/* контейнер действий */
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+/* кнопка редактирования (усиление) */
+.edit-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: #2196F3;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.edit-btn:hover {
+  background: #1976d2;
+}

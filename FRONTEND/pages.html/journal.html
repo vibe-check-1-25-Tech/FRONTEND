@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Journal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+
+<body>
+
+<button class="menu-btn">☰</button>
+
+<nav class="navbar">
+  <a href="checkin.html">Check-in</a>
+  <a href="journal.html">Journal</a>
+  <a href="insights.html">Insights</a>
+  <a href="tags.html">Tags</a>
+</nav>
+
+<div class="container">
+
+  <h1>Journal</h1>
+
+  <div class="journal-card">
+
+  <div class="card-header">
+    <span class="date">2026-04-22</span>
+    <span class="score score-4">4</span>
+  </div>
+
+  <div class="note-text">
+    Сегодня был продуктивный день, закрыл задачи
+  </div>
+
+  <div class="tags">
+    <span class="tag">Работа</span>
+    <span class="tag">Проект</span>
+  </div>
+
+  <div class="card-actions">
+    <button class="edit-btn">Редактировать</button>
+  </div>
+</div>
+<div class="pagination">
+  <button>←</button>
+  <span>1 / 5</span>
+  <button>→</button>
+</div>
+
+<!-- 🔥 МОДАЛКА ВОТ ТУТ (самый конец body) -->
+<div class="modal hidden" id="editModal">
+
+  <div class="modal-content">
+
+    <h3>Редактировать запись</h3>
+
+    <div class="score-buttons">
+      <button class="score-btn">1</button>
+      <button class="score-btn">2</button>
+      <button class="score-btn">3</button>
+      <button class="score-btn">4</button>
+      <button class="score-btn">5</button>
+    </div>
+
+    <textarea placeholder="Измени заметку..."></textarea>
+    
+    <div class="tags-select">
+      <span class="tag">Работа</span>
+      <span class="tag">Сон</span>
+      <span class="tag">Хобби</span>
+    </div>
+
+
+    <button class="save-btn">Сохранить</button>
+
+  </div>
+
+</div>
+<div class="journal-list">
+  <!-- карточки сюда -->
+</div>
+
+
+</body>
+</html>
