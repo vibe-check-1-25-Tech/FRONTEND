@@ -12,25 +12,32 @@
    BODY
 ========================= */
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  color: #222;
+  font-family: 'Inter', Arial, sans-serif;
+  background: #f7f8fb;
+  color: #1e1e1e;
 }
 
 /* =========================
-   CONTAINER
+   CONTAINER (mobile feel)
 ========================= */
 .container {
-  max-width: 600px;
-  margin: 80px auto;
-  padding: 20px;
+  max-width: 420px;
+  margin: 70px auto;
+  padding: 16px;
 }
 
 /* =========================
-   TITLE
+   TITLES
 ========================= */
 h1 {
   font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #8a8a8a;
   margin-bottom: 20px;
 }
 
@@ -41,130 +48,122 @@ h1 {
   position: fixed;
   top: 15px;
   left: 15px;
-  font-size: 22px;
-  padding: 10px 12px;
+  font-size: 20px;
+  padding: 10px;
   border: none;
   background: white;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
+/* SIDEBAR */
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
-  width: 220px;
+  width: 240px;
   height: 100vh;
   background: white;
-  padding: 60px 20px;
-  box-shadow: 2px 0 10px rgba(0,0,0,0.08);
+  padding: 70px 20px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.08);
 }
 
 .navbar a {
   text-decoration: none;
   color: #333;
-  font-weight: 600;
-  padding: 10px;
-  border-radius: 8px;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 500;
 }
 
 .navbar a:hover {
-  background: #f0f0f0;
+  background: #f3f4f7;
 }
 
 /* =========================
-   CHECK-IN
+   CARD (FIGMA STYLE)
 ========================= */
-.score-buttons {
-  display: flex;
-  gap: 8px;
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 18px;
   margin-bottom: 15px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.06);
 }
 
-.score-btn {
-  flex: 1;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  background: #e0e0e0;
-  cursor: pointer;
-}
-
-.score-btn:hover {
-  background: #d5d5d5;
-}
-
-/* textarea */
-textarea {
-  width: 100%;
-  min-height: 120px;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  margin-bottom: 15px;
-}
-
-/* save */
+/* =========================
+   BUTTONS
+========================= */
 .save-btn {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   border: none;
-  border-radius: 10px;
-  background: #4CAF50;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #6c63ff, #5a54e6);
   color: white;
+  font-weight: 600;
   cursor: pointer;
 }
 
+.save-btn:hover {
+  opacity: 0.9;
+}
+
 /* =========================
-   JOURNAL CARD
+   TEXTAREA / INPUT
 ========================= */
-.journal-card {
-  background: white;
-  padding: 15px;
+textarea,
+input {
+  width: 100%;
+  padding: 12px;
   border-radius: 12px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-}
-
-.note-text {
-  margin: 10px 0;
-}
-
-.score {
-  font-weight: bold;
-  color: #4CAF50;
+  border: 1px solid #ddd;
+  margin-top: 10px;
+  font-size: 14px;
 }
 
 /* =========================
-   INSIGHTS
+   MOOD (FIGMA STYLE)
 ========================= */
-.chart-block {
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-  margin-bottom: 15px;
+.mood-grid {
+  display: flex;
+  gap: 8px;
+  margin: 20px 0;
 }
 
-.chart-placeholder {
-  height: 150px;
-  background: #eaeaea;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.mood {
+  flex: 1;
+  padding: 12px;
+  border-radius: 14px;
+  text-align: center;
+  background: #f1f3f6;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.mood span {
+  display: block;
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+/* ACTIVE COLORS */
+.mood-1.active { background: #ff5252; color: white; }
+.mood-2.active { background: #ff9800; color: white; }
+.mood-3.active { background: #ffd54f; }
+.mood-4.active { background: #4caf50; color: white; }
+.mood-5.active { background: #2e7d32; color: white; }
+
+.mood:hover {
+  transform: scale(1.05);
 }
 
 /* =========================
-   TAGS (display inside check-in / journal)
+   TAGS
 ========================= */
 .tags {
   display: flex;
@@ -176,48 +175,322 @@ textarea {
 .tag {
   padding: 6px 12px;
   border-radius: 20px;
-  background: #e0e0e0;
+  background: #eef1f6;
   font-size: 12px;
 }
 
 /* =========================
-   TAG LIST PAGE
+   TAG LIST
 ========================= */
-.tags-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 20px;
-}
-
 .tag-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  padding: 14px;
+  border-radius: 14px;
   background: white;
-  padding: 12px;
-  border-radius: 10px;
-
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-/* =========================
-   DELETE BUTTON (NEW ICON)
-========================= */
 .delete-btn {
   border: none;
   background: transparent;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
-  color: #c62828;
+  color: #e53935;
 }
 
+/* =========================
+   JOURNAL
+========================= */
+.journal-card {
+  background: white;
+  padding: 16px;
+  border-radius: 18px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
 
+.card-header {
+  display: flex;
+  justify-content: space-between;
+}
 
-/* hover */
-.delete-btn:hover {
-  transform: scale(1.1);
+.note-text {
+  margin: 10px 0;
+}
+
+/* SCORE COLORS */
+.score-1 { color: #ff5252; }
+.score-2 { color: #ff9800; }
+.score-3 { color: #ffd54f; }
+.score-4 { color: #4caf50; }
+.score-5 { color: #2e7d32; }
+
+/* edit */
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.edit-btn {
+  background: #6c63ff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* =========================
+   THEME VARIABLES
+========================= */
+:root {
+  --bg: #f5f6fa;
+  --card: #ffffff;
+  --text: #111;
+  --muted: #999;
+  --day: #f1f3f6;
+}
+
+/* 🌙 DARK MODE */
+body.dark {
+  --bg: #0f1115;
+  --card: #1a1d24;
+  --text: #ffffff;
+  --muted: #a0a0a0;
+  --day: #2a2f3a;
+}
+
+/* =========================
+   BODY
+========================= */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: 0.3s ease;
+
+  padding-left: 240px; /* 🔥 место под левое меню */
+}
+@media (max-width: 900px) 
+{
+  body {
+    padding-left: 0; /* меню будет поверх (как у тебя сейчас) */
+  }
+}
+/* =========================
+   CENTER WRAPPER
+========================= */
+.calendar-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  padding: 30px;
+}
+.calendar-card {
+  margin-left: 40px;
+}
+/* =========================
+   CARD (НЕ РАСТЯГИВАЕТСЯ)
+========================= */
+.calendar-card {
+  width: 100%;
+  max-width: 650px;   /* 🔥 было 420 → стало больше */
+  min-width: 320px;
+
+  background: var(--card);
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+}
+/* =========================
+   HEADER
+========================= */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.calendar-header h2 {
+  font-size: 18px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+button {
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: var(--day);
+  color: var(--text);
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* =========================
+   WEEK DAYS
+========================= */
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+/* =========================
+   CALENDAR GRID
+========================= */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+/* =========================
+   DAYS (КВАДРАТЫ)
+========================= */
+.day, .empty {
+  aspect-ratio: 1 / 1;
+  font-size: 16px;
+}
+@media (min-width: 1200px) {
+  .calendar-card {
+    max-width: 720px;
+  }
+}
+/* обычный день */
+.day {
+  background: var(--day);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.day:hover {
+  transform: scale(1.05);
+}
+
+/* пустые клетки */
+.empty {
+  background: transparent;
+}
+
+/* =========================
+   TODAY
+========================= */
+.today {
+  border: 2px solid #6c63ff;
+}
+
+/* =========================
+   MOOD COLORS
+========================= */
+.day.mood-1 { background: #ff5252; color: white; }
+.day.mood-2 { background: #ff9800; color: white; }
+.day.mood-3 { background: #ffd54f; }
+.day.mood-4 { background: #4caf50; color: white; }
+.day.mood-5 { background: #2e7d32; color: white; }
+
+/* =========================
+   DARK MODE FIXES
+========================= */
+body.dark .day {
+  color: #fff;
+}
+
+/* =========================
+   OPTIONAL MODAL STYLE (если используешь)
+========================= */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 12px;
+  width: 300px;
+}
+/* =========================
+   CHART (UI)
+========================= */
+.chart-fake {
+  height: 160px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #6c63ff, #a29bfe);
+  opacity: 0.2;
+}
+
+/* =========================
+   MODAL
+========================= */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+}
+
+/* =========================
+   TEAM
+========================= */
+.team-card {
+  background: white;
+  padding: 18px;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.team-score {
+  font-size: 28px;
+  font-weight: bold;
+  color: #4caf50;
+}
+
+/* =========================
+   SUPPORT / ABOUT
+========================= */
+.support-item,
+.about-card {
+  background: white;
+  padding: 16px;
+  border-radius: 16px;
 }
 
 /* =========================
@@ -225,11 +498,11 @@ textarea {
 ========================= */
 @media (max-width: 768px) {
   .navbar {
-    width: 160px;
+    width: 180px;
   }
 
   .container {
-    margin-left: 180px;
+    margin-left: 190px;
   }
 }
 
@@ -239,252 +512,205 @@ textarea {
     height: auto;
     flex-direction: row;
     justify-content: space-around;
-    padding: 15px;
+    padding: 12px;
   }
 
   .container {
-    margin: 100px auto;
+    margin: 90px auto;
   }
 }
-
-/* контейнер действий */
-.card-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
-}
-
-/* кнопка редактирования (усиление) */
-.edit-btn {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 8px;
-  background: #2196F3;
-  color: white;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.edit-btn:hover {
-  background: #1976d2;
-}
-
-/* фильтр */
-.filter {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.filter-btn {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 8px;
-  background: #e0e0e0;
-  cursor: pointer;
-}
-
-.filter-btn.active {
-  background: #4CAF50;
-  color: white;
-}
-
-
-/* дни недели */
-.weekdays {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  text-align: center;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-/* =========================
-   CALENDAR CARD
-========================= */
-.calendar-card {
+/* ===== SIDEBAR ===== */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -260px; /* скрыт */
+  width: 260px;
+  height: 100%;
   background: white;
   padding: 20px;
-  border-radius: 18px;
-  box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+/* открыто */
+.sidebar.open {
+  left: 0;
 }
 
 /* header */
-.calendar-header {
+.sidebar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
-.calendar-header h2 {
-  font-size: 18px;
-}
-
-/* arrows */
-.nav-btn {
+.sidebar-header button {
   border: none;
-  background: #f0f0f0;
-  padding: 6px 12px;
-  border-radius: 8px;
+  background: none;
+  font-size: 20px;
   cursor: pointer;
 }
 
-.nav-btn:hover {
-  background: #ddd;
-}
-
-/* weekdays */
-.weekdays {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  text-align: center;
-  font-size: 12px;
-  color: #888;
-  margin-bottom: 10px;
-}
-
-/* grid */
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-}
-
-/* empty cells */
-.empty {
-  height: 45px;
-}
-
-/* day */
-.day {
-  height: 45px;
+/* ссылки */
+.sidebar a {
+  text-decoration: none;
+  color: #333;
+  padding: 12px;
   border-radius: 10px;
-  background: #f0f0f0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  cursor: pointer;
-  transition: 0.2s;
+  font-weight: 500;
 }
 
-.day:hover {
-  background: #ddd;
+.sidebar a:hover {
+  background: #f3f4f7;
 }
 
-/* today */
-.today {
-  border: 2px solid #4CAF50;
-}
-
-/* mood colors */
-.mood-1 { background: #ffdddd; }
-.mood-2 { background: #ffe5cc; }
-.mood-3 { background: #fff3cd; }
-.mood-4 { background: #d4f5d4; }
-.mood-5 { background: #b6f2c1; }
-
-/* модалка фон */
-.modal {
+/* ===== OVERLAY ===== */
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.3);
 
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+}
+
+/* когда открыт */
+.overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+/* ===== INSIGHTS UPGRADE ===== */
+
+/* фильтр */
+.filter {
   display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* скрытие */
-.hidden {
-  display: none;
-}
-
-/* окно */
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 14px;
-  width: 90%;
-  max-width: 400px;
-}
-
-/* текст */
-.modal-note {
-  margin: 10px 0;
-}
-.team-card {
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-.team-score {
-  font-size: 32px;
-  font-weight: bold;
-  color: #4CAF50;
-}
-/* support */
-.support-item {
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-  margin-bottom: 10px;
-}
-
-/* about */
-.about-card {
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-}
-
-/* форма */
-.form-block {
-  display: flex;
-  flex-direction: column;
   gap: 10px;
+  margin-bottom: 20px;
 }
 
-input {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+.filter-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 20px;
+  background: #f1f3f6;
+  cursor: pointer;
 }
 
-/* toggle */
-.toggle {
+.filter-btn.active {
+  background: #6c63ff;
+  color: white;
+}
+
+/* графики */
+canvas {
+  margin-top: 10px;
+}
+
+/* карточки */
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+/* среднее */
+.team-score {
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  color: #4caf50;
+}
+
+/* ===== EXPORT PAGE ===== */
+
+.export-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
 
-/* универсальная карточка */
-.card {
   background: white;
-  padding: 15px;
-  border-radius: 14px;
+  padding: 18px;
+  border-radius: 16px;
   margin-bottom: 15px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
 }
 
-/* заголовок внутри карточки */
-.card h3 {
-  margin-bottom: 10px;
+/* левая часть */
+.export-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
-/* input */
-input {
-  width: 100%;
-  padding: 10px;
+/* иконки */
+.export-info i {
+  font-size: 28px;
+}
+
+/* цвета */
+.pdf i {
+  color: #e53935;
+}
+
+.csv i {
+  color: #43a047;
+}
+
+/* кнопки */
+.export-btn {
+  border: none;
+  padding: 10px 16px;
   border-radius: 10px;
-  border: 1px solid #ccc;
-  margin-bottom: 10px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* разные цвета */
+.export-btn.red {
+  background: #e53935;
+}
+
+.export-btn.green {
+  background: #43a047;
+}
+
+.export-btn:hover {
+  opacity: 0.85;
+}
+/* клик эффект */
+.export-btn:active {
+  transform: scale(0.95);
+}
+
+/* уведомление */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.toast.show {
+  opacity: 1;
 }

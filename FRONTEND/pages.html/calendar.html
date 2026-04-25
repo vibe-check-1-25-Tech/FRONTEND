@@ -11,84 +11,87 @@
 
 <button class="menu-btn">☰</button>
 
-<nav class="navbar">
-  <a href="checkin.html">Check-in</a>
-  <a href="journal.html">Journal</a>
-  <a href="insights.html">Insights</a>
-   <a href="tags.html">Tags</a>
-  <a href="calendar.html">Calendar</a>
-  <a href="team.html">Team</a>
-  <a href="profile.html">Profile</a>
-</nav>
+<!-- 🔥 кнопка -->
+<button class="menu-btn" id="menuBtn">☰</button>
 
-<div class="container">
+<!-- 🔥 затемнение -->
+<div class="overlay" id="overlay"></div>
 
-  <div class="calendar-card">
+<!-- 🔥 sidebar -->
+<nav class="sidebar" id="sidebar">
 
-    <!-- HEADER -->
-    <div class="calendar-header">
-      <button class="nav-btn">←</button>
-      <h2>Март 2026</h2>
-      <button class="nav-btn">→</button>
-    </div>
-
-    <!-- WEEKDAYS -->
-    <div class="weekdays">
-      <div>Пн</div>
-      <div>Вт</div>
-      <div>Ср</div>
-      <div>Чт</div>
-      <div>Пт</div>
-      <div>Сб</div>
-      <div>Вс</div>
-    </div>
-
-    <!-- GRID -->
-    <div class="calendar-grid">
-
-      <div class="empty"></div>
-      <div class="empty"></div>
-
-      <div class="day" onclick="openModal(1)">1</div>
-      <div class="day today" onclick="openModal(2)">2</div>
-      <div class="day" onclick="openModal(3)">3</div>
-      <div class="day" onclick="openModal(4)">4</div>
-      <div class="day" onclick="openModal(5)">5</div>
-
-      <div class="day" onclick="openModal(6)">6</div>
-      <div class="day" onclick="openModal(7)">7</div>
-      <div class="day" onclick="openModal(8)">8</div>
-      <div class="day" onclick="openModal(9)">9</div>
-      <div class="day" onclick="openModal(10)">10</div>
-      <div class="day" onclick="openModal(11)">11</div>
-      <div class="day" onclick="openModal(12)">12</div>
-
-      <div class="day" onclick="openModal(13)">13</div>
-      <div class="day" onclick="openModal(14)">14</div>
-      <div class="day" onclick="openModal(15)">15</div>
-      <div class="day" onclick="openModal(16)">16</div>
-      <div class="day" onclick="openModal(17)">17</div>
-      <div class="day" onclick="openModal(18)">18</div>
-      <div class="day" onclick="openModal(19)">19</div>
-
-      <div class="day" onclick="openModal(20)">20</div>
-      <div class="day" onclick="openModal(21)">21</div>
-      <div class="day" onclick="openModal(22)">22</div>
-      <div class="day" onclick="openModal(23)">23</div>
-      <div class="day" onclick="openModal(24)">24</div>
-      <div class="day" onclick="openModal(25)">25</div>
-      <div class="day" onclick="openModal(26)">26</div>
-
-      <div class="day" onclick="openModal(27)">27</div>
-      <div class="day" onclick="openModal(28)">28</div>
-      <div class="day" onclick="openModal(29)">29</div>
-      <div class="day" onclick="openModal(30)">30</div>
-      <div class="day" onclick="openModal(31)">31</div>
-
-    </div>
-
+  <div class="sidebar-header">
+    <h3>Vibe Check</h3>
+    <button id="closeBtn">✕</button>
   </div>
 
+  <a href="checkin.html">💜 Чек-ин</a>
+  <a href="journal.html">📘 Дневник</a>
+  <a href="insights.html">📊 Аналитика</a>
+  <a href="calendar.html">📅 Календарь</a>
+  <a href="tags.html">🏷 Теги</a>
+  <a href="team.html">👥 Команда</a>
+  <a href="support.html">🆘 Поддержка</a>
+  <a href="profile.html">👤 Профиль</a>
+  <a href="export.html">📤 Экспорт</a>
+
+</nav>
+<div class="calendar-card">
+
+  <div class="calendar-header">
+    <button class="nav-btn">←</button>
+    <h2>Апрель 2026</h2>
+    <button class="nav-btn">→</button>
+  </div>
+
+  <!-- ДНИ НЕДЕЛИ -->
+  <div class="weekdays">
+    <div>Пн</div>
+    <div>Вт</div>
+    <div>Ср</div>
+    <div>Чт</div>
+    <div>Пт</div>
+    <div>Сб</div>
+    <div>Вс</div>
+  </div>
+
+ <div class="calendar-grid">
+
+  <!-- пустые перед началом месяца -->
+  <div class="empty"></div>
+  <div class="empty"></div>
+
+  <!-- дни -->
+  <div class="day">1</div>
+  <div class="day">2</div>
+  <div class="day">3</div>
+  <div class="day">4</div>
+  <div class="day">5</div>
+  <div class="day">6</div>
+  <div class="day">7</div>
+<div class="day">8</div>
+<div class="day">9</div>
+<div class="day">10</div>
+  <div class="day">11</div>
+  <div class="day">12</div>
+  <div class="day">13</div>
+  <div class="day">14</div>
+  <div class="day">15</div>
+  <div class="day">16</div>
+  <div class="day">17</div>
+  <div class="day">19</div>
+<div class="day">20</div>
+<div class="day">21</div>
+  <div class="day">22</div>
+  <div class="day">23</div>
+  <div class="day">24</div>
+  <div class="day">25</div>
+  <div class="day">26</div>
+  <div class="day">27</div>
+<div class="day">28</div>
+<div class="day">29</div>
+<div class="day">30</div>
+<div class="day">31</div>
 </div>
 
 <!-- 🔥 МОДАЛКА -->

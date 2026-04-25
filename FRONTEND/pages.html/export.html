@@ -4,31 +4,46 @@
   <meta charset="UTF-8">
   <title>Export</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="stylesheet" href="../css/styles.css">
+
+  <!-- 🔥 ИКОНКИ -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 
 <body>
 
 <button class="menu-btn">☰</button>
 
-<nav class="navbar">
- <a href="checkin.html">Check-in</a>
-  <a href="journal.html">Journal</a>
-  <a href="insights.html">Insights</a>
-   <a href="tags.html">Tags</a>
-  <a href="calendar.html">Calendar</a>
-  <a href="team.html">Team</a>
-  <a href="profile.html">Profile</a>
-</nav>
-
 <div class="container">
 
   <h1>Экспорт данных</h1>
-
-  <button class="save-btn">Export CSV</button>
-  <button class="save-btn">Export PDF</button>
-
+  <p class="subtitle">Скачайте ваши записи</p>
+<!-- PDF -->
+<div class="export-card pdf">
+  <div class="export-info">
+    <i class="fa-solid fa-file-pdf"></i>
+    <div>
+      <h3>Экспорт в PDF</h3>
+      <p>Скачать отчёт</p>
+    </div>
+  </div>
+  <button class="export-btn red" id="exportPDF">Скачать</button>
 </div>
 
+<!-- CSV -->
+<div class="export-card csv">
+  <div class="export-info">
+    <i class="fa-solid fa-file-csv"></i>
+    <div>
+      <h3>Экспорт в CSV</h3>
+      <p>Таблица данных</p>
+    </div>
+  </div>
+  <button class="export-btn green" id="exportCSV">Скачать</button>
+</div>
+
+  <div class="toast" id="toast">Скачано ✅</div>
 </body>
 </html>

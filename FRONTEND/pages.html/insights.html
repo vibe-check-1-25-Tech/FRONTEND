@@ -4,46 +4,81 @@
   <meta charset="UTF-8">
   <title>Insights</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="stylesheet" href="../css/styles.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
 <button class="menu-btn">☰</button>
 
-<nav class="navbar">
- <a href="checkin.html">Check-in</a>
-  <a href="journal.html">Journal</a>
-  <a href="insights.html">Insights</a>
-   <a href="tags.html">Tags</a>
-  <a href="calendar.html">Calendar</a>
-  <a href="team.html">Team</a>
-  <a href="profile.html">Profile</a>
-</nav>
-
 <div class="container">
 
   <h1>Аналитика</h1>
+  <p class="subtitle">Твое настроение за период</p>
 
-  <!-- фильтр -->
+  <!-- 🔥 фильтр -->
   <div class="filter">
     <button class="filter-btn active">7 дней</button>
     <button class="filter-btn">30 дней</button>
   </div>
 
-  <!-- график -->
-  <div class="chart-block">
-    <h3>Настроение</h3>
-    <div class="chart-placeholder">Line Chart</div>
+  <!-- 📈 ЛИНЕЙНЫЙ ГРАФИК -->
+  <div class="card">
+    <h3>Динамика настроения</h3>
+    <canvas id="lineChart"></canvas>
   </div>
 
-  <!-- pie -->
-  <div class="chart-block">
-    <h3>Распределение</h3>
-    <div class="chart-placeholder">Pie Chart</div>
+  <!-- 🟡 КРУГОВАЯ ДИАГРАММА -->
+  <div class="card">
+    <h3>Распределение эмоций</h3>
+    <canvas id="pieChart"></canvas>
+  </div>
+
+  <!-- 📊 СРЕДНЕЕ -->
+  <div class="card">
+    <h3>Среднее настроение</h3>
+    <div class="team-score">4.2</div>
   </div>
 
 </div>
+
+<!-- JS графиков -->
+<script>
+
+const lineChart = new Chart(document.getElementById('lineChart'), {
+  type: 'line',
+  data: {
+    labels: ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'],
+    datasets: [{
+      label: 'Настроение',
+      data: [3, 4, 2, 5, 4, 3, 5],
+      tension: 0.4,
+      fill: true
+    }]
+  },
+  options: {
+    responsive: true
+  }
+});
+
+const pieChart = new Chart(document.getElementById('pieChart'), {
+  type: 'pie',
+  data: {
+    labels: ['Плохо','Норм','Хорошо','Отлично'],
+    datasets: [{
+      data: [2, 3, 4, 5]
+    }]
+  },
+  options: {
+    responsive: true
+  }
+});
+
+</script>
 
 </body>
 </html>
