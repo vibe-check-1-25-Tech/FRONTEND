@@ -2,20 +2,16 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Check-in</title>
-<link rel="stylesheet" href="../css/styles.css"> 
-</head>
-<head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check-in</title>
+  <link rel="stylesheet" href="../css/styles.css">
 </head>
-<body>
-<!-- 🔥 кнопка -->
-<button class="menu-btn" id="menuBtn">☰</button>
 
-<!-- 🔥 затемнение -->
+<body>
+
+<button class="menu-btn" id="menuBtn">☰</button>
 <div class="overlay" id="overlay"></div>
 
-<!-- 🔥 sidebar -->
 <nav class="sidebar" id="sidebar">
 
   <div class="sidebar-header">
@@ -32,37 +28,58 @@
   <a href="support.html">🆘 Поддержка</a>
   <a href="profile.html">👤 Профиль</a>
   <a href="export.html">📤 Экспорт</a>
+  <a href="metod.html">📘 О методологии</a>
+  <a href="npumin.html">🔔 Напоминания</a>
 
 </nav>
 
 <main class="container">
+
   <h1>Как ты сегодня?</h1>
 
-<div class="mood-grid">
+  <!-- MOOD -->
+  <div class="mood-grid">
 
-  <div class="mood mood-1">😢<span>Плохо</span></div>
-  <div class="mood mood-2">😐<span>Ок</span></div>
-  <div class="mood mood-3 active">🙂<span>Норм</span></div>
-  <div class="mood mood-4">😊<span>Хорошо</span></div>
-  <div class="mood mood-5">😁<span>Отлично</span></div>
+    <div class="mood mood-bad">😢<span>Плохо</span></div>
+    <div class="mood mood-ok">😐<span>Ок</span></div>
+    <div class="mood mood-normal active">🙂<span>Норм</span></div>
+    <div class="mood mood-good">😊<span>Хорошо</span></div>
+    <div class="mood mood-excellent">😁<span>Отлично</span></div>
 
-</div>
-  <div class="tags">
+  </div>
 
-  <span class="tag">Работа</span>
-  <span class="tag">Учёба</span>
-  <span class="tag">Сон</span>
-  <span class="tag">Хобби</span>
-  <span class="tag negative">Стресс</span>
-  <span class="tag positive">Спорт</span>
+  <!-- TAGS (BLOCK STYLE) -->
+  <div class="tags-bar">
 
-</div>
+    <span class="tag">Работа</span>
+    <span class="tag">Учёба</span>
+    <span class="tag">Сон</span>
+    <span class="tag">Хобби</span>
+    <span class="tag">Семья</span>
+    <span class="tag">Отношения</span>
 
-  <textarea id="note" placeholder="Напиши пару слов..."></textarea>
+    <!-- добавить тег -->
+    <span class="tag add-tag">＋ Добавить</span>
 
-  <button id="saveBtn" class="save-btn">Сохранить</button>
+  </div>
+
+  <!-- NOTE + PHOTO -->
+  <div class="note-box">
+
+    <textarea placeholder="Напиши пару слов..."></textarea>
+
+    <label class="photo-btn">
+                📷 Фото
+      <input type="file" accept="image/*" capture="environment" hidden>
+    </label>
+
+  </div>
+
+  <button class="save-btn">Сохранить</button>
+
 </main>
 
 </body>
+</html>
 
 </html>

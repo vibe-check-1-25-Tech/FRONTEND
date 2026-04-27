@@ -2,22 +2,17 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tags</title>
-
+  <title>Теги</title>
   <link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body>
 
-<!-- 🔥 МЕНЮ -->
-<!-- 🔥 кнопка -->
+<!-- 🔥 sidebar кнопка -->
 <button class="menu-btn" id="menuBtn">☰</button>
 
-<!-- 🔥 затемнение -->
 <div class="overlay" id="overlay"></div>
 
-<!-- 🔥 sidebar -->
 <nav class="sidebar" id="sidebar">
 
   <div class="sidebar-header">
@@ -34,43 +29,119 @@
   <a href="support.html">🆘 Поддержка</a>
   <a href="profile.html">👤 Профиль</a>
   <a href="export.html">📤 Экспорт</a>
+  <a href="metod.html">📘 О методологии</a>
+  <a href="npumin.html">🔔 Напоминания</a>
 
 </nav>
 
-<!-- 📦 КОНТЕНТ -->
 <div class="container">
 
-  <h1>Теги</h1>
+  <h1>Управление тегами</h1>
+  <p class="subtitle">Создавайте категории для анализа влияния на настроение</p>
 
-  <!-- 📥 СПИСОК ТЕГОВ -->
-  <div class="tags-list">
+  <!-- Добавление -->
+  <div class="card">
+    <h2>Добавить новый тег</h2>
 
-    <div class="tag-item">
-      <span>Работа</span>
-      <button class="delete-btn">✕</button>
+    <div class="form">
+      <input type="text" placeholder="Название тега">
+      <button>Добавить</button>
+    </div>
+  </div>
+
+  <h2 class="section-title">Ваши теги</h2>
+
+  <div class="grid">
+
+    <!-- ТЕГ -->
+    <div class="tag">
+      <div class="tag-top">
+
+        <div class="tag-left">
+          <div class="icon">💼</div>
+          <div class="tag-name">Работа</div>
+        </div>
+
+        <div class="dots-wrapper">
+          <div class="dots">⋯</div>
+          <div class="menu">
+            <div onclick="editTag()">Изменить</div>
+            <div onclick="deleteTag()">Удалить</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="tag-bottom">Использовано 3 раза</div>
     </div>
 
-    <div class="tag-item">
-      <span>Сон</span>
-      <button class="delete-btn">✕</button>
+    <!-- ТЕГ -->
+    <div class="tag">
+      <div class="tag-top">
+
+        <div class="tag-left">
+          <div class="icon">❤️</div>
+          <div class="tag-name">Отношения</div>
+        </div>
+
+        <div class="dots-wrapper">
+          <div class="dots">⋯</div>
+          <div class="menu">
+            <div onclick="editTag()">Изменить</div>
+            <div onclick="deleteTag()">Удалить</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="tag-bottom">Использовано 5 раз</div>
     </div>
 
-    <div class="tag-item">
-      <span>Хобби</span>
-      <button class="delete-btn">✕</button>
+    <!-- ТЕГ -->
+    <div class="tag">
+      <div class="tag-top">
+
+        <div class="tag-left">
+          <div class="icon">🌙</div>
+          <div class="tag-name">Сон</div>
+        </div>
+
+        <div class="dots-wrapper">
+          <div class="dots">⋯</div>
+          <div class="menu">
+            <div onclick="editTag()">Изменить</div>
+            <div onclick="deleteTag()">Удалить</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="tag-bottom">Использовано 10 раз</div>
     </div>
 
-    <div class="tag-item">
-      <span>Учёба</span>
-      <button class="delete-btn">✕</button>
+    <!-- ТЕГ -->
+    <div class="tag">
+      <div class="tag-top">
+
+        <div class="tag-left">
+          <div class="icon">📚</div>
+          <div class="tag-name">Учёба</div>
+        </div>
+
+        <div class="dots-wrapper">
+          <div class="dots">⋯</div>
+          <div class="menu">
+            <div onclick="editTag()">Изменить</div>
+            <div onclick="deleteTag()">Удалить</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="tag-bottom">Использовано 7 раз</div>
     </div>
 
   </div>
-
-  <!-- ➕ ДОБАВИТЬ ТЕГ -->
-  <button class="save-btn">+ Добавить тег</button>
-
-</div>
 
 </body>
 </html>
