@@ -7,21 +7,15 @@
 
   <link rel="stylesheet" href="../css/styles.css">
 
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-<!-- 🔥 кнопка -->
 <button class="menu-btn" id="menuBtn">☰</button>
-
-<!-- 🔥 затемнение -->
 <div class="overlay" id="overlay"></div>
 
-<!-- 🔥 sidebar -->
 <nav class="sidebar" id="sidebar">
-
   <div class="sidebar-header">
     <h3>Vibe Check</h3>
     <button id="closeBtn">✕</button>
@@ -30,16 +24,6 @@
   <a href="checkin.html">💜 Чек-ин</a>
   <a href="journal.html">📘 Дневник</a>
   <a href="insights.html">📊 Аналитика</a>
-  <a href="calendar.html">📅 Календарь</a>
-  <a href="tags.html">🏷 Теги</a>
-  <a href="team.html">👥 Команда</a>
-  <a href="support.html">🆘 Поддержка</a>
-  <a href="profile.html">👤 Профиль</a>
-  <a href="export.html">📤 Экспорт</a>
-  <a href="metod.html">  📘 О методологии</a>
-  <a href="npumin.html">🔔Напоминания</a>
-
-
 </nav>
 
 <div class="container">
@@ -47,65 +31,145 @@
   <h1>Аналитика</h1>
   <p class="subtitle">Твое настроение за период</p>
 
-  <!-- 🔥 фильтр -->
+  <!-- ✅ ФИЛЬТР -->
   <div class="filter">
-    <button class="filter-btn active">7 дней</button>
-    <button class="filter-btn">30 дней</button>
+    <button class="filter-btn active" data-days="3">3 дня</button>
+    <button class="filter-btn" data-days="7">7 дней</button>
+    <button class="filter-btn" data-days="14">14 дней</button>
+    <button class="filter-btn" data-days="30">30 дней</button>
   </div>
 
-  <!-- 📈 ЛИНЕЙНЫЙ ГРАФИК -->
-  <div class="card">
-    <h3>Динамика настроения</h3>
+  <!-- 📈 ГРАФИК -->
+<div class="card">
+  <h3>Динамика настроения</h3>
+
+  <div class="chart-box">
     <canvas id="lineChart"></canvas>
   </div>
+</div>
 
-  <!-- 🟡 КРУГОВАЯ ДИАГРАММА -->
-  <div class="card">
-    <h3>Распределение эмоций</h3>
+<!-- 🟡 PIE -->
+<div class="card">
+  <h3>Распределение эмоций</h3>
+
+  <div class="chart-box">
     <canvas id="pieChart"></canvas>
   </div>
-
+</div>
   <!-- 📊 СРЕДНЕЕ -->
   <div class="card">
     <h3>Среднее настроение</h3>
-    <div class="team-score">4.2</div>
+    <div class="team-score" id="avgMood">0</div>
   </div>
 
 </div>
 
-<!-- JS графиков -->
 <script>
 
+// 🔥 MOCK ДАННЫЕ (30 дней)
+const allData = Array.from({ length: 30 }, (_, i) => ({
+  day: i + 1,
+  mood: Math.floor(Math.random() * 5) + 1
+}));
+
+// 📊 ГРАФИК ЛИНИИ
 const lineChart = new Chart(document.getElementById('lineChart'), {
   type: 'line',
   data: {
-    labels: ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'],
+    labels: [],
     datasets: [{
       label: 'Настроение',
-      data: [3, 4, 2, 5, 4, 3, 5],
+      data: [],
+      borderColor: '#6366f1',
+      backgroundColor: 'rgba(99,102,241,0.2)',
       tension: 0.4,
       fill: true
     }]
   },
   options: {
-    responsive: true
+    responsive: true,
+    maintainAspectRatio: false
   }
 });
 
+// 🟡 PIE
 const pieChart = new Chart(document.getElementById('pieChart'), {
   type: 'pie',
   data: {
-    labels: ['Плохо','Норм','Хорошо','Отлично'],
+    labels: ['1','2','3','4','5'],
     datasets: [{
-      data: [2, 3, 4, 5]
+      data: [],
+      backgroundColor: [
+        '#ef4444',
+        '#f97316',
+        '#eab308',
+        '#84cc16',
+        '#22c55e'
+      ]
     }]
   },
   options: {
-    responsive: true
+    responsive: true,
+    maintainAspectRatio: false,
+
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            const data = context.dataset.data;
+            const total = data.reduce((a,b)=>a+b,0);
+            const value = context.raw;
+            const percent = total ? (value/total*100).toFixed(1) : 0;
+
+            return `${context.label}: ${percent}%`;
+          }
+        }
+      }
+    }
   }
 });
+
+// 🔥 ОБНОВЛЕНИЕ ДАННЫХ
+function updateCharts(days) {
+  const filtered = allData.slice(-days);
+
+  // линия
+  lineChart.data.labels = filtered.map(d => `Д${d.day}`);
+  lineChart.data.datasets[0].data = filtered.map(d => d.mood);
+  lineChart.update();
+
+  // круг
+  const counts = [1,2,3,4,5].map(m =>
+    filtered.filter(d => d.mood === m).length
+  );
+
+  pieChart.data.datasets[0].data = counts;
+  pieChart.update();
+
+  // среднее
+  const avg = filtered.reduce((s,d)=>s+d.mood,0)/filtered.length;
+  document.getElementById("avgMood").textContent = avg.toFixed(1);
+}
+
+// 🔥 КНОПКИ
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    document.querySelectorAll(".filter-btn")
+      .forEach(b => b.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    const days = Number(btn.dataset.days);
+    updateCharts(days);
+  });
+});
+
+// старт
+updateCharts(3);
+  
 
 </script>
 
 </body>
-</html>
+</html>>

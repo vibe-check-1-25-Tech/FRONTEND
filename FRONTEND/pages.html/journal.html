@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Journal</title>
+  <title>Личный дневник</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../css/styles.css">
 </head>
@@ -40,69 +40,78 @@
 
 </nav>
 
-<div class="container">
+<div class="page">
+  <div class="container">
 
-  <h1>Journal</h1>
+    <h1>Личный дневник</h1>
+    <div class="subtitle">Все ваши записи за последний месяц</div>
+    <div class="entries">
 
-  <div class="journal-card">
 
-  <div class="card-header">
-    <span class="date">2026-04-22</span>
-    <span class="score score-4">4</span>
-  </div>
+       <!-- SEARCH -->
+  <input id="search" class="search" placeholder="Поиск записей..." />
 
-  <div class="note-text">
-    Сегодня был продуктивный день, закрыл задачи
-  </div>
+  <div id="entries" class="entries"></div>
 
-  <div class="tags">
-    <span class="tag">Работа</span>
-    <span class="tag">Проект</span>
-  </div>
-
-  <div class="card-actions">
-    <button class="edit-btn">Редактировать</button>
-  </div>
-</div>
-<div class="pagination">
-  <button>←</button>
-  <span>1 / 5</span>
-  <button>→</button>
 </div>
 
-<!-- 🔥 МОДАЛКА ВОТ ТУТ (самый конец body) -->
-<div class="modal hidden" id="editModal">
+<!-- EDIT MODAL -->
+<div id="modal" class="modal hidden">
+  <div class="modal-box">
+    <h3>Редактирование</h3>
 
-  <div class="modal-content">
+    <textarea id="editText"></textarea>
 
-    <h3>Редактировать запись</h3>
+    <select id="editMood">
+      <option value="1">1 😡</option>
+      <option value="2">2 😞</option>
+      <option value="3">3 😐</option>
+      <option value="4">4 🙂</option>
+      <option value="5">5 😄</option>
+    </select>
 
-    <div class="score-buttons">
-      <button class="score-btn">1</button>
-      <button class="score-btn">2</button>
-      <button class="score-btn">3</button>
-      <button class="score-btn">4</button>
-      <button class="score-btn">5</button>
+    <div class="modal-actions">
+      <button id="saveBtn" class="save">Сохранить</button>
+      <button id="closeBtn" class="cancel">Отмена</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+>
+      
+
+      <!-- CARD 2 -->
+      <div class="card">
+
+        <div class="icon m3">😐</div>
+
+        <div class="content">
+
+          <div class="top">
+            <div>
+              <div class="date">11 марта 2026, 10:15</div>
+              <div class="title">Настроение: 3/5</div>
+            </div>
+
+            <div class="actions">
+              <button class="btn">✏️</button>
+              <button class="btn">🗑</button>
+            </div>
+          </div>
+
+          <div class="note">
+            Обычный рабочий день
+          </div>
+
+        </div>
+      </div>
+
     </div>
 
-    <textarea placeholder="Измени заметку..."></textarea>
-    
-    <div class="tags-select">
-      <span class="tag">Работа</span>
-      <span class="tag">Сон</span>
-      <span class="tag">Хобби</span>
-    </div>
-
-
-    <button class="save-btn">Сохранить</button>
-
   </div>
-
 </div>
-<div class="journal-list">
-  <!-- карточки сюда -->
-</div>
-
 
 </body>
 </html>

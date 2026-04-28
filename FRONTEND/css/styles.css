@@ -1,6 +1,6 @@
 
 /* =========================
-   RESET
+   общий стиль
 ========================= */
 * {
   margin: 0;
@@ -127,7 +127,7 @@ input {
 }
 
 /* =========================
-   MOOD (FIGMA STYLE)
+ 🔹 PAGE: MOOD INPUT (главная)
 ========================= */
 .mood-grid {
   display: flex;
@@ -178,6 +178,149 @@ input {
   background: #eef1f6;
   font-size: 12px;
 }
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #f4f4f5;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 24px;
+}
+
+h1 {
+  margin-bottom: 12px;
+}
+
+/* SEARCH */
+.search {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+/* ENTRIES */
+.entries {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* CARD (единый стиль как 2-я карточка) */
+.card {
+  background: white;
+  border: 1px solid #e4e4e7;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
+
+/* MOODS */
+.m1 { background:#fef2f2; color:#ef4444; }
+.m2 { background:#fff7ed; color:#f97316; }
+.m3 { background:#fefce8; color:#eab308; }
+.m4 { background:#f7fee7; color:#84cc16; }
+.m5 { background:#f0fdf4; color:#22c55e; }
+
+.text {
+  display: flex;
+  flex-direction: column;
+}
+
+.date {
+  font-size: 12px;
+  color: #888;
+}
+
+.note {
+  font-size: 14px;
+}
+
+/* BUTTONS */
+.btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-box {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+textarea {
+  height: 80px;
+  padding: 8px;
+}
+
+select {
+  padding: 6px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.save {
+  background: #4f46e5;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.cancel {
+  background: #ddd;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+}
 
 /* =========================
    TAG LIST
@@ -203,64 +346,166 @@ input {
 /* =========================
    JOURNAL
 ========================= */
-.journal-card {
-  background: white;
-  padding: 16px;
-  border-radius: 18px;
-  margin-bottom: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+.body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f4f5;
+  color: #111;
 }
 
-.card-header {
+.page {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* HEADER */
+h1 {
+  font-size: 32px;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  color: #71717a;
+  margin-bottom: 24px;
+}
+
+/* LIST */
+.entries {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  border: 1px solid #e4e4e7;
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  gap: 16px;
+  transition: 0.2s;
+}
+
+.card:hover {
+  border-color: #d4d4d8;
+}
+
+/* ICON */
+.icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+/* moods */
+.m1 { background: #fef2f2; color: #ef4444; }
+.m2 { background: #fff7ed; color: #f97316; }
+.m3 { background: #fefce8; color: #eab308; }
+.m4 { background: #f7fee7; color: #84cc16; }
+.m5 { background: #f0fdf4; color: #22c55e; }
+
+/* CONTENT */
+.content {
+  flex: 1;
+}
+
+.top {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
 }
 
-.note-text {
-  margin: 10px 0;
+.date {
+  font-size: 13px;
+  color: #71717a;
 }
 
-/* SCORE COLORS */
-.score-1 { color: #ff5252; }
-.score-2 { color: #ff9800; }
-.score-3 { color: #ffd54f; }
-.score-4 { color: #4caf50; }
-.score-5 { color: #2e7d32; }
+.title {
+  font-weight: 600;
+  margin-top: 4px;
+}
 
-/* edit */
-.card-actions {
+.note {
+  margin-top: 10px;
+  color: #3f3f46;
+  line-height: 1.5;
+}
+
+/* BUTTONS */
+.actions {
   display: flex;
-  justify-content: flex-end;
+  gap: 8px;
 }
 
-.edit-btn {
-  background: #6c63ff;
+.btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.btn:hover {
+  background: #f4f4f5;
+}
+
+/* EDIT UI */
+.edit-box {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 70px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e4e4e7;
+  resize: none;
+}
+
+select {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e4e4e7;
+}
+
+/* edit buttons */
+.edit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.save {
+  background: #4f46e5;
   color: white;
   border: none;
   padding: 8px 12px;
-  border-radius: 10px;
-  cursor: pointer;
+  border-radius: 8px;
 }
 
-/* =========================
-   THEME VARIABLES
-========================= */
-:root {
-  --bg: #f5f6fa;
-  --card: #ffffff;
-  --text: #111;
-  --muted: #999;
-  --day: #f1f3f6;
+.cancel {
+  background: #e4e4e7;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
 }
 
-/* 🌙 DARK MODE */
-body.dark {
-  --bg: #0f1115;
-  --card: #1a1d24;
-  --text: #ffffff;
-  --muted: #a0a0a0;
-  --day: #2a2f3a;
-}
+
 
 /* =========================
    BODY
@@ -713,13 +958,41 @@ body.dark .day {
   opacity: 1;
   visibility: visible;
 }
-/* ===== INSIGHTS UPGRADE ===== */
 
-/* фильтр */
+/* =====================================================
+   🔹 INSIGHTS PAGE
+===================================================== */
+
+/* контейнер */
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* заголовки */
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: #71717a;
+  margin-bottom: 20px;
+}
+
+/* =====================================================
+   🔹 FILTER
+===================================================== */
 .filter {
   display: flex;
+  justify-content: center;
   gap: 10px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .filter-btn {
@@ -728,6 +1001,12 @@ body.dark .day {
   border-radius: 20px;
   background: #f1f3f6;
   cursor: pointer;
+  transition: 0.2s;
+  font-size: 13px;
+}
+
+.filter-btn:hover {
+  transform: scale(1.05);
 }
 
 .filter-btn.active {
@@ -735,26 +1014,89 @@ body.dark .day {
   color: white;
 }
 
-/* графики */
-canvas {
-  margin-top: 10px;
-}
-
-/* карточки */
+/* =====================================================
+   🔹 CARDS
+===================================================== */
 .card {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 20px auto;
+
   background: white;
-  border-radius: 18px;
+  border-radius: 16px;
   padding: 18px;
-  margin-bottom: 15px;
+
+  border: 1px solid #e4e4e7;
   box-shadow: 0 4px 20px rgba(0,0,0,0.06);
 }
 
-/* среднее */
+.card h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #18181b;
+}
+
+/* =====================================================
+   🔹 CHART CONTAINER (ГЛАВНОЕ)
+===================================================== */
+.chart-box {
+  position: relative;
+  width: 100%;
+  height: 300px;
+}
+
+.chart-box canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* =====================================================
+   🔹 AVERAGE BLOCK
+===================================================== */
 .team-score {
   font-size: 36px;
   font-weight: bold;
   text-align: center;
-  color: #4caf50;
+  color: #1a761d;
+  margin-top: 10px;
+}
+
+/* =====================================================
+   🔹 ADAPTIVE
+===================================================== */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .chart-box {
+    height: 240px;
+  }
+}
+
+/* =====================================================
+   🔹 DARK MODE (если используешь)
+===================================================== */
+body.dark .card {
+  background: #1a1d24;
+  border-color: #2a2f3a;
+}
+
+body.dark .subtitle {
+  color: #a0a0a0;
+}
+
+body.dark .filter-btn {
+  background: #2a2f3a;
+  color: white;
+}
+
+body.dark .filter-btn.active {
+  background: #6c63ff;
 }
 
 /* ===== EXPORT PAGE ===== */
@@ -953,3 +1295,152 @@ h3 {
   }
 }
 /*напиминания*/
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f9fafb;
+  color: #18181b;
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 32px;
+  }
+}
+
+/* Header */
+h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #71717a;
+  margin-bottom: 24px;
+}
+
+/* Карточки */
+.card {
+  background: white;
+  border: 1px solid #e4e4e7;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+h2 {
+  margin-bottom: 12px;
+}
+
+/* Форма */
+.form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+input {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #e4e4e7;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  background: #4f46e5;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #4338ca;
+}
+
+/* Список */
+.list > * + * {
+  margin-top: 16px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  border: 1px solid #e4e4e7;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+/* Иконка БЕЗ плашки */
+.icon {
+  font-size: 20px;
+}
+
+/* Инфо */
+.info {
+  flex: 1;
+}
+
+.time {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.days {
+  font-size: 14px;
+  color: #71717a;
+}
+
+/* Toggle */
+.toggle {
+  width: 50px;
+  height: 28px;
+  background: #d4d4d8;
+  border-radius: 999px;
+  position: relative;
+  cursor: pointer;
+}
+
+.toggle.active {
+  background: #4f46e5;
+}
+
+.circle {
+  width: 22px;
+  height: 22px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  transition: 0.3s;
+}
+
+.toggle.active .circle {
+  transform: translateX(22px);
+}
+
+/* Delete */
+.delete {
+  background: transparent;
+  color: #dc2626;
+  font-size: 18px;
+}
+
+.delete:hover {
+  background: #fee2e2;
+}
+
+
+
