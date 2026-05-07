@@ -162,187 +162,200 @@ input {
   transform: scale(1.05);
 }
 
-/* =========================
-   TAGS
-========================= */
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.tag {
-  padding: 6px 12px;
-  border-radius: 20px;
-  background: #eef1f6;
-  font-size: 12px;
-}
 body {
   margin: 0;
-  font-family: Arial;
-  background: #f4f4f5;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f9fafb;
+  color: #18181b;
 }
 
 .container {
-  max-width: 900px;
-  margin: auto;
-  padding: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 16px;
 }
 
+@media (min-width: 768px) {
+  .container {
+    padding: 32px;
+  }
+}
+
+/* Заголовки */
 h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+h2 {
+  font-weight: 700;
   margin-bottom: 12px;
 }
 
-/* SEARCH */
-.search {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  margin-bottom: 20px;
+.subtitle {
+  color: #71717a;
+  margin-bottom: 24px;
 }
 
-/* ENTRIES */
-.entries {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* CARD (единый стиль как 2-я карточка) */
+/* Карточка добавления */
 .card {
   background: white;
   border: 1px solid #e4e4e7;
   border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+/* Форма */
+.form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+input {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #e4e4e7;
+  font-size: 14px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+button {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 12px;
+  background: #4f46e5;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #4338ca;
+}
+
+/* Сетка тегов */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Тег */
+.tag {
+  background: white;
+  border: 1px solid #e4e4e7;
+  border-radius: 12px;
   padding: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.tag:hover {
+  border-color: #d4d4d8;
+}
+
+/* верхняя часть */
+.tag-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
 }
 
-.left {
+.tag-left {
   display: flex;
-  gap: 12px;
   align-items: center;
+  gap: 12px;
 }
 
 .icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-size: 20px;
+  color: #4f46e5;
 }
 
-/* MOODS */
-.m1 { background:#fef2f2; color:#ef4444; }
-.m2 { background:#fff7ed; color:#f97316; }
-.m3 { background:#fefce8; color:#eab308; }
-.m4 { background:#f7fee7; color:#84cc16; }
-.m5 { background:#f0fdf4; color:#22c55e; }
-
-.text {
-  display: flex;
-  flex-direction: column;
+.tag-name {
+  font-weight: 600;
+  color: #18181b;
 }
 
-.date {
-  font-size: 12px;
-  color: #888;
+.tag-count {
+  font-size: 13px;
+  color: #71717a;
 }
 
-.note {
+/* меню три точки */
+.menu-wrapper {
+  position: relative;
+}
+
+.menu-btn {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: #71717a;
+  cursor: pointer;
+}
+
+.menu {
+  position: absolute;
+  right: 0;
+  top: 28px;
+  background: white;
+  border: 1px solid #e4e4e7;
+  border-radius: 10px;
+  min-width: 120px;
+  display: none;
+  z-index: 10;
+}
+
+.menu.show {
+  display: block;
+}
+
+.menu div {
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.menu div:hover {
+  background: #f4f4f5;
+}
+
+/* раскрытие списка */
+.tag-details {
+  display: none;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e4e4e7;
+}
+
+.tag.open .tag-details {
+  display: block;
+}
+
+.tag-details ul {
+  margin: 0;
+  padding-left: 16px;
+  color: #52525b;
   font-size: 14px;
 }
-
-/* BUTTONS */
-.btn {
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-/* MODAL */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-box {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.hidden {
-  display: none;
-}
-
-textarea {
-  height: 80px;
-  padding: 8px;
-}
-
-select {
-  padding: 6px;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.save {
-  background: #4f46e5;
-  color: white;
-  border: none;
-  padding: 8px;
-  border-radius: 8px;
-}
-
-.cancel {
-  background: #ddd;
-  border: none;
-  padding: 8px;
-  border-radius: 8px;
-}
-
-/* =========================
-   TAG LIST
-========================= */
-.tag-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px;
-  border-radius: 14px;
-  background: white;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.delete-btn {
-  border: none;
-  background: transparent;
-  font-size: 16px;
-  cursor: pointer;
-  color: #e53935;
-}
-
 /* =========================
    JOURNAL
 ========================= */
@@ -715,18 +728,201 @@ body.dark .day {
 /* =========================
    TEAM
 ========================= */
-.team-card {
-  background: white;
-  padding: 18px;
-  border-radius: 16px;
-  text-align: center;
+body{
+  font-family:Arial;
+  background:#f4f7fb;
+  margin:0;
 }
 
-.team-score {
-  font-size: 28px;
-  font-weight: bold;
-  color: #4caf50;
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:25px;
 }
+
+.card{
+  background:white;
+  padding:18px;
+  border-radius:16px;
+  border:1px solid #e5e7eb;
+  margin-bottom:14px;
+}
+
+/* GROUP */
+.group{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  margin-bottom:8px;
+  cursor:pointer;
+  transition:0.2s;
+  background:white;
+}
+
+.group:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 18px rgba(0,0,0,0.06);
+}
+
+.group button{
+  margin-left:5px;
+  border:none;
+  padding:5px 8px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:12px;
+}
+
+/* CREATE */
+.create-btn{
+  padding:10px 14px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  color:white;
+  cursor:pointer;
+  font-weight:600;
+}
+
+/* CHAT */
+#chatView{ display:none; }
+
+.chat-box{
+  height:180px;
+  overflow:auto;
+  border:1px solid #eee;
+  padding:10px;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+.message{
+  background:#f8fafc;
+  padding:8px;
+  border-radius:8px;
+  margin-bottom:6px;
+}
+
+/* MOOD */
+.mood button{
+  margin:4px;
+  padding:6px 10px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  background:#eef2ff;
+}
+
+/* CHART (FIXED SMALL) */
+.chart-card{
+  background:white;
+  padding:16px;
+  border-radius:16px;
+  border:1px solid #e5e7eb;
+}
+
+.chart{
+  display:flex;
+  align-items:flex-end;
+  gap:10px;
+  height:140px;
+  margin-top:10px;
+  padding:10px;
+  background:#fafafa;
+  border-radius:12px;
+}
+
+.bar-wrap{
+  flex:1;
+  text-align:center;
+  cursor:pointer;
+}
+
+.bar{
+  width:100%;
+  background:linear-gradient(to top,#6366f1,#a78bfa);
+  border-radius:10px;
+  max-height:100px;
+  transition:0.2s;
+}
+
+.bar:hover{
+  transform:scale(1.05);
+}
+
+.day{
+  font-size:11px;
+  color:#6b7280;
+  margin-top:5px;
+}
+
+.info{
+  margin-top:10px;
+  padding:10px;
+  border-radius:10px;
+  background:#eef2ff;
+  color:#3730a3;
+  font-size:14px;
+}
+
+/* MODAL */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.4);
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal-content{
+  background:white;
+  padding:20px;
+  border-radius:16px;
+  width:320px;
+}
+
+.modal-content input{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border-radius:10px;
+  border:1px solid #ddd;
+}
+
+.modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+
+.modal-actions button{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.primary{ background:#6366f1; color:white; }
+.secondary{ background:#e5e7eb; }
+
+/* TOAST */
+#toast{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:white;
+  border:1px solid #e5e7eb;
+  padding:12px 16px;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  display:none;
+}
+
 
 /* =========================
    SUPPORT (FIGMA STYLE)
@@ -1443,4 +1639,200 @@ button:hover {
 }
 
 
+/*PROFILe*/
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg, #f6f7fb, #eef1f7);
+  color: #111827;
+}
 
+/* PAGE CENTER FIX */
+.page {
+  padding: 32px 16px;
+  display: flex;
+  justify-content: center;
+}
+
+/* IMPORTANT FIX: full layout alignment */
+.container {
+  width: 100%;
+  max-width: 760px;
+}
+
+/* TITLE */
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+/* CARD */
+.card {
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+}
+
+/* SECTION TITLE */
+.card h2 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+/* LABEL */
+label {
+  font-size: 12px;
+  color: #6b7280;
+  display: block;
+  margin-top: 10px;
+}
+
+/* INPUT */
+input {
+  width: 100%;
+  padding: 11px 12px;
+  margin-top: 6px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  outline: none;
+  font-size: 13px;
+}
+
+input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+}
+
+/* BUTTONS FIX (важно — чтобы снова появились красиво) */
+.btn {
+  border: none;
+  border-radius: 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 500;
+}
+
+.primary {
+  margin-top: 14px;
+  padding: 9px 14px;
+  background: #4f46e5;
+  color: white;
+  display: inline-block;
+}
+
+.primary:hover {
+  background: #3730a3;
+}
+
+.small {
+  padding: 7px 10px;
+  background: #4f46e5;
+  color: white;
+}
+
+.small:hover {
+  background: #3730a3;
+}
+
+.ghost {
+  background: transparent;
+  border: 1px solid #e5e7eb;
+  color: #4f46e5;
+}
+
+.ghost:hover {
+  background: #f3f4f6;
+}
+
+/* BUTTON ROW FIX */
+.btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+/* 🔐 PIN BLOCK FIX (главная проблема у тебя была тут) */
+.pin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* ICON FIX — вместо “фиолетового пятна” */
+.pin-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #eef2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #4f46e5;
+}
+
+/* STATUS */
+.status {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 8px 0;
+}
+
+/* SWITCH */
+.switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  display: inline-block;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  background: #d1d5db;
+  border-radius: 999px;
+  width: 100%;
+  height: 100%;
+  transition: 0.2s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: 0.2s;
+}
+
+.switch input:checked + .slider {
+  background: #4f46e5;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(20px);
+}
+
+/* MOBILE FIX */
+@media (max-width: 600px) {
+  .title {
+    font-size: 26px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+}

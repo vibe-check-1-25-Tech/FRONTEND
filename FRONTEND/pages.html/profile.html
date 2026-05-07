@@ -38,30 +38,79 @@
 
 </nav>
 
-<div class="container">
+ <!-- HEADER -->
+    <div class="header">
+      <h1>Профиль и безопасность</h1>
+      <p>Управление личными данными и защита приватности</p>
+    </div>
 
-  <h1>Профиль</h1>
+    <!-- PROFILE -->
+    <div class="card">
+      <div class="card-title">
+        <div class="icon blue">👤</div>
+        <div>
+          <h2>Профиль пользователя</h2>
+          <span>Основная информация об аккаунте</span>
+        </div>
+      </div>
 
-  <!-- 🔐 PIN -->
-  <div class="card">
-    <h3>PIN-код</h3>
+      <div class="form">
+        <label>Имя</label>
+        <input type="text" value="Пользователь" />
 
-    <input type="password" placeholder="Введите PIN">
+        <label>Email</label>
+        <input type="email" value="user@example.com" />
+      </div>
+    </div>
 
-    <button class="save-btn">Сохранить</button>
+    <!-- PIN -->
+    <div class="card">
+      <div class="card-title">
+        <div class="icon yellow">🔒</div>
+        <div>
+          <h2>PIN-код</h2>
+          <span>Дополнительная защита дневника</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <span>Включить PIN-код</span>
+
+        <label class="switch">
+          <input type="checkbox" id="pinToggle" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="pin-box" id="pinBox">
+        <label>Установить PIN-код</label>
+
+        <div class="pin-input">
+          <input type="password" id="pinInput" maxlength="4" placeholder="4-значный PIN"/>
+          <button type="button" onclick="togglePinVisibility()">👁</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRIVACY -->
+    <div class="card">
+      <div class="card-title">
+        <div class="icon green">🛡</div>
+        <div>
+          <h2>Приватность</h2>
+          <span>Все данные хранятся локально</span>
+        </div>
+      </div>
+
+      <p class="text">
+        Ваши записи, заметки и статистика хранятся только на этом устройстве.
+        Мы не передаем личные данные третьим лицам и не используем их для рекламы.
+      </p>
+    </div>
+
   </div>
-
-  <!-- ℹ️ ABOUT -->
-  <div class="card">
-    <h3>О приложении</h3>
-
-    <p>
-      Это приложение помогает отслеживать настроение,
-      анализировать состояние и улучшать качество жизни.
-    </p>
-  </div>
-
 </div>
 
+<script src="script.js"></script>
 </body>
 </html>
