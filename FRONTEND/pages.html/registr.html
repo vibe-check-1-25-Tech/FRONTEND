@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vibe Check — Регистрация</title>
+
+  <!-- icons -->
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+
+<div class="auth-page">
+
+  <!-- CARD -->
+  <div class="auth-card">
+
+    <!-- LOGO -->
+    <div class="auth-logo">
+      💜
+    </div>
+
+    <h1>Добро пожаловать</h1>
+    <p class="auth-subtitle">
+      Создай свой аккаунт и начни отслеживать настроение
+    </p>
+
+    <!-- AVATAR -->
+    <div class="avatar-section">
+
+      <div class="avatar-preview">
+        <img id="avatarImg"
+        src="https://i.pravatar.cc/150?img=12"
+        alt="">
+      </div>
+
+      <label class="avatar-btn">
+        <i class="fa-solid fa-camera"></i>
+        Выбрать фото
+        <input type="file" hidden>
+      </label>
+
+    </div>
+
+    <!-- FORM -->
+    <form class="auth-form">
+
+      <div class="input-group">
+        <label>Имя</label>
+
+        <div class="input-box">
+          <i class="fa-solid fa-user"></i>
+
+          <input
+            type="text"
+            placeholder="Введите имя"
+          >
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+
+        <div class="input-box">
+          <i class="fa-solid fa-envelope"></i>
+
+          <input
+            type="email"
+            placeholder="example@gmail.com"
+          >
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Телефон</label>
+
+        <div class="input-box">
+          <i class="fa-solid fa-phone"></i>
+
+          <input
+            type="tel"
+            placeholder="+996 700 00 00 00"
+          >
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>PIN-код</label>
+
+        <div class="input-box">
+          <i class="fa-solid fa-lock"></i>
+
+          <input
+            type="password"
+            maxlength="4"
+            placeholder="••••"
+          >
+        </div>
+      </div>
+<!-- PASSWORD -->
+<div class="input-group">
+  <label>Пароль</label>
+
+  <div class="input-box">
+    <i class="fa-solid fa-key"></i>
+
+    <input
+      type="password"
+      placeholder="Введите пароль"
+    >
+  </div>
+</div>
+
+<!-- CONFIRM PASSWORD -->
+<div class="input-group">
+  <label>Подтвердите пароль</label>
+
+  <div class="input-box">
+    <i class="fa-solid fa-shield-halved"></i>
+
+    <input
+      type="password"
+      placeholder="Повторите пароль"
+    >
+  </div>
+</div>
+
+      <!-- BTN -->
+      <button class="auth-btn">
+        Создать аккаунт
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+</body>
+</html>
