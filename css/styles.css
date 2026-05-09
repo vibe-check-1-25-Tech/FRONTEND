@@ -13,8 +13,8 @@
 ========================= */
 body {
   font-family: 'Inter', Arial, sans-serif;
-  background: #f7f8fb;
-  color: #1e1e1e;
+  background: #f6f1e8;
+  color: #2b2233;
 }
 
 /* =========================
@@ -32,6 +32,7 @@ body {
 h1 {
   font-size: 24px;
   font-weight: 700;
+  color: #3b1c5a;
   margin-bottom: 6px;
 }
 
@@ -42,48 +43,106 @@ h1 {
 }
 
 /* =========================
-   MENU
+   MENU BUTTON
 ========================= */
+
 .menu-btn {
   position: fixed;
   top: 15px;
   left: 15px;
   font-size: 20px;
-  padding: 10px;
+  padding: 10px 14px;
   border: none;
-  background: white;
+  background: #3b1c5a;
+  color: white;
   border-radius: 12px;
   cursor: pointer;
+  z-index: 1001;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
+.menu-btn:hover {
+  transform: scale(1.05);
+}
 
-/* SIDEBAR */
-.navbar {
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+  background: #3b1c5a;
+  color: white;
   position: fixed;
   top: 0;
-  left: 0;
+  left: -260px;
   width: 240px;
   height: 100vh;
-  background: white;
   padding: 70px 20px;
   display: flex;
   flex-direction: column;
   gap: 12px;
   box-shadow: 4px 0 20px rgba(0,0,0,0.08);
+  transition: 0.3s ease;
+  z-index: 1000;
 }
 
-.navbar a {
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar a {
   text-decoration: none;
-  color: #333;
+  color: white;
   padding: 12px;
   border-radius: 10px;
   font-weight: 500;
 }
-
-.navbar a:hover {
-  background: #f3f4f7;
+.sidebar a:hover {
+  background: rgba(255,255,255,0.12);
+}
+.sidebar-header h3 {
+  color: #e6b44c;
 }
 
+
+/* =========================
+   OVERLAY
+========================= */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+  z-index: 999;
+}
+
+.overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* =========================
+   SIDEBAR HEADER
+========================= */
+
+.sidebar-header {
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  right: 20px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#closeBtn {
+  border: none;
+  background: none;
+  font-size: 22px;
+  cursor: pointer;
+}
 /* =========================
    CARD (FIGMA STYLE)
 ========================= */
@@ -103,13 +162,16 @@ h1 {
   padding: 14px;
   border: none;
   border-radius: 14px;
-  background: linear-gradient(90deg, #6c63ff, #5a54e6);
+  background: linear-gradient(90deg, #3b1c5a);
   color: white;
   font-weight: 600;
   cursor: pointer;
+  box-shadow: 0 10px 24px rgba(59,28,90,0.18);
 }
 
 .save-btn:hover {
+  background: #4A2A73;
+  transform: translateY(-2px);
   opacity: 0.9;
 }
 
@@ -121,9 +183,14 @@ input {
   width: 100%;
   padding: 12px;
   border-radius: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid #e4ddf0;
   margin-top: 10px;
   font-size: 14px;
+}
+textarea:focus {
+  outline: none;
+  border-color: #c6b7e2;
+  box-shadow: 0 0 0 4px rgba(198,183,226,0.25);
 }
 
 /* =========================
@@ -140,9 +207,10 @@ input {
   padding: 12px;
   border-radius: 14px;
   text-align: center;
-  background: #f1f3f6;
+  background: #ffffff;
   cursor: pointer;
   transition: 0.2s;
+  box-shadow: 0 4px 12px rgba(59,28,90,0.05);
 }
 
 .mood span {
@@ -150,13 +218,17 @@ input {
   font-size: 11px;
   margin-top: 5px;
 }
+.mood:hover {
+  transform:translateY(-3px) ;
+  border-color: #c6b7e2
+}
 
 /* ACTIVE COLORS */
-.mood-1.active { background: #ff5252; color: white; }
-.mood-2.active { background: #ff9800; color: white; }
-.mood-3.active { background: #ffd54f; }
-.mood-4.active { background: #4caf50; color: white; }
-.mood-5.active { background: #2e7d32; color: white; }
+.mood-bad.active { background: #ff5252; color: white; }
+.mood-ok.active { background: #ff9800; color: white; }
+.mood-normal.active { background: #ffd54f;color: white; }
+.mood-good.active { background: #4caf50; color: white; }
+.mood-excellent.active { background: #2e7d32; color: white; }
 
 .mood:hover {
   transform: scale(1.05);
@@ -165,33 +237,54 @@ input {
 /* =========================
    TAGS
 ========================= */
-.tags {
+.tags-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 10px;
+  margin: 20px 0;
 }
 
 .tag {
-  padding: 6px 12px;
-  border-radius: 20px;
-  background: #eef1f6;
-  font-size: 12px;
-}
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #f4f4f5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #efe8f7;
+  color: #3b1c5a;
+  font-size: 13px;
+  cursor: pointer;
+
+  transition: 0.2s;
+  white-space: nowrap;
 }
 
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 24px;
+.tag:hover {
+  transform: scale(1.05);
 }
 
-h1 {
-  margin-bottom: 12px;
+.tag.active {
+  background: #3b1c5a;
+  color: white;
+}
+
+.add-tag {
+  background: #e6b44c;
+  color: #3b1c5a;
+  font-weight: 600;
+}
+.photo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: #EFE8F7;
+  color: #3B1C5A;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
 /* SEARCH */
@@ -208,17 +301,6 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-/* CARD (единый стиль как 2-я карточка) */
-.card {
-  background: white;
-  border: 1px solid #e4e4e7;
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .left {
@@ -238,11 +320,11 @@ h1 {
 }
 
 /* MOODS */
-.m1 { background:#fef2f2; color:#ef4444; }
-.m2 { background:#fff7ed; color:#f97316; }
-.m3 { background:#fefce8; color:#eab308; }
-.m4 { background:#f7fee7; color:#84cc16; }
-.m5 { background:#f0fdf4; color:#22c55e; }
+.mood-bad{ background:#fef2f2; color:#ef4444; }
+.mood-ok { background:#fff7ed; color:#f97316; }
+.mood-normal { background:#fefce8; color:#eab308; }
+.mood-good { background:#f7fee7; color:#84cc16; }
+.mood-excellent { background:#f0fdf4; color:#22c55e; }
 
 .text {
   display: flex;
@@ -293,11 +375,6 @@ h1 {
   display: none;
 }
 
-textarea {
-  height: 80px;
-  padding: 8px;
-}
-
 select {
   padding: 6px;
 }
@@ -308,7 +385,7 @@ select {
 }
 
 .save {
-  background: #4f46e5;
+  background: #c6b7e2;
   color: white;
   border: none;
   padding: 8px;
@@ -491,7 +568,7 @@ select {
 }
 
 .save {
-  background: #4f46e5;
+  background: #c6b7e2;
   color: white;
   border: none;
   padding: 8px 12px;
@@ -519,7 +596,7 @@ body {
 
   padding-left: 240px; /* 🔥 место под левое меню */
 }
-@media (max-width: 900px) 
+@media (max-width: 900px)
 {
   body {
     padding-left: 0; /* меню будет поверх (как у тебя сейчас) */
@@ -739,7 +816,7 @@ body.dark .day {
         .modal-chat { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
         .chat-window { width: 95%; max-width: 550px; height: 85vh; background: white; border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; position: relative; }
         .chat-header { padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: #fff; z-index: 102; }
-        
+
         #membersOverlay { position: absolute; top: 65px; left: 0; right: 0; bottom: 0; background: white; z-index: 101; display: none; padding: 20px; overflow-y: auto; }
         .member-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #f1f5f9; }
         .member-row button { background: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
