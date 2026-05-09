@@ -1272,11 +1272,11 @@ body.dark .filter-btn.active {
 
 /* цвета */
 .pdf i {
-  color: #e53935;
+  color: #3b1c5a;
 }
 
 .csv i {
-  color: #43a047;
+  color: #3b1c5a;
 }
 
 /* кнопки */
@@ -1291,11 +1291,11 @@ body.dark .filter-btn.active {
 
 /* разные цвета */
 .export-btn.red {
-  background: #e53935;
+  background: #c6b7e2;
 }
 
 .export-btn.green {
-  background: #43a047;
+  background: #c6b7e2;
 }
 
 .export-btn:hover {
