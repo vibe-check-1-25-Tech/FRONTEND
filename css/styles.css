@@ -359,6 +359,7 @@ textarea:focus {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9999;
 }
 
 .modal-box {
@@ -369,6 +370,8 @@ textarea:focus {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  position: relative;
+  z-index: 10000;
 }
 
 .hidden {
@@ -445,10 +448,12 @@ select {
 h1 {
   font-size: 32px;
   margin-bottom: 6px;
+  color: #3b1c5a;
+  font-weight: 700;
 }
 
 .subtitle {
-  color: #71717a;
+  color: #7c6f90;
   margin-bottom: 24px;
 }
 
@@ -461,17 +466,20 @@ h1 {
 
 /* CARD */
 .card {
-  background: white;
-  border: 1px solid #e4e4e7;
+  background: #ffffff;
+  border: 1px solid #ede7f5;
   border-radius: 14px;
   padding: 18px;
   display: flex;
   gap: 16px;
+  box-shadow: 0 6px 24px rgba(59,28,90,0.06);
   transition: 0.2s;
 }
 
 .card:hover {
-  border-color: #d4d4d8;
+  transform: translateY(-2px);
+  border-color: #c6b7e2;
+  box-shadow: 0 6px 24px rgba(59,28,90,0.06);
 }
 
 /* ICON */
@@ -505,17 +513,18 @@ h1 {
 
 .date {
   font-size: 13px;
-  color: #71717a;
+  color: #8e84a3;
 }
 
 .title {
   font-weight: 600;
   margin-top: 4px;
+  color: #3b1c5a;
 }
 
 .note {
   margin-top: 10px;
-  color: #3f3f46;
+  color: #51445f;
   line-height: 1.5;
 }
 
@@ -527,15 +536,18 @@ h1 {
 
 .btn {
   border: none;
-  background: transparent;
+  width: 36px;
+  height: 36px;
+  background: #f3eef8;
   cursor: pointer;
   padding: 6px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 16px;
 }
 
 .btn:hover {
-  background: #f4f4f5;
+  background: #c6b7e2;
+  transform: scale(1.05);
 }
 
 /* EDIT UI */
@@ -551,14 +563,23 @@ textarea {
   min-height: 70px;
   padding: 10px;
   border-radius: 8px;
-  border: 1px solid #e4e4e7;
+  border: 1px solid #ddd3ef;
   resize: none;
+  font-size: 12px;
+  transition: 0.2s;
+}
+textarea:focus {
+  outline: none;
+
+  border-color: #c6b7e2;
+
+  box-shadow: 0 0 0 4px rgba(198,183,226,0.25);
 }
 
 select {
   padding: 8px;
   border-radius: 8px;
-  border: 1px solid #e4e4e7;
+  border: 1px solid #ddd3ef;
 }
 
 /* edit buttons */
@@ -568,18 +589,24 @@ select {
 }
 
 .save {
-  background: #c6b7e2;
+  background: #3b1c5a;
   color: white;
   border: none;
   padding: 8px 12px;
   border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.save:hover {
+  background: #51297d;
 }
 
 .cancel {
-  background: #e4e4e7;
+  background: #ece6f5;
   border: none;
   padding: 8px 12px;
   border-radius: 8px;
+  cursor: pointer;
 }
 
 
@@ -590,8 +617,8 @@ select {
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  background: #f6f1e8 ;
+  color: #2d1f3d;
   transition: 0.3s ease;
 
   padding-left: 240px; /* 🔥 место под левое меню */
