@@ -1,302 +1,111 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../css/styles.css">
-<title>Team Mood System</title>
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Team System - Ultimate</title>
+    <script src="https://jsdelivr.net"></script>
+    <link rel="stylesheet" href="../css/styles.css">
+    
+    
 </head>
-
 <body>
-  <!-- 🔥 MENU BUTTON -->
-<button class="menu-btn" id="menuBtn">☰</button>
 
-<!-- 🔥 OVERLAY -->
-<div class="overlay" id="overlay"></div>
-
-<!-- 🔥 SIDEBAR -->
-<nav class="sidebar" id="sidebar">
-
-  <div class="sidebar-header">
-    <h3>Vibe Check</h3>
-    <button id="closeBtn">✕</button>
-  </div>
-
-  <a href="checkin.html">💜 Чек-ин</a>
-  <a href="journal.html">📘 Дневник</a>
-  <a href="insights.html">📊 Аналитика</a>
-  <a href="calendar.html">📅 Календарь</a>
-  <a href="tags.html">🏷 Теги</a>
-  <a href="team.html">👥 Команда</a>
-  <a href="support.html">🆘 Поддержка</a>
-  <a href="profile.html">👤 Профиль</a>
-  <a href="export.html">📤 Экспорт</a>
-  <a href="metod.html">📘 О методологии</a>
-  <a href="npumin.html">🔔 Напоминания</a>
-
-</nav>
-
-<div class="container">
-
-<h1>Командный Dashboard</h1>
-
-<div class="card">
-
-  <button class="create-btn" onclick="openModal()">＋ создать группу</button>
-
-  <div id="groups"></div>
-
-</div>
-
-<!-- CHAT -->
-<div class="card" id="chatView">
-
-  <h3 id="title"></h3>
-
-  <div class="chat-box" id="chatBox"></div>
-
-  <input id="msg" placeholder="сообщение"
-    style="width:100%;padding:8px;margin-top:10px;border-radius:8px;border:1px solid #ddd">
-
-  <button onclick="send()"
-    style="margin-top:8px;padding:8px;border:none;border-radius:8px;background:#6366f1;color:white">
-    Отправить
-  </button>
-
-  <div class="mood">
-    <p>Настроение:</p>
-    <button onclick="mood(1)">😡</button>
-    <button onclick="mood(2)">😕</button>
-    <button onclick="mood(3)">😐</button>
-    <button onclick="mood(4)">🙂</button>
-    <button onclick="mood(5)">😄</button>
-  </div>
-
-  <button onclick="back()">назад</button>
-
-</div>
-
-<!-- CHART -->
-<div class="card chart-card">
-
-  <h3>📊 График настроения</h3>
-
-  <div class="chart" id="chart"></div>
-
-  <div class="info" id="info">нажми на день</div>
-
-</div>
-
-</div>
-
-<!-- MODAL -->
-<div class="modal" id="modal">
-
-  <div class="modal-content">
-
-    <h3>Создать группу</h3>
-
-    <input id="groupName" placeholder="Название">
-
-    <div class="modal-actions">
-
-      <button class="primary" onclick="createGroup()">создать</button>
-      <button class="secondary" onclick="closeModal()">отмена</button>
-
+    <div class="header">
+        <div class="container header-flex">
+            <span>MOOD SYSTEM</span>
+            <button class="add-btn" onclick="document.getElementById('createModal').style.display='flex'">+</button>
+        </div>
     </div>
 
-  </div>
+    <div class="container">
+        <!-- КОМАНДЫ -->
+        <div id="teams" class="screen active">
+            <div class="search-container">
+                <input type="text" placeholder="🔍 Поиск команд..." class="search-input" oninput="filterList('teamList', this.value)">
+            </div>
+            <div id="teamList"></div>
+        </div>
 
-</div>
+        <!-- ЧАТЫ -->
+        <div id="chats" class="screen">
+            <div class="search-container">
+                <input type="text" placeholder="🔍 Найти человека..." class="search-input" oninput="filterList('dmList', this.value)">
+            </div>
+            <div id="dmList"></div>
+        </div>
+        
+        <!-- MOOD -->
+        <div id="mood" class="screen">
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 20px;">
+                <button onclick="pickM('😡')" style="font-size:35px; aspect-ratio:1; border:none; background:#fff; border-radius:15px; cursor:pointer;">😡</button>
+                <button onclick="pickM('😕')" style="font-size:35px; aspect-ratio:1; border:none; background:#fff; border-radius:15px; cursor:pointer;">😕</button>
+                <button onclick="pickM('😐')" style="font-size:35px; aspect-ratio:1; border:none; background:#fff; border-radius:15px; cursor:pointer;">😐</button>
+                <button onclick="pickM('🙂')" style="font-size:35px; aspect-ratio:1; border:none; background:#fff; border-radius:15px; cursor:pointer;">🙂</button>
+                <button onclick="pickM('😄')" style="font-size:35px; aspect-ratio:1; border:none; background:#fff; border-radius:15px; cursor:pointer;">😄</button>
+            </div>
+            <div id="moodPick" style="text-align:center; font-weight:900; margin-bottom:20px; color:var(--primary);">Выбрано: -</div>
+            <textarea id="moodNote" placeholder="Заметка..." style="width:100%; height:80px; border-radius:15px; border:1px solid #ddd; padding:15px; box-sizing:border-box; margin-bottom:15px; outline:none; font-family:inherit;"></textarea>
+            <button onclick="saveStats()" style="width:100%; padding:18px; border-radius:15px; border:none; background:var(--primary); color:white; font-weight:bold; cursor:pointer;">Сохранить данные</button>
+        </div>
 
-<!-- TOAST -->
-<div id="toast"></div>
+        <!-- АНАЛИТИКА -->
+        <div id="analytics" class="screen">
+            <div class="search-container">
+                <input type="text" placeholder="🔍 Поиск по графикам..." class="search-input" oninput="filterCharts(this.value)">
+            </div>
+            <div id="chartsContainer">
+                <div class="chart-card" data-name="frontend"><canvas id="chartF"></canvas></div>
+                <div class="chart-card" data-name="backend"><canvas id="chartB"></canvas></div>
+            </div>
+        </div>
+    </div>
 
-<script>
+    <!-- ЧАТ МОДАЛКА -->
+    <div class="modal-chat" id="chatModal">
+        <div class="chat-window">
+            <div class="chat-header" onclick="toggleMembers()">
+                <div style="flex:1"><b id="chatTitle">Чат</b><br><small style="color:var(--primary); font-size:10px">участники (нажми сюда)</small></div>
+                <button onclick="document.getElementById('chatModal').style.display='none'" style="border:none; background:none; font-size:22px; cursor:pointer;">✕</button>
+            </div>
+            <div id="membersOverlay">
+                <h4 style="margin-top:0">Участники:</h4>
+                <div id="membersContent"></div>
+            </div>
+            <div class="chat-box" id="chatBox"></div>
+            <div style="padding:15px; border-top:1px solid #eee; display:flex; gap:10px;">
+                <input type="text" id="chatInp" placeholder="Сообщение..." style="flex:1; padding:12px; border-radius:10px; border:1px solid #ddd; outline:none;">
+                <button onclick="sendMsg()" style="background:var(--primary); color:white; border:none; padding:0 20px; border-radius:10px; cursor:pointer;">➤</button>
+            </div>
+        </div>
+    </div>
 
-let groups=[
-{
-  id:1,
-  name:"Frontend Team",
-  messages:[],
-  moods:[
-    {day:"Пн",value:3},
-    {day:"Вт",value:4},
-    {day:"Ср",value:2},
-    {day:"Чт",value:5},
-    {day:"Пт",value:4},
-    {day:"Сб",value:3},
-    {day:"Вс",value:5}
-  ]
-}
-];
+    <!-- СОЗДАНИЕ КОМАНДЫ -->
+    <div class="modal" id="createModal" style="position:fixed; inset:0; background:rgba(0,0,0,0.5); display:none; align-items:center; justify-content:center; z-index:2000;">
+        <div style="background:#fff; padding:30px; border-radius:24px; width:90%; max-width:400px;">
+            <h3 style="margin-top:0">Создать команду</h3>
+            <input type="text" id="newTeamInput" placeholder="Название..." style="width:100%; padding:14px; border-radius:12px; border:1px solid #ddd; margin-bottom:20px; box-sizing:border-box;">
+            <div style="display:flex; gap:10px;">
+                <button onclick="document.getElementById('createModal').style.display='none'" style="flex:1; padding:12px; border-radius:10px; border:none; background:#f1f5f9;">Отмена</button>
+                <button onclick="addNewTeam()" style="flex:1; padding:12px; border-radius:10px; border:none; background:var(--primary); color:white; font-weight:bold;">Создать</button>
+            </div>
+        </div>
+    </div>
 
-let current=null;
+    <div class="nav-bar">
+        <div class="container nav-flex">
+            <button onclick="go('teams')" class="active-nav">Команды</button>
+            <button onclick="go('mood')">Mood</button>
+            <button onclick="go('analytics')">Графики</button>
+            <button onclick="go('chats')">Чаты</button>
+        </div>
+    </div>
 
-/* GROUPS */
-function renderGroups(){
-
-  let box=document.getElementById("groups");
-  box.innerHTML="";
-
-  groups.forEach(g=>{
-
-    let div=document.createElement("div");
-    div.className="group";
-
-    div.innerHTML=`
-      <div>${g.name}</div>
-      <div>
-        <button onclick="openChat(${g.id})">open</button>
-        <button onclick="leave(${g.id})">exit</button>
-        <button onclick="del(${g.id})">del</button>
-      </div>
-    `;
-
-    box.appendChild(div);
-  });
-}
-
-/* MODAL */
-function openModal(){ modal.style.display="flex"; }
-function closeModal(){ modal.style.display="none"; }
-
-function createGroup(){
-
-  let name=groupName.value;
-  if(!name) return;
-
-  groups.push({
-    id:Date.now(),
-    name,
-    messages:[],
-    moods:[]
-  });
-
-  groupName.value="";
-  closeModal();
-  renderGroups();
-}
-
-/* CHAT */
-function openChat(id){
-  current=groups.find(g=>g.id===id);
-  chatView.style.display="block";
-  title.innerText=current.name;
-  renderChat();
-  renderChart();
-}
-
-function renderChat(){
-  chatBox.innerHTML="";
-  current.messages.forEach(m=>{
-    let d=document.createElement("div");
-    d.className="message";
-    d.innerText=m;
-    chatBox.appendChild(d);
-  });
-}
-
-function send(){
-  if(!msg.value) return;
-  current.messages.push("👤 "+msg.value);
-  msg.value="";
-  renderChat();
-}
-
-/* MOOD (1 per day, editable) */
-function mood(v){
-
-  let day="Пн";
-
-  let m=current.moods.find(x=>x.day===day);
-
-  if(m){
-    m.value=v;
-  }else{
-    current.moods.push({day,value:v});
-  }
-
-  renderChart();
-}
-
-/* FIXED CHART */
-function renderChart(){
-
-  chart.innerHTML="";
-
-  let data=current?current.moods:groups[0].moods;
-
-  data.forEach(m=>{
-
-    let wrap=document.createElement("div");
-    wrap.className="bar-wrap";
-
-    let bar=document.createElement("div");
-    bar.className="bar";
-
-    bar.style.height = (m.value / 5) * 100 + "px";
-
-    bar.onclick=()=>show(m);
-
-    let d=document.createElement("div");
-    d.className="day";
-    d.innerText=m.day;
-
-    wrap.appendChild(bar);
-    wrap.appendChild(d);
-
-    chart.appendChild(wrap);
-  });
-}
-
-function show(m){
-  info.innerText=`${m.day}: ${m.value} / 5`;
-}
-
-/* BACK */
-function back(){
-  chatView.style.display="none";
-}
-
-/* EXIT FIX */
-function leave(id){
-
-  groups = groups.filter(g=>g.id!==id);
-
-  if(current && current.id===id){
-    current=null;
-    chatView.style.display="none";
-  }
-
-  renderGroups();
-  renderChart();
-  toast("🚪 вы вышли из группы");
-}
-
-function del(id){
-  groups=groups.filter(g=>g.id!==id);
-  renderGroups();
-  toast("🗑 удалено");
-}
-
-/* TOAST FIX */
-function toast(text){
-  toastBox.innerText=text;
-  toastBox.style.display="block";
-
-  setTimeout(()=>{
-    toastBox.style.display="none";
-  },2000);
-}
-
-/* INIT */
-renderGroups();
-renderChart();
-
-</script>
-
+  
+  
 </body>
 </html>
+
+
+
+
