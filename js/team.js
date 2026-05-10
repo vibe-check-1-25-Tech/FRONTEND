@@ -1,4 +1,4 @@
-/API НЕ ДОБАВ/
+//API НЕ ДОБАВ/
 let selectedEmoji = "";
 let chF, chB;
 let activeName = "";

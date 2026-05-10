@@ -243,7 +243,7 @@ textarea:focus {
 }
 
 /* =========================
-   TAGS
+   TAGS  MOOD
 ========================= */
 .tags-bar {
   display: flex;
@@ -1160,7 +1160,7 @@ h1 {
 }
 
 .filter-btn.active {
-  background: #6c63ff;
+  background: #e6b44c;
   color: white;
 }
 
@@ -1246,7 +1246,7 @@ body.dark .filter-btn {
 }
 
 body.dark .filter-btn.active {
-  background: #6c63ff;
+  background: #3b1c5a;
 }
 
 /* ===== EXPORT PAGE ===== */
@@ -1331,7 +1331,7 @@ body.dark .filter-btn.active {
 }
 
 
-/*mrtod*/
+/*metod*/
 body {
   margin: 0;
   font-family: system-ui, -apple-system, sans-serif;
@@ -1563,7 +1563,7 @@ button:hover {
 }
 
 .toggle.active {
-  background: #4f46e5;
+  background: #3b1c5a;
 }
 
 .circle {
@@ -1592,5 +1592,92 @@ button:hover {
   background: #fee2e2;
 }
 
+/* ===== TAGS PAGE ===== */
 
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
 
+.tag-card {
+  background: #f3ebff;
+  border-radius: 20px;
+  padding: 18px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  min-height: 140px;
+
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.tag-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.tag-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tag-name {
+  font-weight: 600;
+  font-size: 16px;
+  color: #3b1c5a;
+}
+
+.tag-bottom {
+  font-size: 14px;
+  color: #6b5a7d;
+}
+
+/* ===== MENU ===== */
+
+.dots-wrapper {
+  position: relative;
+}
+
+.dots {
+  cursor: pointer;
+  font-size: 22px;
+  user-select: none;
+}
+
+.menu {
+  position: absolute;
+  top: 30px;
+  right: 0;
+
+  background: white;
+  border-radius: 12px;
+
+  min-width: 140px;
+
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+
+  display: none;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  z-index: 100;
+}
+
+.menu.show {
+  display: flex;
+}
+
+.menu div {
+  padding: 12px 14px;
+  transition: 0.2s;
+}
+
+.menu div:hover {
+  background: #f3ebff;
+}
