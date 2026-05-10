@@ -1,106 +1,53 @@
-// =========================
-// SIDEBAR MENU
-// =========================
-const menuBtn = document.getElementById("menuBtn");
-const sidebar = document.getElementById("sidebar");
-const closeBtn = document.getElementById("closeBtn");
-const overlay = document.getElementById("overlay");
 
-function openMenu() {
-    sidebar.classList.add("open");
-    overlay.classList.add("show");
-}
-
-function closeMenu() {
-    sidebar.classList.remove("open");
-    overlay.classList.remove("show");
-}
-
-menuBtn.addEventListener("click", () => {
-
-    if (sidebar.classList.contains("open")) {
-        closeMenu();
-    } else {
-        openMenu();
-    }
-
-});closeBtn.addEventListener("click", closeMenu);
-overlay.addEventListener("click", closeMenu);
-
-// =========================
 // MOOD SELECT
-// =========================
 const moods = document.querySelectorAll(".mood");
-
 let selectedMood = "Норм";
-
 moods.forEach((mood) => {
     mood.addEventListener("click", () => {
-
         // удалить active у всех
         moods.forEach((m) => m.classList.remove("active"));
-
         // добавить active текущему
         mood.classList.add("active");
-
         // сохранить настроение
-        selectedMood = mood.innerText.trim();
-
+        selectedMood = mood.textContent.trim();
         console.log("Настроение:", selectedMood);
     });
 });
 
-// =========================
+
 // TAGS
-// =========================
 const tags = document.querySelectorAll(".tag");
 let selectedTags = [];
-
 tags.forEach((tag) => {
-
     // пропускаем кнопку добавления
     if (tag.classList.contains("add-tag")) return;
-
     tag.addEventListener("click", () => {
-
         tag.classList.toggle("active");
-
         const tagText = tag.innerText;
-
         if (selectedTags.includes(tagText)) {
             selectedTags = selectedTags.filter(t => t !== tagText);
         } else {
             selectedTags.push(tagText);
         }
-
         console.log("Теги:", selectedTags);
     });
 });
 
-// =========================
+
 // ADD NEW TAG
-// =========================
 const addTagBtn = document.querySelector(".add-tag");
 const tagsBar = document.querySelector(".tags-bar");
-
 addTagBtn.addEventListener("click", () => {
-
     const newTag = prompt("Введите название тега");
-
     if (!newTag || newTag.trim() === "") return;
-
     const tag = document.createElement("span");
-
     tag.className = "tag";
-    tag.innerText = newTag;
-
+    tag.textContent = newTag;
     tagsBar.insertBefore(tag, addTagBtn);
 
     // логика выбора нового тега
     tag.addEventListener("click", () => {
-
         tag.classList.toggle("active");
-
         if (selectedTags.includes(newTag)) {
             selectedTags = selectedTags.filter(t => t !== newTag);
         } else {
@@ -111,86 +58,112 @@ addTagBtn.addEventListener("click", () => {
 
 });
 
-// =========================
+
 // PHOTO PREVIEW
-// =========================
+let base64Image = "";
 const photoInput = document.querySelector('input[type="file"]');
-
 photoInput.addEventListener("change", (e) => {
-
     const file = e.target.files[0];
-
     if (!file) return;
 
-    const imageURL = URL.createObjectURL(file);
-
-    let preview = document.querySelector(".photo-preview");
-
-    // если превью нет — создать
-    if (!preview) {
-        preview = document.createElement("img");
-        preview.className = "photo-preview";
-
-        preview.style.width = "100%";
-        preview.style.marginTop = "12px";
-        preview.style.borderRadius = "14px";
-
-        document.querySelector(".note-box").appendChild(preview);
-    }
-
-    preview.src = imageURL;
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        base64Image = event.target.result;
+        let preview = document.querySelector(".photo-preview");
+        if (!preview) {
+            preview = document.createElement("img");
+            preview.className = "photo-preview";
+            preview.style.width = "100%";
+            preview.style.marginTop = "12px";
+            preview.style.borderRadius = "14px";
+            document.querySelector(".note-box").appendChild(preview);
+        }
+        preview.src = base64Image;
+    };
+    reader.readAsDataURL(file);
 });
 
-// =========================
 // SAVE ENTRY
-// =========================
 const saveBtn = document.querySelector(".save-btn");
 const textarea = document.querySelector("textarea");
-
-saveBtn.addEventListener("click", () => {
-
+saveBtn.addEventListener("click", saveEntry);
+async function saveEntry() {
     const note = textarea.value.trim();
-
+    if (!note && selectedTags.length === 0 && !base64Image) {
+        alert("Добавьте запись");
+        return;
+    }
     const entry = {
+        user_id: 1,
         mood: selectedMood,
         tags: selectedTags,
         note: note,
-        date: new Date().toLocaleString()
+        photo: base64Image
     };
+    try {
+        const response = await fetch("http://localhost:8080/api/logs/save", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(entry)
+        });
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || "Ошибка сервера");
+        }
+        const result = await response.json();
+        console.log("Сохранено:", result);
+        // показать мем/поддержку
+        if (result.support) {
+            showSupportModal(result.support);
+        } else {
+            alert("Запись сохранена ✅");
+        }
+        resetForm();
+    } catch (error) {
+        console.error(error);
+        alert("Ошибка соединения с сервером");
+    }
+}
 
-    // получаем старые записи
-    const entries = JSON.parse(localStorage.getItem("entries")) || [];
 
-    // добавляем новую
-    entries.push(entry);
-
-    // сохраняем
-    localStorage.setItem("entries", JSON.stringify(entries));
-
-    console.log("Сохранено:", entry);
-
-    // уведомление
-    alert("Запись сохранена ✅");
-
-    // очистка
+function resetForm() {
     textarea.value = "";
-
     moods.forEach((m) => m.classList.remove("active"));
-
     document.querySelector(".mood-normal").classList.add("active");
-
     selectedMood = "Норм";
     selectedTags = [];
-
     document.querySelectorAll(".tag.active").forEach(tag => {
         tag.classList.remove("active");
     });
+    base64Image = "";
+    const preview = document.querySelector(".photo-preview");
+    if (preview) {
+        preview.remove();
+    }
+    photoInput.value = "";
+}
 
-});
 
-// =========================
-// LOAD ENTRIES (для проверки)
-// =========================
-const savedEntries = JSON.parse(localStorage.getItem("entries")) || [];
+function showSupportModal(support) {
+    const modal = document.getElementById("supportModal");
+    const data = document.getElementById("supportData");
+    data.innerHTML = "";
+    if (support.type === "joke") {
+        const p = document.createElement("p");
+        p.textContent = support.content;
+        data.appendChild(p);
+    } else if (support.type === "meme") {
+        const img = document.createElement("img");
+        img.src = `http://localhost:8080${support.content}`;
+        img.alt = "Support meme";
+        data.appendChild(img);
+    }
+    modal.style.display = "flex";
+}
 
-console.log("Все записи:", savedEntries);
+function closeSupportModal() {
+
+    document.getElementById("supportModal").style.display = "none";
+}

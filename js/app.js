@@ -9,11 +9,13 @@ const overlay = document.getElementById("overlay");
 function openMenu() {
     sidebar.classList.add("open");
     overlay.classList.add("show");
+    menuBtn.classList.add("hide");
 }
 
 function closeMenu() {
     sidebar.classList.remove("open");
     overlay.classList.remove("show");
+    menuBtn.classList.remove("hide");
 }
 
 menuBtn.addEventListener("click", () => {

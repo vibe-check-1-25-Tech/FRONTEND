@@ -1,4 +1,3 @@
-
 /* =========================
    SIDEBAR
 ========================= */
@@ -18,9 +17,11 @@ function closeSidebar() {
     overlay.classList.remove("active");
 }
 
-menuBtn.addEventListener("click", openSidebar);
-closeBtn.addEventListener("click", closeSidebar);
-overlay.addEventListener("click", closeSidebar);
+if (menuBtn) {
+    menuBtn.addEventListener("click", openSidebar);
+    closeBtn.addEventListener("click", closeSidebar);
+    overlay.addEventListener("click", closeSidebar);
+}
 
 
 /* =========================
@@ -35,7 +36,7 @@ function showToast(text) {
 
     setTimeout(() => {
         toast.classList.remove("show");
-    }, 2500);
+    }, 3000);
 }
 
 
@@ -43,8 +44,7 @@ function showToast(text) {
    ДАННЫЕ
 ========================= */
 
-// пример данных
-// позже можно заменить на localStorage
+// можно заменить на localStorage
 const entries = [
     {
         date: "2026-05-10",
@@ -60,77 +60,79 @@ const entries = [
 
 
 /* =========================
-   EXPORT CSV
+   BACKEND EXPORT
 ========================= */
 
-const exportCSVBtn = document.getElementById("exportCSV");
+async function downloadFile(format) {
 
-exportCSVBtn.addEventListener("click", () => {
+    showToast(`Подготовка ${format.toUpperCase()}... ⏳`);
 
-    let csv = "Дата,Настроение,Заметка\n";
+    try {
 
-    entries.forEach(item => {
-        csv += `${item.date},${item.mood},${item.note}\n`;
-    });
+        // запрос на сервер
+        const response = await fetch(
+            `http://localhost:8080/api/export/${format}`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-    // поддержка русского текста
-    const blob = new Blob(
-        ["\uFEFF" + csv],
-        { type: "text/csv;charset=utf-8;" }
-    );
+                // отправляем данные на сервер
+                body: JSON.stringify(entries)
+            }
+        );
 
-    const link = document.createElement("a");
+        if (!response.ok) {
+            showToast("Ошибка экспорта");
+            return;
+        }
 
-    link.href = URL.createObjectURL(blob);
-    link.download = "vibe-check-data.csv";
+        // получаем файл
+        const blob = await response.blob();
 
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+        // создаем ссылку
+        const url = window.URL.createObjectURL(blob);
 
-    showToast("CSV скачан ✅");
-});
+        const a = document.createElement("a");
+
+        a.href = url;
+        a.download = `vibe_check_report.${format}`;
+
+        document.body.appendChild(a);
+
+        a.click();
+
+        a.remove();
+
+        window.URL.revokeObjectURL(url);
+
+        showToast("Скачано");
+
+    } catch (error) {
+
+        console.error(error);
+
+        showToast("Бэкенд не отвечает");
+    }
+}
 
 
 /* =========================
-   EXPORT PDF
+   EXPORT BUTTONS
 ========================= */
 
+const exportCSVBtn = document.getElementById("exportCSV");
 const exportPDFBtn = document.getElementById("exportPDF");
 
-exportPDFBtn.addEventListener("click", () => {
-
-    let content = `
-    <h1>Vibe Check Report</h1>
-    <hr>
-  `;
-
-    entries.forEach(item => {
-        content += `
-      <div style="margin-bottom:20px;">
-        <h3>${item.date}</h3>
-        <p><strong>Настроение:</strong> ${item.mood}</p>
-        <p><strong>Заметка:</strong> ${item.note}</p>
-      </div>
-    `;
+if (exportCSVBtn) {
+    exportCSVBtn.addEventListener("click", () => {
+        downloadFile("csv");
     });
+}
 
-    const printWindow = window.open("", "", "width=800,height=600");
-
-    printWindow.document.write(`
-    <html>
-      <head>
-        <title>Export PDF</title>
-      </head>
-      <body style="font-family:Arial;padding:30px;">
-        ${content}
-      </body>
-    </html>
-  `);
-
-    printWindow.document.close();
-
-    printWindow.print();
-
-    showToast("PDF готов ✅");
-});
+if (exportPDFBtn) {
+    exportPDFBtn.addEventListener("click", () => {
+        downloadFile("pdf");
+    });
+}
