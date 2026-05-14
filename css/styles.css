@@ -1,16 +1,13 @@
-
 /* =========================
-   общий стиль
+   GLOBAL
 ========================= */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* =========================
-   BODY
-========================= */
 body {
   font-family: 'Inter', Arial, sans-serif;
   background: #f6f1e8;
@@ -18,8 +15,9 @@ body {
 }
 
 /* =========================
-   CONTAINER (mobile feel)
+   CONTAINER
 ========================= */
+
 .container {
   max-width: 420px;
   margin: 70px auto;
@@ -29,16 +27,11 @@ body {
 /* =========================
    TITLES
 ========================= */
+
 h1 {
   font-size: 24px;
   font-weight: 700;
   color: #3b1c5a;
-  margin-bottom: 6px;
-}
-
-.subtitle {
-  font-size: 13px;
-  color: #8a8a8a;
   margin-bottom: 20px;
 }
 
@@ -50,24 +43,28 @@ h1 {
   position: fixed;
   top: 15px;
   left: 15px;
+
   font-size: 20px;
+
   padding: 10px 14px;
+
   border: none;
-  background: #3b1c5a;
-  color: white;
   border-radius: 12px;
-  cursor: pointer;
-  z-index: 1001;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  transition: 0.3s;
-}
-.menu-btn:hover {
+
   background: #3b1c5a;
   color: white;
-  transform: scale(1.05);
+
+  cursor: pointer;
+
+  z-index: 1001;
+
+  transition: 0.3s;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
-.menu-btn.hide {
-display: none;
+
+.menu-btn:hover {
+  transform: scale(1.05);
 }
 
 /* =========================
@@ -77,18 +74,25 @@ display: none;
 .sidebar {
   background: #3b1c5a;
   color: white;
+
   position: fixed;
   top: 0;
   left: -280px;
+
   width: 280px;
   height: 100vh;
+
   padding: 60px 20px 20px;
+
   display: flex;
   flex-direction: column;
   gap: 12px;
-  box-shadow: 4px 0 20px rgba(0,0,0,0.08);
+
   transition: 0.3s ease;
+
   z-index: 1000;
+
+  box-shadow: 4px 0 20px rgba(0,0,0,0.08);
 }
 
 .sidebar.open {
@@ -98,13 +102,18 @@ display: none;
 .sidebar a {
   text-decoration: none;
   color: white;
+
   padding: 10px 12px;
+
   border-radius: 10px;
-  font-weight: 500;
+
+  transition: 0.2s;
 }
+
 .sidebar a:hover {
   background: rgba(255,255,255,0.12);
 }
+
 .sidebar-header {
   display: flex;
   align-items: center;
@@ -112,14 +121,19 @@ display: none;
 
   margin-bottom: 6px;
 }
+
 .sidebar-header h3 {
-  font-size: 24px;
-  font-weight: 700;
   color: #e6b44c;
-  white-space: nowrap;
-  margin: 0;
+  font-size: 24px;
 }
 
+#closeBtn {
+  border: none;
+  background: none;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
 
 /* =========================
    OVERLAY
@@ -128,9 +142,12 @@ display: none;
 .overlay {
   position: fixed;
   inset: 0;
+
   opacity: 0;
   visibility: hidden;
+
   transition: 0.3s;
+
   z-index: 999;
 }
 
@@ -139,136 +156,116 @@ display: none;
   visibility: visible;
 }
 
-
-#closeBtn {
-  position: absolute;
-  right: 0;
-  top: 0;
-  border: none;
-  background: none;
-  font-size: 22px;
-  cursor: pointer;
-  color: white;
-  margin-left: auto;
-}
 /* =========================
-   CARD (FIGMA STYLE)
+   CARD
 ========================= */
+
 .card {
   background: white;
-  border-radius: 18px;
-  padding: 18px;
-  margin-bottom: 15px;
-  box-shadow: 0 6px 25px rgba(0,0,0,0.06);
+
+  border-radius: 24px;
+
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  box-shadow: 0 8px 30px rgba(0,0,0,0.06);
 }
 
 /* =========================
-   BUTTONS
+   MOOD GRID
 ========================= */
-.save-btn {
-  width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 14px;
-  background: linear-gradient(90deg, #3b1c5a);
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 10px 24px rgba(59,28,90,0.18);
-}
 
-.save-btn:hover {
-  background: #4A2A73;
-  transform: translateY(-2px);
-  opacity: 0.9;
-}
-
-/* =========================
-   TEXTAREA / INPUT
-========================= */
-textarea,
-input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px solid #e4ddf0;
-  margin-top: 10px;
-  font-size: 14px;
-}
-textarea:focus {
-  outline: none;
-  border-color: #c6b7e2;
-  box-shadow: 0 0 0 4px rgba(198,183,226,0.25);
-}
-
-/* =========================
- 🔹 PAGE: MOOD INPUT (главная)
-========================= */
 .mood-grid {
   display: flex;
   gap: 8px;
-  margin: 20px 0;
+
+  margin-bottom: 20px;
 }
 
 .mood {
   flex: 1;
+
   padding: 12px;
+
   border-radius: 14px;
+
   text-align: center;
-  background: #ffffff;
+
+  background: white;
+
   cursor: pointer;
+
   transition: 0.2s;
+
   box-shadow: 0 4px 12px rgba(59,28,90,0.05);
 }
 
 .mood span {
   display: block;
-  font-size: 11px;
   margin-top: 5px;
+  font-size: 11px;
 }
-.mood:hover {
-  transform:translateY(-3px) ;
-  border-color: #c6b7e2
-}
-
-/* ACTIVE COLORS */
-.mood-bad.active { background: #ff5252; color: white; }
-.mood-ok.active { background: #ff9800; color: white; }
-.mood-normal.active { background: #ffd54f;color: white; }
-.mood-good.active { background: #4caf50; color: white; }
-.mood-excellent.active { background: #2e7d32; color: white; }
 
 .mood:hover {
   transform: scale(1.05);
 }
 
+/* ACTIVE */
+
+.mood-bad.active {
+  background: #ff5252;
+  color: white;
+}
+
+.mood-ok.active {
+  background: #ff9800;
+  color: white;
+}
+
+.mood-normal.active {
+  background: #ffd54f;
+  color: white;
+}
+
+.mood-good.active {
+  background: #4caf50;
+  color: white;
+}
+
+.mood-excellent.active {
+  background: #2e7d32;
+  color: white;
+}
+
 /* =========================
-   TAGS  MOOD
+   TAGS
 ========================= */
+
 .tags-bar {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 10px;
-  margin: 20px 0;
 }
 
 .tag {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 14px;
-  border-radius: 999px;
+  padding: 8px 16px;
+  border-radius: 40px;
   background: #efe8f7;
   color: #3b1c5a;
   font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
-
   transition: 0.2s;
-  white-space: nowrap;
+  border: none;
 }
 
 .tag:hover {
   transform: scale(1.05);
+  background: #e0d4f0;
 }
 
 .tag.active {
@@ -276,159 +273,234 @@ textarea:focus {
   color: white;
 }
 
-.add-tag {
-  background: #e6b44c;
+.add-tag-btn {
+  padding: 8px 16px;
+  border-radius: 40px;
+  background: #efe8f7;
   color: #3b1c5a;
-  font-weight: 600;
-}
-.photo-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 14px;
-  padding: 12px 16px;
-  border-radius: 14px;
-  background: #EFE8F7;
-  color: #3B1C5A;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
   transition: 0.2s;
-}
-
-/* SEARCH */
-.search {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
-/* ENTRIES */
-.entries {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.left {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-}
-
-/* MOODS */
-.mood-bad{ background:#fef2f2; color:#ef4444; }
-.mood-ok { background:#fff7ed; color:#f97316; }
-.mood-normal { background:#fefce8; color:#eab308; }
-.mood-good { background:#f7fee7; color:#84cc16; }
-.mood-excellent { background:#f0fdf4; color:#22c55e; }
-
-.text {
-  display: flex;
-  flex-direction: column;
-}
-
-.date {
-  font-size: 12px;
-  color: #888;
-}
-
-.note {
-  font-size: 14px;
-}
-
-/* BUTTONS */
-.btn {
   border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-/* MODAL */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  justify-content: center;
+  display: inline-flex;
   align-items: center;
-  z-index: 9999;
+  gap: 6px;
 }
 
-.modal-box {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  position: relative;
-  z-index: 10000;
-}
-
-.hidden {
-  display: none;
-}
-
-select {
-  padding: 6px;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.save {
-  background: #c6b7e2;
-  color: white;
-  border: none;
-  padding: 8px;
-  border-radius: 8px;
-}
-
-.cancel {
-  background: #ddd;
-  border: none;
-  padding: 8px;
-  border-radius: 8px;
+.add-tag-btn:hover {
+  transform: scale(1.05);
+  background: #e0d4f0;
 }
 
 /* =========================
-   TAG LIST
+   ADD TAG BUTTON
 ========================= */
-.tag-item {
-  display: flex;
-  justify-content: space-between;
+
+.add-tag-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 40px;
+  background: #efe8f7;
+  color: #3b1c5a;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+  display: inline-flex;
   align-items: center;
-  padding: 14px;
-  border-radius: 14px;
-  background: white;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  gap: 6px;
 }
 
-.delete-btn {
+.add-tag-btn:hover {
+  transform: scale(1.05);
+  background: #e0d4f0;
+}
+.tags-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+
+
+/* =========================
+   TEXTAREA
+========================= */
+
+textarea {
+  width: 100%;
+  min-height: 120px;
+
+  padding: 14px;
+
+  border-radius: 16px;
+
+  border: 1px solid #e4ddf0;
+
+  resize: vertical;
+
+  font-size: 14px;
+}
+
+textarea:focus {
+  outline: none;
+
+  border-color: #c6b7e2;
+
+  box-shadow: 0 0 0 4px rgba(198,183,226,0.25);
+}
+
+/* =========================
+   SAVE BUTTON
+========================= */
+
+.save-btn {
+  width: 100%;
+
+  padding: 14px;
+
   border: none;
-  background: transparent;
-  font-size: 16px;
+  border-radius: 16px;
+
+  background: #3b1c5a;
+
+  color: white;
+
+  font-size: 15px;
+  font-weight: 700;
+
   cursor: pointer;
-  color: #e53935;
+
+  transition: 0.25s;
+
+  margin-top: 4px;
+
+  box-shadow: 0 10px 24px rgba(59,28,90,0.18);
+}
+
+.save-btn:hover {
+  background: #4A2A73;
+  transform: translateY(-2px);
+}
+
+/* =========================
+   TAG MODAL
+========================= */
+
+.tag-modal {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0,0,0,0.45);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: 0.25s;
+
+  z-index: 9999;
+}
+
+.tag-modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* =========================
+   MODAL CARD
+========================= */
+
+.tag-modal-card {
+  width: 90%;
+  max-width: 340px;
+
+  background: white;
+
+  border-radius: 24px;
+
+  padding: 22px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  animation: popup 0.25s ease;
+
+  box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+}
+
+.tag-modal-card h3 {
+  color: #3b1c5a;
+}
+
+/* =========================
+   MODAL INPUT
+========================= */
+
+.tag-modal-card input {
+  width: 100%;
+
+  padding: 12px;
+
+  border-radius: 14px;
+
+  border: 1px solid #ddd;
+
+  font-size: 14px;
+}
+
+/* =========================
+   MODAL BUTTONS
+========================= */
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.modal-buttons button {
+  flex: 1;
+
+  padding: 12px;
+
+  border: none;
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+}
+
+.modal-save {
+  background: #3b1c5a;
+  color: white;
+}
+
+.modal-cancel {
+  background: #ece7f5;
+  color: #3b1c5a;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes popup {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* =========================
@@ -1109,9 +1181,9 @@ body.dark .day {
   visibility: visible;
 }
 
-/* =====================================================
-   🔹 INSIGHTS PAGE
-===================================================== */
+/* =========================
+   INSIGHTS / ANALYTICS PAGE
+========================= */
 
 /* контейнер */
 .container {
@@ -1124,39 +1196,43 @@ body.dark .day {
 h1 {
   font-size: 28px;
   font-weight: 700;
+  color: #3b1c5a;
   margin-bottom: 6px;
-  text-align: center;
 }
 
 .subtitle {
+  color: #8a8fa3;
+  margin-bottom: 24px;
+  font-size: 14px;
   text-align: center;
-  color: #71717a;
-  margin-bottom: 20px;
 }
 
-/* =====================================================
-   🔹 FILTER
-===================================================== */
+/* =========================
+   ФИЛЬТРЫ
+========================= */
 .filter {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 12px;
+  margin-bottom: 24px;
   flex-wrap: wrap;
 }
 
 .filter-btn {
-  padding: 8px 14px;
+  padding: 8px 20px;
   border: none;
-  border-radius: 20px;
-  background: #f1f3f6;
+  border-radius: 40px;
+  background: #efe8f7;
+  color: #3b1c5a;
+  font-weight: 500;
+  font-size: 13px;
   cursor: pointer;
   transition: 0.2s;
-  font-size: 13px;
 }
 
 .filter-btn:hover {
   transform: scale(1.05);
+  background: #e0d4f0;
 }
 
 .filter-btn.active {
@@ -1164,275 +1240,634 @@ h1 {
   color: white;
 }
 
-/* =====================================================
-   🔹 CARDS
-===================================================== */
+/* =========================
+   КАРТОЧКИ
+========================= */
 .card {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto 20px auto;
-
   background: white;
-  border-radius: 16px;
-  padding: 18px;
-
-  border: 1px solid #e4e4e7;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  border-radius: 24px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  border: 1px solid #ede7f5;
 }
 
 .card h3 {
-  font-size: 16px;
-  margin-bottom: 12px;
-  color: #18181b;
+  font-size: 18px;
+  font-weight: 600;
+  color: #3b1c5a;
+  margin-bottom: 20px;
 }
 
-/* =====================================================
-   🔹 CHART CONTAINER (ГЛАВНОЕ)
-===================================================== */
+/* =========================
+   ГРАФИКИ
+========================= */
 .chart-box {
   position: relative;
   width: 100%;
-  height: 300px;
+  height: 280px;
 }
 
-.chart-box canvas {
+.chart-box-small {
+  position: relative;
+  width: 100%;
+  height: 220px;
+}
+
+.chart-box canvas,
+.chart-box-small canvas {
   width: 100% !important;
   height: 100% !important;
 }
 
-/* =====================================================
-   🔹 AVERAGE BLOCK
-===================================================== */
-.team-score {
-  font-size: 36px;
-  font-weight: bold;
-  text-align: center;
-  color: #1a761d;
-  margin-top: 10px;
+/* =========================
+   СТАТИСТИКА (3 блока)
+========================= */
+.stats-row {
+  display: flex;
+  justify-content: space-around;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
-/* =====================================================
-   🔹 ADAPTIVE
-===================================================== */
+.stat-box {
+  flex: 1;
+  text-align: center;
+  padding: 16px;
+  background: #f8f6fc;
+  border-radius: 20px;
+  min-width: 100px;
+}
+
+.stat-value {
+  font-size: 36px;
+  font-weight: 800;
+  color: #3b1c5a;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #8e84a3;
+  margin-top: 6px;
+}
+
+.stat-scale {
+  font-size: 11px;
+  color: #b0a8c0;
+  margin-top: 4px;
+}
+
+/* =========================
+   РАСПРЕДЕЛЕНИЕ НАСТРОЕНИЙ (легенда)
+========================= */
+.distribution-legend {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+.legend-color.mood-1 { background: #ff5252; }
+.legend-color.mood-2 { background: #ff9800; }
+.legend-color.mood-3 { background: #ffd54f; }
+.legend-color.mood-4 { background: #4caf50; }
+.legend-color.mood-5 { background: #2e7d32; }
+
+/* =========================
+   ТЕГИ (статистика)
+========================= */
+.tags-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tag-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #ede7f5;
+}
+
+.tag-name {
+  width: 100px;
+  font-weight: 600;
+  color: #3b1c5a;
+  font-size: 14px;
+}
+
+.tag-bar {
+  flex: 1;
+  height: 8px;
+  background: #efe8f7;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.tag-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #e6b44c, #f4cf7a);
+  border-radius: 10px;
+  width: 0%;
+  transition: width 0.3s;
+}
+
+.tag-count {
+  width: 40px;
+  text-align: right;
+  font-size: 13px;
+  color: #8e84a3;
+}
+
+/* =========================
+   СОВЕТЫ (инсайт)
+========================= */
+.insight-tip {
+  margin-top: 20px;
+  padding: 16px;
+  background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+  border-radius: 16px;
+  border-left: 4px solid #e6b44c;
+}
+
+.insight-tip p {
+  font-size: 14px;
+  color: #3b1c5a;
+  line-height: 1.5;
+}
+
+.insight-tip i {
+  margin-right: 8px;
+  color: #e6b44c;
+}
+
+/* =========================
+   ПУСТОЕ СОСТОЯНИЕ (нет данных)
+========================= */
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.empty-state i {
+  font-size: 64px;
+  color: #c6b7e2;
+  margin-bottom: 16px;
+}
+
+.empty-state p {
+  color: #8e84a3;
+  font-size: 14px;
+}
+
+/* =========================
+   АДАПТИВ
+========================= */
 @media (max-width: 768px) {
   .container {
     padding: 16px;
   }
-
-  .card {
-    padding: 16px;
+  
+  .stats-row {
+    gap: 10px;
   }
-
+  
+  .stat-value {
+    font-size: 28px;
+  }
+  
+  .stat-box {
+    padding: 12px;
+  }
+  
   .chart-box {
-    height: 240px;
+    height: 220px;
+  }
+  
+  .chart-box-small {
+    height: 180px;
+  }
+  
+  .tag-name {
+    width: 70px;
+    font-size: 12px;
   }
 }
 
-/* =====================================================
-   🔹 DARK MODE (если используешь)
-===================================================== */
-body.dark .card {
-  background: #1a1d24;
-  border-color: #2a2f3a;
+@media (max-width: 480px) {
+  .filter-btn {
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+  
+  .card {
+    padding: 18px;
+  }
+  
+  .stat-value {
+    font-size: 24px;
+  }
+  
+  .stat-label {
+    font-size: 11px;
+  }
 }
 
-body.dark .subtitle {
+/* =========================
+   ТЁМНАЯ ТЕМА
+========================= */
+body.dark .card {
+  background: #2a2f3a;
+  border-color: #3a4050;
+}
+
+body.dark .card h3 {
+  color: #e0e0e0;
+}
+
+body.dark .stat-box {
+  background: #1f232e;
+}
+
+body.dark .stat-value {
+  color: #e6b44c;
+}
+
+body.dark .stat-label {
   color: #a0a0a0;
 }
 
-body.dark .filter-btn {
-  background: #2a2f3a;
-  color: white;
+body.dark .tag-stat-item {
+  border-bottom-color: #3a4050;
 }
 
-body.dark .filter-btn.active {
-  background: #3b1c5a;
+body.dark .tag-name {
+  color: #e0e0e0;
 }
 
-/* ===== EXPORT PAGE ===== */
+body.dark .tag-bar {
+  background: #3a4050;
+}
+
+body.dark .insight-tip {
+  background: linear-gradient(135deg, #1f2330, #252a38);
+  border-left-color: #e6b44c;
+}
+
+body.dark .insight-tip p {
+  color: #e0e0e0;
+}
+
+body.dark .empty-state p {
+  color: #a0a0a0;
+}
+
+body.dark .empty-state i {
+  color: #4a5080;
+}
+/* =========================
+   EXPORT PAGE (цвета как в дизайне - сиреневые)
+========================= */
 
 .export-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   background: white;
   padding: 18px;
   border-radius: 16px;
   margin-bottom: 15px;
-
+  border: 1px solid #ede7f5;
   box-shadow: 0 4px 20px rgba(0,0,0,0.06);
 }
 
-/* левая часть */
 .export-info {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
-/* иконки */
 .export-info i {
   font-size: 28px;
-}
-
-/* цвета */
-.pdf i {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #efe8f7;
   color: #3b1c5a;
 }
 
-.csv i {
+.export-info h3 {
+  font-size: 15px;
+  font-weight: 600;
   color: #3b1c5a;
+  margin-bottom: 4px;
 }
 
-/* кнопки */
+.export-info p {
+  font-size: 12px;
+  color: #8e84a3;
+}
+
 .export-btn {
   border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
-  color: white;
-  cursor: pointer;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: #c6b7e2;
+  color: #3b1c5a;
   font-weight: 600;
-}
-
-/* разные цвета */
-.export-btn.red {
-  background: #c6b7e2;
-}
-
-.export-btn.green {
-  background: #c6b7e2;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
 .export-btn:hover {
-  opacity: 0.85;
+  background: #b8a6d8;
+  transform: scale(1.02);
 }
-/* клик эффект */
+
 .export-btn:active {
   transform: scale(0.95);
 }
 
-/* уведомление */
-.toast {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #333;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 10px;
-  opacity: 0;
-  transition: 0.3s;
+.export-stats {
+  background: #f8f6fc;
+  border-radius: 16px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.toast.show {
-  opacity: 1;
+.export-stats span {
+  font-size: 14px;
+  color: #3b1c5a;
 }
 
-
-/*metod*/
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
-  background: #f9fafb;
-  color: #18181b;
+.export-stats strong {
+  font-size: 24px;
+  font-weight: 700;
+  color: #e6b44c;
 }
 
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 16px;
-}
-
-@media (min-width: 768px) {
-  .container {
-    padding: 32px;
+@media (max-width: 600px) {
+  .export-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+  
+  .export-info {
+    flex-direction: column;
+  }
+  
+  .export-stats {
+    flex-direction: column;
+    text-align: center;
   }
 }
 
-.header {
-  animation: fadeUp 0.4s ease forwards;
+body.dark .export-card {
+  background: #2a2f3a;
+  border-color: #3a4050;
 }
 
-h1 {
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 8px;
+body.dark .export-info h3 {
+  color: #e0e0e0;
 }
 
-h2 {
-  font-weight: 700;
-  margin-bottom: 8px;
+body.dark .export-stats {
+  background: #1f232e;
 }
 
-h3 {
-  font-weight: 700;
-  margin-bottom: 12px;
-}
+/* =========================
+   REMINDERS (напоминания) - цвета как в дизайне
+========================= */
 
-.subtitle {
-  color: #71717a;
+.reminder-form {
+  display: flex;
+  gap: 12px;
   margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
-.space-y > * + * {
-  margin-top: 24px;
-}
-
-.card {
+.reminder-form input {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid #e4ddf0;
+  font-size: 14px;
   background: white;
-  border: 1px solid #e4e4e7;
-  border-radius: 12px;
+}
+
+.reminder-form input:focus {
+  outline: none;
+  border-color: #c6b7e2;
+  box-shadow: 0 0 0 3px rgba(198,183,226,0.25);
+}
+
+.reminder-form button {
+  padding: 12px 24px;
+  background: #3b1c5a;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.reminder-form button:hover {
+  background: #4a2a73;
+}
+
+.reminder-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reminder-item {
+  background: white;
+  border-radius: 16px;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ede7f5;
+  transition: 0.2s;
+}
+
+.reminder-item:hover {
+  border-color: #c6b7e2;
+  box-shadow: 0 4px 12px rgba(59,28,90,0.08);
+}
+
+.reminder-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.reminder-time {
+  font-size: 18px;
+  font-weight: 700;
+  color: #3b1c5a;
+  background: #efe8f7;
+  padding: 4px 12px;
+  border-radius: 30px;
+}
+
+.reminder-days {
+  font-size: 13px;
+  color: #8e84a3;
+}
+
+.toggle {
+  width: 52px;
+  height: 28px;
+  background: #d4d4d8;
+  border-radius: 30px;
+  position: relative;
+  cursor: pointer;
+}
+
+.toggle.active {
+  background: #3b1c5a;
+}
+
+.circle {
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  transition: 0.3s;
+}
+
+.toggle.active .circle {
+  transform: translateX(24px);
+}
+
+.delete-reminder {
+  background: transparent;
+  color: #dc2626;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 10px;
+}
+
+.delete-reminder:hover {
+  background: #fee2e2;
+}
+
+.empty-reminders {
+  text-align: center;
+  padding: 48px;
+  color: #8e84a3;
+  background: #f8f6fc;
+  border-radius: 20px;
+}
+
+@media (max-width: 600px) {
+  .reminder-form {
+    flex-direction: column;
+  }
+  
+  .reminder-item {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .reminder-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .delete-reminder {
+    align-self: flex-end;
+  }
+}
+
+body.dark .reminder-item {
+  background: #2a2f3a;
+  border-color: #3a4050;
+}
+
+body.dark .reminder-time {
+  background: #3a4050;
+  color: #e6b44c;
+}
+
+body.dark .reminder-form input {
+  background: #2a2f3a;
+  border-color: #3a4050;
+  color: #e0e0e0;
+}
+
+body.dark .empty-reminders {
+  background: #1f232e;
+}
+/* =========================
+   METHODS PAGE
+========================= */
+
+.methods-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.methods-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.method-card {
+  background: white;
+  border-radius: 20px;
   padding: 24px;
   display: flex;
-  gap: 16px;
-  animation: fadeUp 0.5s ease forwards;
+  gap: 18px;
+  border: 1px solid #ede7f5;
+  transition: 0.2s;
+  animation: fadeUp 0.4s ease forwards;
   opacity: 0;
 }
 
-.card:nth-child(1) { animation-delay: 0.1s; }
-.card:nth-child(2) { animation-delay: 0.2s; }
-.card:nth-child(3) { animation-delay: 0.3s; }
-.card:nth-child(4) { animation-delay: 0.4s; }
-.card:nth-child(5) { animation-delay: 0.5s; }
-
-
-
-.text {
-  color: #3f3f46;
-  line-height: 1.6;
-}
-
-.recommend {
-  margin-top: 32px;
-  padding: 24px;
-  border-radius: 12px;
-  border: 1px solid #c7d2fe;
-  background: linear-gradient(to right, #eef2ff, #f5f3ff);
-  animation: fadeUp 0.6s ease forwards;
-  opacity: 0;
-}
-
-.recommend ul {
-  padding-left: 0;
-  list-style: none;
-  font-size: 14px;
-  color: #3730a3;
-}
-
-.recommend li {
-  margin-bottom: 8px;
-}
-
-.footer {
-  margin-top: 24px;
-  text-align: center;
-  font-size: 14px;
-  color: #71717a;
-  animation: fadeUp 0.7s ease forwards;
-  opacity: 0;
-}
+.method-card:nth-child(1) { animation-delay: 0.1s; }
+.method-card:nth-child(2) { animation-delay: 0.2s; }
+.method-card:nth-child(3) { animation-delay: 0.3s; }
+.method-card:nth-child(4) { animation-delay: 0.4s; }
+.method-card:nth-child(5) { animation-delay: 0.5s; }
 
 @keyframes fadeUp {
   from {
@@ -1444,240 +1879,102 @@ h3 {
     transform: translateY(0);
   }
 }
-/*напиминания*/
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
-  background: #f9fafb;
-  color: #18181b;
+
+.method-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.06);
 }
 
-.container {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 16px;
+.method-icon {
+  font-size: 40px;
+  flex-shrink: 0;
 }
 
-@media (min-width: 768px) {
-  .container {
-    padding: 32px;
-  }
-}
-
-/* Header */
-h1 {
-  font-size: 32px;
+.method-content h3 {
+  font-size: 18px;
   font-weight: 700;
+  color: #3b1c5a;
   margin-bottom: 8px;
 }
 
-.subtitle {
-  color: #71717a;
-  margin-bottom: 24px;
-}
-
-/* Карточки */
-.card {
-  background: white;
-  border: 1px solid #e4e4e7;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 24px;
-}
-
-h2 {
+.method-content p {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
   margin-bottom: 12px;
 }
 
-/* Форма */
-.form {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-input {
-  padding: 10px 14px;
-  border-radius: 10px;
-  border: 1px solid #e4e4e7;
-  font-size: 16px;
-}
-
-button {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 10px;
-  background: #3b1c5a;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #3b1c5a;
-}
-
-/* Список */
-.list > * + * {
-  margin-top: 16px;
-}
-
-.item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: white;
-  border: 1px solid #e4e4e7;
-  border-radius: 12px;
-  padding: 16px;
-}
-
-/* Иконка БЕЗ плашки */
-.icon {
-  font-size: 20px;
-}
-
-/* Инфо */
-.info {
-  flex: 1;
-}
-
-.time {
-  font-size: 20px;
-  font-weight: 700;
-}
-
-.days {
-  font-size: 14px;
-  color: #71717a;
-}
-
-/* Toggle */
-.toggle {
-  width: 50px;
-  height: 28px;
-  background: #d4d4d8;
-  border-radius: 999px;
-  position: relative;
-  cursor: pointer;
-}
-
-.toggle.active {
-  background: #3b1c5a;
-}
-
-.circle {
-  width: 22px;
-  height: 22px;
-  background: white;
-  border-radius: 50%;
-  position: absolute;
-  top: 3px;
-  left: 4px;
-  transition: 0.3s;
-}
-
-.toggle.active .circle {
-  transform: translateX(22px);
-}
-
-/* Delete */
-.delete {
-  background: transparent;
-  color: #dc2626;
-  font-size: 18px;
-}
-
-.delete:hover {
-  background: #fee2e2;
-}
-
-/* ===== TAGS PAGE ===== */
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-
-.tag-card {
-  background: #f3ebff;
+.method-tip {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #efe8f7;
   border-radius: 20px;
-  padding: 18px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-
-  min-height: 140px;
-
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
-
-.tag-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.tag-left {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.tag-name {
-  font-weight: 600;
-  font-size: 16px;
+  font-size: 12px;
   color: #3b1c5a;
 }
 
-.tag-bottom {
+.recommend-block {
+  margin-top: 32px;
+  padding: 24px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+  border: 1px solid #c7d2fe;
+}
+
+.recommend-block h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: #3b1c5a;
+}
+
+.recommend-block ul {
+  padding-left: 20px;
+  color: #3730a3;
+}
+
+.recommend-block li {
+  margin-bottom: 8px;
   font-size: 14px;
-  color: #6b5a7d;
 }
 
-/* ===== MENU ===== */
-
-.dots-wrapper {
-  position: relative;
+@media (max-width: 600px) {
+  .method-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .method-icon {
+    font-size: 48px;
+  }
 }
 
-.dots {
-  cursor: pointer;
-  font-size: 22px;
-  user-select: none;
+body.dark .method-card {
+  background: #2a2f3a;
+  border-color: #3a4050;
 }
 
-.menu {
-  position: absolute;
-  top: 30px;
-  right: 0;
-
-  background: white;
-  border-radius: 12px;
-
-  min-width: 140px;
-
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-
-  display: none;
-  flex-direction: column;
-
-  overflow: hidden;
-
-  z-index: 100;
+body.dark .method-content h3 {
+  color: #e6b44c;
 }
 
-.menu.show {
-  display: flex;
+body.dark .method-content p {
+  color: #b0b0b0;
 }
 
-.menu div {
-  padding: 12px 14px;
-  transition: 0.2s;
+body.dark .method-tip {
+  background: #3a4050;
+  color: #e0e0e0;
 }
 
-.menu div:hover {
-  background: #f3ebff;
+body.dark .recommend-block {
+  background: linear-gradient(135deg, #1f2330, #252a38);
+  border-color: #3b1c5a;
+}
+
+body.dark .recommend-block h3 {
+  color: #e6b44c;
+}
+
+body.dark .recommend-block ul {
+  color: #a0a0a0;
 }

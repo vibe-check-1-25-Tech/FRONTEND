@@ -167,3 +167,16 @@ function closeSupportModal() {
 
     document.getElementById("supportModal").style.display = "none";
 }
+
+
+function openTagModal() {
+  document
+    .getElementById("tagModal")
+    .classList.add("show");
+}
+
+function closeTagModal() {
+  document
+    .getElementById("tagModal")
+    .classList.remove("show");
+}
