@@ -42,10 +42,9 @@
 
   <h1>Как ваше настроение?</h1>
 
-  <!-- MOOD -->
+  <!-- MOOD GRID (только 5 настроений) -->
   <div class="mood-grid">
 
-<<<<<<< HEAD
     <div class="mood mood-bad">
       😢
       <span>Плохо</span>
@@ -53,12 +52,12 @@
 
     <div class="mood mood-ok">
       😐
-      <span>Ок</span>
+      <span>Не очень</span>
     </div>
 
     <div class="mood mood-normal active">
       🙂
-      <span>Норм</span>
+      <span>Нормально</span>
     </div>
 
     <div class="mood mood-good">
@@ -70,13 +69,6 @@
       😁
       <span>Отлично</span>
     </div>
-=======
-    <div class="mood mood-bad">😢<span>Плохо</span></div>
-    <div class="mood mood-ok">😐<span>Не очень</span></div>
-    <div class="mood mood-normal active">🙂<span>Нормально</span></div>
-    <div class="mood mood-good">😊<span>Хорошо</span></div>
-    <div class="mood mood-excellent">😁<span>Отлично</span></div>
->>>>>>> b98b0136f01647c1e158736bc5534c54c3fd8b0b
 
   </div>
 
@@ -96,86 +88,30 @@
 
     </div>
 
-   
-
-    <!-- NOTE -->
+    <!-- NOTE (одна заметка) -->
     <div class="note-box">
-
-      <textarea
-        placeholder="Напиши пару слов..."
-      ></textarea>
-
+      <textarea placeholder="Напиши пару слов..."></textarea>
     </div>
 
     <!-- SAVE -->
-    <button class="save-btn">
-      Сохранить
-    </button>
+    <button class="save-btn">Сохранить</button>
 
   </div>
 
-<<<<<<< HEAD
-=======
-  <!-- NOTE  -->
-  <div class="note-box">
-
-    <textarea placeholder="Введите запись..."></textarea>
-
-    <label class="photo-btn">
-                + Фото
-      <input type="file" accept="image/*" capture="environment" hidden>
-    </label>
-
-  </div>
-
-  <button class="save-btn">Сохранить</button>
-
->>>>>>> b98b0136f01647c1e158736bc5534c54c3fd8b0b
 </main>
 
-<!-- TAG MODAL -->
-<div class="tag-modal" id="tagModal">
 
-  <div class="tag-modal-card">
-
-    <h3>Новый тег</h3>
-
-    <input
-      type="text"
-      placeholder="Введите название тега"
-    >
-
-    <div class="modal-buttons">
-
-      <button class="modal-save">
-        Сохранить
-      </button>
-
-      <button
-        class="modal-cancel"
-        onclick="closeTagModal()"
-      >
-        Отмена
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
 
 <!-- SUPPORT MODAL -->
-<div class="support-modal" id="supportModal">
+<div class="support-modal" id="supportModal"> 
 
   <div class="support-content">
 
     <div id="supportData"></div>
 
-    <button onclick="closeSupportModal()">
-      Закрыть
-    </button>
-
+    <button onclick="closeSupportModal()">Закрыть</button>
   </div>
+
 
 </div>
 
@@ -188,4 +124,4 @@
 </body>
 </html>
 
-</html>
+
