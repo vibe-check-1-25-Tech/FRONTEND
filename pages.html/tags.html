@@ -2,148 +2,213 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Теги</title>
-  <link rel="stylesheet" href="../css/styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Управление тегами</title>
+<link rel="stylesheet" href="..//FRONTEND/css/styles.css">
 </head>
-
 <body>
 
-<!-- 🔥 sidebar кнопка -->
+<!-- ========== МЕНЮ (ОБЯЗАТЕЛЬНО ДЛЯ РАБОТЫ) ========== -->
 <button class="menu-btn" id="menuBtn">☰</button>
-
 <div class="overlay" id="overlay"></div>
 
 <nav class="sidebar" id="sidebar">
-
   <div class="sidebar-header">
     <h3>Vibe Check</h3>
     <button id="closeBtn">✕</button>
   </div>
-
   <a href="checkin.html">Главная</a>
-  <a href="journal.html"> Дневник</a>
-  <a href="insights.html"> Аналитика</a>
-  <a href="calendar.html"> Календарь</a>
+  <a href="journal.html">Дневник</a>
+  <a href="insights.html">Аналитика</a>
+  <a href="calendar.html">Календарь</a>
   <a href="tags.html">Теги</a>
-  <a href="team.html"> Команда</a>
-  <a href="support.html"> Поддержка</a>
-  <a href="profile.html"> Профиль</a>
-  <a href="export.html"> Экспорт</a>
-  <a href="metod.html"> О методологии</a>
-  <a href="npumin.html"> Напоминания</a>
-
+  <a href="team.html">Команда</a>
+  <a href="support.html">Поддержка</a>
+  <a href="profile.html">Профиль</a>
+  <a href="export.html">Экспорт</a>
+  <a href="metod.html">О методологии</a>
+  <a href="npumin.html">Напоминания</a>
 </nav>
 
-<div class="container">
+<!-- ОСНОВНОЙ КОНТЕНТ -->
+<div class="tags-page">
+  <div class="tags-header">
+    <h1>🏷️ Управление тегами</h1>
+    <p class="tags-subtitle">Создавайте категории для анализа влияния на настроение</p>
+  </div>
 
-  <h1>Управление тегами</h1>
-  <p class="subtitle">Создавайте категории для анализа влияния на настроение</p>
-
-  <!-- Добавление -->
-  <div class="card">
+  <!-- КАРТОЧКА ДОБАВЛЕНИЯ -->
+  <div class="tags-add-card">
     <h2>Добавить новый тег</h2>
-
-    <div class="form">
-      <input type="text" placeholder="Название тега">
-      <button>Добавить</button>
+    <div class="tags-add-form">
+      <input type="text" id="newTagInput" placeholder="Название тега" maxlength="20">
+      <button id="addTagBtn" class="add-tag-button">+ Добавить</button>
     </div>
   </div>
 
-  <h2 class="section-title">Ваши теги</h2>
+  <!-- ПОИСКОВИК -->
+  <div class="tags-search-wrapper">
+    <div class="tags-search-box">
+      <span class="tags-search-icon">🔍</span>
+      <input type="text" id="tagSearchInput" class="tags-search-input" placeholder="Поиск тегов...">
+      <button class="tags-search-clear" id="clearSearchBtn">✕</button>
+    </div>
+    <div class="tags-search-info" id="searchResultInfo"></div>
+  </div>
 
-  <div class="grid">
-
-    <!-- ТЕГ -->
-    <div class="tag-card">
-      <div class="tag-top">
-
-        <div class="tag-left">
-          <div class="icon">💼</div>
+  <h2 class="tags-section-title">Ваши теги</h2>
+  
+  <!-- СЕТКА ТЕГОВ -->
+  <div class="tags-grid" id="tagsGrid">
+    <!-- ТЕГ 1 -->
+    <div class="tag-card neutral" data-id="1" data-name="Работа">
+      <div class="tag-card-content">
+        <div class="tag-icon-wrapper neutral">💼</div>
+        <div class="tag-info">
           <div class="tag-name">Работа</div>
+          <div class="tag-count">12 раз</div>
         </div>
-
-        <div class="dots-wrapper">
-          <div class="dots">⋯</div>
-          <div class="menu">
-            <div onclick="editTag()">Изменить</div>
-            <div onclick="deleteTag()">Удалить</div>
-          </div>
+        <div class="tag-actions">
+          <button class="tag-edit-btn" data-id="1">✏️</button>
+          <button class="tag-delete-btn" data-id="1" data-name="Работа">🗑️</button>
         </div>
-
       </div>
-
-      <div class="tag-bottom">Использовано 3 раза</div>
     </div>
 
-    <!-- ТЕГ -->
-    <div class="tag-card">
-      <div class="tag-top">
+    <!-- ТЕГ 2 -->
+    <div class="tag-card positive" data-id="2" data-name="Дом">
+      <div class="tag-card-content">
+        <div class="tag-icon-wrapper positive">🏠</div>
+        <div class="tag-info">
+          <div class="tag-name">Дом</div>
+          <div class="tag-count">8 раз</div>
+        </div>
+        <div class="tag-actions">
+          <button class="tag-edit-btn" data-id="2">✏️</button>
+          <button class="tag-delete-btn" data-id="2" data-name="Дом">🗑️</button>
+        </div>
+      </div>
+    </div>
 
-        <div class="tag-left">
-          <div class="icon">❤️</div>
+    <!-- ТЕГ 3 -->
+    <div class="tag-card positive" data-id="3" data-name="Отношения">
+      <div class="tag-card-content">
+        <div class="tag-icon-wrapper positive">❤️</div>
+        <div class="tag-info">
           <div class="tag-name">Отношения</div>
+          <div class="tag-count">6 раз</div>
         </div>
-
-        <div class="dots-wrapper">
-          <div class="dots">⋯</div>
-          <div class="menu">
-            <div onclick="editTag()">Изменить</div>
-            <div onclick="deleteTag()">Удалить</div>
-          </div>
+        <div class="tag-actions">
+          <button class="tag-edit-btn" data-id="3">✏️</button>
+          <button class="tag-delete-btn" data-id="3" data-name="Отношения">🗑️</button>
         </div>
-
       </div>
-
-      <div class="tag-bottom">Использовано 5 раз</div>
     </div>
 
-    <!-- ТЕГ -->
-    <div class="tag-card">
-      <div class="tag-top">
+    <!-- ТЕГ 4 -->
+    <div class="tag-card positive" data-id="4" data-name="Энергия">
+      <div class="tag-card-content">
+        <div class="tag-icon-wrapper positive">⚡</div>
+        <div class="tag-info">
+          <div class="tag-name">Энергия</div>
+          <div class="tag-count">5 раз</div>
+        </div>
+        <div class="tag-actions">
+          <button class="tag-edit-btn" data-id="4">✏️</button>
+          <button class="tag-delete-btn" data-id="4" data-name="Энергия">🗑️</button>
+        </div>
+      </div>
+    </div>
 
-        <div class="tag-left">
-          <div class="icon">🌙</div>
+    <!-- ТЕГ 5 -->
+    <div class="tag-card positive" data-id="5" data-name="Хобби">
+      <div class="tag-card-content">
+        <div class="tag-icon-wrapper positive">☕</div>
+        <div class="tag-info">
+          <div class="tag-name">Хобби</div>
+          <div class="tag-count">4 раз</div>
+        </div>
+        <div class="tag-actions">
+          <button class="tag-edit-btn" data-id="5">✏️</button>
+          <button class="tag-delete-btn" data-id="5" data-name="Хобби">🗑️</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ТЕГ 6 -->
+    <div class="tag-card neutral" data-id="6" data-name="Сон">
+      <div class="tag-card-content">
+        <div class="tag-icon-wrapper neutral">🌙</div>
+        <div class="tag-info">
           <div class="tag-name">Сон</div>
+          <div class="tag-count">10 раз</div>
         </div>
-
-        <div class="dots-wrapper">
-          <div class="dots">⋯</div>
-          <div class="menu">
-            <div onclick="editTag()">Изменить</div>
-            <div onclick="deleteTag()">Удалить</div>
-          </div>
+        <div class="tag-actions">
+          <button class="tag-edit-btn" data-id="6">✏️</button>
+          <button class="tag-delete-btn" data-id="6" data-name="Сон">🗑️</button>
         </div>
-
       </div>
-
-      <div class="tag-bottom">Использовано 10 раз</div>
     </div>
 
-    <!-- ТЕГ -->
-    <div class="tag-card">
-      <div class="tag-top">
-
-        <div class="tag-left">
-          <div class="icon">📚</div>
-          <div class="tag-name">Учёба</div>
+    <!-- ТЕГ 7 -->
+    <div class="tag-card positive" data-id="7" data-name="Спорт">
+      <div class="tag-card-content">
+        <div class="tag-icon-wrapper positive">🏃</div>
+        <div class="tag-info">
+          <div class="tag-name">Спорт</div>
+          <div class="tag-count">7 раз</div>
         </div>
-
-        <div class="dots-wrapper">
-          <div class="dots">⋯</div>
-          <div class="menu">
-            <div class="edit-btn">Изменить</div>
-            <div class="delete-btn">Удалить</div>
-          </div>
+        <div class="tag-actions">
+          <button class="tag-edit-btn" data-id="7">✏️</button>
+          <button class="tag-delete-btn" data-id="7" data-name="Спорт">🗑️</button>
         </div>
-
       </div>
-
-      <div class="tag-bottom">Использовано 7 раз</div>
     </div>
 
+    <!-- ТЕГ 8 -->
+    <div class="tag-card neutral" data-id="8" data-name="Еда">
+      <div class="tag-card-content">
+        <div class="tag-icon-wrapper neutral">🍕</div>
+        <div class="tag-info">
+          <div class="tag-name">Еда</div>
+          <div class="tag-count">9 раз</div>
+        </div>
+        <div class="tag-actions">
+          <button class="tag-edit-btn" data-id="8">✏️</button>
+          <button class="tag-delete-btn" data-id="8" data-name="Еда">🗑️</button>
+        </div>
+      </div>
+    </div>
   </div>
-  <script src="../js/app.js"></script>
-  <script src="../js/tags.js"></script>
+</div>
+
+<!-- МОДАЛЬНОЕ ОКНО РЕДАКТИРОВАНИЯ -->
+<div id="editModal" class="tags-modal">
+  <div class="tags-modal-content">
+    <h3>✏️ Редактировать тег</h3>
+    <input type="text" id="editTagInput" placeholder="Новое название" maxlength="20">
+    <div class="tags-modal-buttons">
+      <button id="saveEditBtn" class="modal-save-btn">Сохранить</button>
+      <button id="cancelEditBtn" class="modal-cancel-btn">Отмена</button>
+    </div>
+  </div>
+</div>
+
+<!-- МОДАЛЬНОЕ ОКНО УДАЛЕНИЯ -->
+<div id="deleteModal" class="tags-modal">
+  <div class="tags-modal-content">
+    <h3>🗑️ Удалить тег?</h3>
+    <p>Вы уверены, что хотите удалить тег <strong id="deleteTagName"></strong>?</p>
+    <div class="tags-modal-buttons">
+      <button id="confirmDeleteBtn" class="modal-delete-btn">Да, удалить</button>
+      <button id="cancelDeleteBtn" class="modal-cancel-btn">Отмена</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== ПОДКЛЮЧЕНИЕ JS (ВАЖНО ДЛЯ МЕНЮ) ========== -->
+<script src="../js/app.js"></script>
+<script src="../js/tags.js"></script>
 
 </body>
 </html>
