@@ -20,7 +20,7 @@ const tags = document.querySelectorAll(".tag");
 let selectedTags = [];
 tags.forEach((tag) => {
     // пропускаем кнопку добавления
-    if (tag.classList.contains("add-tag")) return;
+    if (tag.classList.contains("add-tag-btn")) return;
     tag.addEventListener("click", () => {
         tag.classList.toggle("active");
         const tagText = tag.innerText;
@@ -35,7 +35,7 @@ tags.forEach((tag) => {
 
 
 // ADD NEW TAG
-const addTagBtn = document.querySelector(".add-tag");
+const addTagBtn = document.querySelector(".add-tag-btn");
 const tagsBar = document.querySelector(".tags-bar");
 addTagBtn.addEventListener("click", () => {
     const newTag = prompt("Введите название тега");
@@ -58,31 +58,6 @@ addTagBtn.addEventListener("click", () => {
 
 });
 
-
-// PHOTO PREVIEW
-let base64Image = "";
-const photoInput = document.querySelector('input[type="file"]');
-photoInput.addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function(event) {
-        base64Image = event.target.result;
-        let preview = document.querySelector(".photo-preview");
-        if (!preview) {
-            preview = document.createElement("img");
-            preview.className = "photo-preview";
-            preview.style.width = "100%";
-            preview.style.marginTop = "12px";
-            preview.style.borderRadius = "14px";
-            document.querySelector(".note-box").appendChild(preview);
-        }
-        preview.src = base64Image;
-    };
-    reader.readAsDataURL(file);
-});
-
 // SAVE ENTRY
 const saveBtn = document.querySelector(".save-btn");
 const textarea = document.querySelector("textarea");
@@ -98,7 +73,6 @@ async function saveEntry() {
         mood: selectedMood,
         tags: selectedTags,
         note: note,
-        photo: base64Image
     };
     try {
         const response = await fetch("http://localhost:8080/api/logs/save", {
@@ -137,7 +111,6 @@ function resetForm() {
     document.querySelectorAll(".tag.active").forEach(tag => {
         tag.classList.remove("active");
     });
-    base64Image = "";
     const preview = document.querySelector(".photo-preview");
     if (preview) {
         preview.remove();

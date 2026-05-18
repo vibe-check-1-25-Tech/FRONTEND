@@ -1,26 +1,78 @@
-// =========================
-// ELEMENTS
-// =========================
-const calendarHeader = document.querySelector(".calendar-header h2");
-const grid = document.querySelector(".calendar-grid");
+// ===== MOCK ДАННЫЕ =====
+// потом заменить на API
+let moodEntries = [
+    {
+        day: 2,
+        mood: 5,
+        note: "Отличный день"
+    },
+    {
+        day: 5,
+        mood: 1,
+        note: "Устал и не выспался"
+    },
+    {
+        day: 8,
+        mood: 3,
+        note: "Обычный день"
+    },
+    {
+        day: 11,
+        mood: 4,
+        note: "Хорошее настроение"
+    },
+    {
+        day: 15,
+        mood: 2,
+        note: "Немного тревожно"
+    },
+    {
+        day: 18,
+        mood: 5,
+        note: "Встретился с друзьями"
+    },
+    {
+        day: 22,
+        mood: 4,
+        note: "Продуктивный день"
+    }
+];
 
-const prevBtn = document.querySelectorAll(".nav-btn")[0];
-const nextBtn = document.querySelectorAll(".nav-btn")[1];
+// ===== ЭЛЕМЕНТЫ =====
+const calendarGrid =
+    document.getElementById("calendarGrid");
+const currentMonthYear =
+    document.getElementById("currentMonthYear");
+const prevMonthBtn =
+    document.getElementById("prevMonthBtn");
+const nextMonthBtn =
+    document.getElementById("nextMonthBtn");
 
-const modal = document.getElementById("dayModal");
-const modalDate = document.getElementById("modalDate");
+// ===== МОДАЛКА =====
+const dayModal =
+    document.getElementById("dayModal");
+const modalDate =
+    document.getElementById("modalDate");
+const modalMood =
+    document.getElementById("modalMood");
+const modalNote =
+    document.getElementById("modalNote");
+const closeModalBtn =
+    document.getElementById("closeModalBtn");
 
-// =========================
-// DATE STATE
-// =========================
-let currentMonth = new Date().getMonth();
-let currentYear = new Date().getFullYear();
+// ===== ДАТА =====
+let currentDate = new Date();
 
-let allLogs = [];
+// ===== ЭМОДЗИ =====
+const moodEmoji = {
+    1: "😢",
+    2: "😐",
+    3: "🙂",
+    4: "😊",
+    5: "😁"
+};
 
-// =========================
-// MONTH NAMES
-// =========================
+// ===== НАЗВАНИЯ МЕСЯЦЕВ =====
 const monthNames = [
     "Январь",
     "Февраль",
@@ -36,195 +88,172 @@ const monthNames = [
     "Декабрь"
 ];
 
-// =========================
-// FETCH LOGS
-// =========================
-async function fetchLogs() {
-
-    try {
-
-        const res = await fetch("http://localhost:8080/api/logs");
-
-        allLogs = await res.json();
-
-    } catch (e) {
-
-        console.error("Ошибка загрузки логов", e);
-
-    }
-
-    renderCalendar();
-}
-
-// =========================
-// RENDER CALENDAR
-// =========================
+// ===== РЕНДЕР КАЛЕНДАРЯ =====
 function renderCalendar() {
+    calendarGrid.innerHTML = "";
+    const year =
+        currentDate.getFullYear();
+    const month =
+        currentDate.getMonth();
 
-    grid.innerHTML = "";
+    // ===== ЗАГОЛОВОК =====
+    currentMonthYear.textContent =
+        `${monthNames[month]} ${year}`;
 
-    calendarHeader.textContent =
-        `${monthNames[currentMonth]} ${currentYear}`;
-
+    // ===== ПЕРВЫЙ ДЕНЬ =====
     const firstDay =
-        new Date(currentYear, currentMonth, 1);
+        new Date(year, month, 1);
+    let startDay =
+        firstDay.getDay();
 
-    const lastDay =
-        new Date(currentYear, currentMonth + 1, 0);
+    // Воскресенье -> 7
+    startDay =
+        startDay === 0 ? 7 : startDay;
 
-    // Monday start
-    let startDay = firstDay.getDay();
-    startDay = startDay === 0 ? 6 : startDay - 1;
+    // ===== ДНЕЙ В МЕСЯЦЕ =====
+    const daysInMonth =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
 
-    // EMPTY CELLS
-    for (let i = 0; i < startDay; i++) {
+    // ===== ПУСТЫЕ ЯЧЕЙКИ =====
+    for (
+        let i = 1;
+        i < startDay;
+        i++
+    ) {
 
-        const empty = document.createElement("div");
-
-        empty.classList.add("empty");
-
-        grid.appendChild(empty);
+        const empty =
+            document.createElement("div");
+        empty.className =
+            "calendar-empty";
+        calendarGrid.appendChild(empty);
     }
 
-    // TODAY
-    const today = new Date();
+    // ===== ДНИ =====
+    for (
+        let day = 1;
+        day <= daysInMonth;
+        day++
+    ) {
+        const dayElement =
+            document.createElement("div");
+        dayElement.className =
+            "calendar-day";
+        dayElement.textContent = day;
 
-    // DAYS
-    for (let day = 1; day <= lastDay.getDate(); day++) {
-
-        const cell = document.createElement("div");
-
-        cell.classList.add("day");
-
-        cell.textContent = day;
-
-        const cellDate =
-            new Date(currentYear, currentMonth, day);
-
-        // FIND LOG
-        const log = allLogs.find(l => {
-
-            const logDate = new Date(l.timestamp);
-
-            return (
-                logDate.getDate() === day &&
-                logDate.getMonth() === currentMonth &&
-                logDate.getFullYear() === currentYear
+        // ===== ИЩЕМ НАСТРОЕНИЕ =====
+        const entry =
+            moodEntries.find(
+                item => item.day === day
             );
-        });
 
-        // HAS LOG
-        if (log) {
-            cell.classList.add("has-log");
+        // ===== ЕСЛИ ЕСТЬ ДАННЫЕ =====
+        if (entry) {
+            dayElement.classList.add(
+                `mood-${entry.mood}`
+            );
+            dayElement.innerHTML = `
+        <div class="calendar-day-number">
+          ${day}
+        </div>
+        <div class="calendar-day-emoji">
+          ${moodEmoji[entry.mood]}
+        </div>
+      `;
+
+            // ===== МОДАЛКА =====
+            dayElement.addEventListener(
+                "click",
+                () => openModal(entry, day)
+            );
         }
 
-        // TODAY
+        // ===== СЕГОДНЯ =====
+        const today = new Date();
         if (
             day === today.getDate() &&
-            currentMonth === today.getMonth() &&
-            currentYear === today.getFullYear()
+            month === today.getMonth() &&
+            year === today.getFullYear()
         ) {
-            cell.classList.add("today");
+            dayElement.classList.add(
+                "today"
+            );
+        }
+        calendarGrid.appendChild(
+            dayElement
+        );
+    }
+
+}
+
+// ===== ОТКРЫТЬ МОДАЛКУ =====
+function openModal(entry, day) {
+    const month =
+        currentDate.getMonth();
+    const year =
+        currentDate.getFullYear();
+    modalDate.textContent = `
+${day} ${monthNames[month]} ${year}
+`;
+    modalMood.textContent =
+        moodEmoji[entry.mood];
+    modalNote.textContent =
+        entry.note;
+    dayModal.classList.add("active");
+
+}
+
+
+// ===== ЗАКРЫТЬ =====
+closeModalBtn.addEventListener(
+    "click",
+    () => {
+        dayModal.classList.remove(
+            "active"
+        );
+    }
+);
+
+
+// ===== ЗАКРЫТИЕ ПО ФОНУ =====
+dayModal.addEventListener(
+    "click",
+    (e) => {
+        if (e.target === dayModal) {
+            dayModal.classList.remove(
+                "active"
+            );
         }
 
-        // CLICK DAY
-        cell.addEventListener("click", () => {
-
-            document
-                .querySelectorAll(".day")
-                .forEach(el => el.classList.remove("selected"));
-
-            cell.classList.add("selected");
-
-            openModal(cellDate, log);
-        });
-
-        grid.appendChild(cell);
     }
-}
+);
 
-// =========================
-// OPEN MODAL
-// =========================
-function openModal(date, log) {
+// ===== ПРЕДЫДУЩИЙ МЕСЯЦ =====
+prevMonthBtn.addEventListener(
+    "click",
+    () => {
+        currentDate.setMonth(
+            currentDate.getMonth() - 1
+        );
+        renderCalendar();
 
-    modal.classList.remove("hidden");
-
-    if (log) {
-
-        const dt = new Date(log.timestamp);
-
-        const time =
-            `${dt.getHours()}:${dt.getMinutes()
-                .toString()
-                .padStart(2, "0")}`;
-
-        modalDate.innerHTML = `
-            <strong>${date.toLocaleDateString("ru-RU")}</strong>
-            <br><br>
-            ⭐ Оценка: ${log.score}/5
-            <br><br>
-            📝 ${log.note || "Заметка отсутствует"}
-            <br><br>
-            ⏰ ${time}
-        `;
-
-    } else {
-
-        modalDate.innerHTML = `
-            <strong>${date.toLocaleDateString("ru-RU")}</strong>
-            <br><br>
-            Записей нет
-        `;
     }
-}
+);
 
-// =========================
-// CLOSE MODAL
-// =========================
-function closeModal() {
-    modal.classList.add("hidden");
-}
+// ===== СЛЕДУЮЩИЙ МЕСЯЦ =====
+nextMonthBtn.addEventListener(
+    "click",
+    () => {
+        currentDate.setMonth(
+            currentDate.getMonth() + 1
+        );
+        renderCalendar();
 
-// CLOSE ON BACKGROUND
-modal.addEventListener("click", (e) => {
-
-    if (e.target === modal) {
-
-        closeModal();
     }
-});
+);
 
-// =========================
-// MONTH NAVIGATION
-// =========================
-prevBtn.addEventListener("click", () => {
-
-    currentMonth--;
-
-    if (currentMonth < 0) {
-
-        currentMonth = 11;
-        currentYear--;
-    }
-
-    renderCalendar();
-});
-
-nextBtn.addEventListener("click", () => {
-
-    currentMonth++;
-
-    if (currentMonth > 11) {
-
-        currentMonth = 0;
-        currentYear++;
-    }
-
-    renderCalendar();
-});
-
-// =========================
-// INIT
-// =========================
-fetchLogs();
+// ===== ПЕРВЫЙ РЕНДЕР =====
+renderCalendar();

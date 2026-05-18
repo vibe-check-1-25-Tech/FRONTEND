@@ -209,11 +209,11 @@ h1 {
   background: #e8e2f0;
 }
 
-.mood[data-mood="1"].active { background: #ff5252; color: white; border-color: #ff5252; }
-.mood[data-mood="2"].active { background: #ff9800; color: white; border-color: #ff9800; }
-.mood[data-mood="3"].active { background: #ffd54f; color: #3b1c5a; border-color: #ffd54f; }
-.mood[data-mood="4"].active { background: #4caf50; color: white; border-color: #4caf50; }
-.mood[data-mood="5"].active { background: #2e7d32; color: white; border-color: #2e7d32; }
+.mood-bad.active { background: #ff5252; color: white; border-color: #ff5252; }
+.mood-ok.active  { background: #ff9800; color: white; border-color: #ff9800; }
+.mood-normal.active{ background: #ffd54f; color: #3b1c5a; border-color: #ffd54f; }
+.mood-good.active { background: #4caf50; color: white; border-color: #4caf50; }
+.mood-excellent.active{ background: #2e7d32; color: white; border-color: #2e7d32; }
 
 /* =========================
    TAGS BAR
@@ -1318,28 +1318,24 @@ h1 {
 .legend-color.mood-5 { background: #2e7d32; }
 
 /* модальное окно для дня */
-.calendar-modal {
+.day-modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.5);
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
-  z-index: 2000;
-  opacity: 0;
-  visibility: hidden;
-  transition: 0.3s;
+  z-index: 9999;
 }
 
-.calendar-modal.show {
-  opacity: 1;
-  visibility: visible;
+.day-modal.active {
+  display: flex;
 }
 
-.calendar-modal-content {
+.day-modal-content {
   background: white;
   border-radius: 24px;
   padding: 28px;
@@ -1350,25 +1346,25 @@ h1 {
   box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 }
 
-.calendar-modal-content h3 {
+.day-modal-content h3 {
   font-size: 20px;
   font-weight: 700;
   color: #3b1c5a;
   margin-bottom: 16px;
 }
 
-.calendar-modal-content .mood-icon {
+.day-modal-content .mood-icon {
   font-size: 48px;
   margin: 16px 0;
 }
 
-.calendar-modal-content .note {
+.day-modal-content .note {
   color: #51445f;
   font-size: 14px;
   margin-bottom: 20px;
 }
 
-.calendar-modal-close {
+.day-modal-close {
   padding: 10px 24px;
   background: #3b1c5a;
   color: white;
