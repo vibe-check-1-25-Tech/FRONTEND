@@ -1126,11 +1126,11 @@ h1 {
     font-size: 11px;
   }
 }
-
 /* =========================
-   CALENDAR PAGE
+   CALENDAR PAGE - ФИКСИРОВАННЫЙ ДИЗАЙН
 ========================= */
 
+/* контейнер календаря */
 .calendar-page {
   flex: 1;
   width: 100%;
@@ -1151,12 +1151,12 @@ h1 {
 
 .calendar-subtitle {
   color: #8a8fa3;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
   font-size: 14px;
   text-align: center;
 }
 
-/* КАРТОЧКА КАЛЕНДАРЯ */
+/* карточка календаря */
 .calendar-card {
   background: white;
   border-radius: 24px;
@@ -1165,7 +1165,7 @@ h1 {
   border: 1px solid #ede7f5;
 }
 
-/* ЗАГОЛОВОК КАЛЕНДАРЯ */
+/* заголовок календаря */
 .calendar-header {
   display: flex;
   justify-content: space-between;
@@ -1182,7 +1182,6 @@ h1 {
   margin: 0;
 }
 
-/* КНОПКИ НАВИГАЦИИ */
 .calendar-nav-btn {
   border: none;
   padding: 8px 16px;
@@ -1199,7 +1198,7 @@ h1 {
   transform: scale(1.02);
 }
 
-/* ДНИ НЕДЕЛИ */
+/* дни недели */
 .calendar-weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -1214,14 +1213,14 @@ h1 {
   padding: 8px 0;
 }
 
-/* СЕТКА КАЛЕНДАРЯ */
+/* сетка календаря */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 8px;
 }
 
-/* ЯЧЕЙКИ */
+/* ячейка дня */
 .calendar-day {
   aspect-ratio: 1 / 1;
   display: flex;
@@ -1243,20 +1242,20 @@ h1 {
   border-color: #c6b7e2;
 }
 
-/* ПУСТЫЕ ЯЧЕЙКИ */
+/* пустая ячейка */
 .calendar-empty {
   aspect-ratio: 1 / 1;
   background: transparent;
 }
 
-/* СЕГОДНЯ */
+/* сегодняшний день */
 .calendar-today {
   border: 2px solid #e6b44c;
   font-weight: 700;
   background: #fff8e7;
 }
 
-/* ЦВЕТА НАСТРОЕНИЙ */
+/* цвета настроений для дней */
 .calendar-day.mood-1 {
   background: #ff5252;
   color: white;
@@ -1287,7 +1286,7 @@ h1 {
   border-color: #2e7d32;
 }
 
-/* ЛЕГЕНДА */
+/* легенда */
 .calendar-legend {
   display: flex;
   flex-wrap: wrap;
@@ -1318,8 +1317,8 @@ h1 {
 .legend-color.mood-4 { background: #4caf50; }
 .legend-color.mood-5 { background: #2e7d32; }
 
-/* МОДАЛЬНОЕ ОКНО */
-.day-modal {
+/* модальное окно для дня */
+.calendar-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -1327,20 +1326,20 @@ h1 {
   height: 100%;
   background: rgba(0,0,0,0.5);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   z-index: 2000;
   opacity: 0;
   visibility: hidden;
   transition: 0.3s;
 }
 
-.day-modal.show {
+.calendar-modal.show {
   opacity: 1;
   visibility: visible;
 }
 
-.day-modal-content {
+.calendar-modal-content {
   background: white;
   border-radius: 24px;
   padding: 28px;
@@ -1351,26 +1350,25 @@ h1 {
   box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 }
 
-.day-modal-content h3 {
+.calendar-modal-content h3 {
   font-size: 20px;
   font-weight: 700;
   color: #3b1c5a;
   margin-bottom: 16px;
 }
 
-.day-modal-content .mood-icon {
+.calendar-modal-content .mood-icon {
   font-size: 48px;
   margin: 16px 0;
 }
 
-.day-modal-content .note {
+.calendar-modal-content .note {
   color: #51445f;
   font-size: 14px;
-  line-height: 1.5;
   margin-bottom: 20px;
 }
 
-.day-modal-close {
+.calendar-modal-close {
   padding: 10px 24px;
   background: #3b1c5a;
   color: white;
@@ -1380,13 +1378,9 @@ h1 {
   font-weight: 600;
 }
 
-.day-modal-close:hover {
-  background: #4a2a73;
-}
-
 @keyframes modalPopup {
   from {
-    transform: scale(0.9);
+    transform: scale(0.95);
     opacity: 0;
   }
   to {
@@ -1395,8 +1389,8 @@ h1 {
   }
 }
 
-/* АДАПТИВ */
-@media (max-width: 768px) {
+/* адаптив */
+@media (max-width: 600px) {
   .calendar-page {
     padding: 70px 16px 30px;
   }
@@ -1420,27 +1414,10 @@ h1 {
   .weekday {
     font-size: 11px;
   }
-}
-
-@media (max-width: 480px) {
-  .calendar-page {
-    padding: 60px 12px 20px;
-  }
   
-  .calendar-page h1 {
-    font-size: 22px;
-  }
-  
-  .calendar-card {
-    padding: 14px;
-  }
-  
-  .calendar-grid {
-    gap: 4px;
-  }
-  
-  .calendar-day {
-    font-size: 11px;
+  .calendar-nav-btn {
+    padding: 6px 12px;
+    font-size: 12px;
   }
 }
 /* =========================
@@ -1974,6 +1951,1418 @@ h1 {
     font-size: 12px;
   }
 }
+
+/* =========================
+   TEAM PAGE
+========================= */
+
+/* глобальные стили */
+.team-page {
+  flex: 1;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 80px 20px 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.team-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.team-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #3b1c5a;
+  margin-bottom: 6px;
+}
+
+.team-subtitle {
+  color: #8a8fa3;
+  font-size: 14px;
+}
+
+/* поиск */
+.team-search {
+  margin-bottom: 20px;
+}
+
+.team-search input {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 40px;
+  border: 1px solid #e4ddf0;
+  background: white;
+  font-size: 14px;
+  outline: none;
+}
+
+.team-search input:focus {
+  border-color: #c6b7e2;
+  box-shadow: 0 0 0 3px rgba(198,183,226,0.2);
+}
+
+/* карточка команды */
+.team-card {
+  background: white;
+  border-radius: 20px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s;
+  border: 1px solid #ede7f5;
+}
+
+.team-card:hover {
+  transform: translateY(-2px);
+  border-color: #c6b7e2;
+  box-shadow: 0 8px 24px rgba(59,28,90,0.08);
+}
+
+.team-info h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #3b1c5a;
+  margin-bottom: 4px;
+}
+
+.team-stats {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: #8e84a3;
+}
+
+.team-rating {
+  background: #efe8f7;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-weight: 600;
+  color: #3b1c5a;
+  font-size: 14px;
+}
+
+/* кнопка добавления */
+.add-team-btn {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  background: #3b1c5a;
+  color: white;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(59,28,90,0.3);
+  transition: 0.2s;
+  z-index: 90;
+}
+
+.add-team-btn:hover {
+  transform: scale(1.05);
+  background: #4a2a73;
+}
+
+/* страница деталей команды */
+.team-detail-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 80px 20px 40px;
+}
+
+.back-btn {
+  background: #efe8f7;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #3b1c5a;
+  margin-bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.2s;
+}
+
+.back-btn:hover {
+  background: #c6b7e2;
+  transform: translateX(-3px);
+}
+
+.team-detail-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.team-detail-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #3b1c5a;
+}
+
+.team-detail-stats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.team-detail-stats span {
+  background: #efe8f7;
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 13px;
+  color: #3b1c5a;
+}
+
+/* вкладки */
+.team-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #ede7f5;
+  padding-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.team-tab {
+  flex: 1;
+  padding: 10px;
+  background: none;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  color: #8e84a3;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.team-tab.active {
+  background: #efe8f7;
+  color: #3b1c5a;
+}
+
+/* контент вкладок */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* список участников */
+.members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.member-item {
+  background: white;
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid #ede7f5;
+  transition: 0.2s;
+}
+
+.member-item:hover {
+  border-color: #c6b7e2;
+}
+
+.member-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #efe8f7, #e0d4f0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: #3b1c5a;
+  position: relative;
+}
+
+.online-status {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.online-status.online { background: #4caf50; }
+.online-status.offline { background: #c6b7e2; }
+
+.member-info {
+  flex: 1;
+}
+
+.member-name {
+  font-weight: 600;
+  color: #3b1c5a;
+  margin-bottom: 4px;
+}
+
+.member-role {
+  font-size: 12px;
+  color: #8e84a3;
+}
+
+.member-chat-btn {
+  background: #efe8f7;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.member-chat-btn:hover {
+  background: #c6b7e2;
+}
+
+/* выбор настроения */
+.mood-section {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid #ede7f5;
+}
+
+.mood-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #3b1c5a;
+  margin-bottom: 16px;
+}
+
+.mood-grid {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.mood-option {
+  flex: 1;
+  min-width: 55px;
+  padding: 12px 8px;
+  border-radius: 16px;
+  text-align: center;
+  background: #f8f6fc;
+  cursor: pointer;
+  transition: 0.2s;
+  border: 1px solid #e4ddf0;
+}
+
+.mood-option span {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.mood-option:hover {
+  transform: translateY(-3px);
+  background: #e8e2f0;
+}
+
+.mood-option.active {
+  background: #3b1c5a;
+  color: white;
+  border-color: #3b1c5a;
+}
+
+.mood-option[data-mood="1"].active { background: #ff5252; border-color: #ff5252; }
+.mood-option[data-mood="2"].active { background: #ff9800; border-color: #ff9800; }
+.mood-option[data-mood="3"].active { background: #ffd54f; color: #3b1c5a; border-color: #ffd54f; }
+.mood-option[data-mood="4"].active { background: #4caf50; border-color: #4caf50; }
+.mood-option[data-mood="5"].active { background: #2e7d32; border-color: #2e7d32; }
+
+.mood-note {
+  width: 100%;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid #e4ddf0;
+  resize: vertical;
+  font-size: 14px;
+  margin-bottom: 12px;
+  font-family: inherit;
+}
+
+.save-mood-btn {
+  width: 100%;
+  padding: 12px;
+  background: #3b1c5a;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.save-mood-btn:hover {
+  background: #4a2a73;
+  transform: translateY(-2px);
+}
+
+/* чат */
+.team-chat-box {
+  background: white;
+  border-radius: 20px;
+  border: 1px solid #ede7f5;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chat-messages-area {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f8f6fc;
+}
+
+.chat-message {
+  max-width: 75%;
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-size: 13px;
+}
+
+.chat-message.received {
+  background: white;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.chat-message.sent {
+  background: #3b1c5a;
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.chat-input-area {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  border-top: 1px solid #ede7f5;
+  background: white;
+}
+
+.chat-input-area input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 30px;
+  border: 1px solid #e4ddf0;
+  outline: none;
+  font-size: 13px;
+}
+
+.chat-input-area button {
+  background: #3b1c5a;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+/* аналитика */
+.team-chart {
+  background: white;
+  border-radius: 20px;
+  padding: 16px;
+  border: 1px solid #ede7f5;
+  height: 280px;
+}
+
+/* модальное окно */
+.team-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+}
+
+.team-modal-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.team-modal-content {
+  background: white;
+  border-radius: 24px;
+  padding: 28px;
+  width: 90%;
+  max-width: 380px;
+}
+
+.team-modal-content h3 {
+  font-size: 20px;
+  color: #3b1c5a;
+  margin-bottom: 16px;
+}
+
+.team-modal-content input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #e4ddf0;
+  margin-bottom: 20px;
+}
+
+.team-modal-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.team-modal-buttons button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modal-save {
+  background: #3b1c5a;
+  color: white;
+  border: none;
+}
+
+.modal-cancel {
+  background: #ece7f5;
+  color: #3b1c5a;
+  border: none;
+}
+
+/* тост */
+.toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #3b1c5a;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 13px;
+  z-index: 2100;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* адаптив */
+@media (max-width: 600px) {
+  .team-page, .team-detail-page {
+    padding: 70px 16px 30px;
+  }
+  
+  .team-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+  
+  .team-stats {
+    justify-content: center;
+  }
+  
+  .team-detail-stats {
+    flex-wrap: wrap;
+  }
+  
+  .member-item {
+    flex-wrap: wrap;
+  }
+  
+  .member-chat-btn {
+    width: 100%;
+    text-align: center;
+    margin-top: 8px;
+  }
+  
+  .mood-grid {
+    gap: 6px;
+  }
+  
+  .mood-option {
+    min-width: 48px;
+    padding: 8px 4px;
+  }
+  
+  .mood-option span {
+    font-size: 9px;
+  }
+  
+  .team-tabs {
+    gap: 4px;
+  }
+  
+  .team-tab {
+    font-size: 12px;
+    padding: 8px 4px;
+  }
+}
+/* =========================
+   TEAM PAGE - ФИНАЛЬНАЯ ВЕРСИЯ
+========================= */
+
+/* глобальные стили */
+.team-page {
+  flex: 1;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 80px 20px 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.team-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.team-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #3b1c5a;
+  margin-bottom: 6px;
+}
+
+.team-subtitle {
+  color: #8a8fa3;
+  font-size: 14px;
+}
+
+/* поиск */
+.team-search {
+  margin-bottom: 20px;
+}
+
+.team-search input {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 40px;
+  border: 1px solid #e4ddf0;
+  background: white;
+  font-size: 14px;
+  outline: none;
+}
+
+.team-search input:focus {
+  border-color: #c6b7e2;
+  box-shadow: 0 0 0 3px rgba(198,183,226,0.2);
+}
+
+/* карточка команды */
+.team-card {
+  background: white;
+  border-radius: 20px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.2s;
+  border: 1px solid #ede7f5;
+}
+
+.team-card:hover {
+  transform: translateY(-2px);
+  border-color: #c6b7e2;
+  box-shadow: 0 8px 24px rgba(59,28,90,0.08);
+}
+
+.team-info {
+  flex: 1;
+  cursor: pointer;
+}
+
+.team-info h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #3b1c5a;
+  margin-bottom: 4px;
+}
+
+.team-stats {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: #8e84a3;
+}
+
+.team-rating {
+  background: #efe8f7;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-weight: 600;
+  color: #3b1c5a;
+  font-size: 14px;
+}
+
+/* кнопка добавления участника на главной */
+.team-add-member-btn {
+  background: none;
+  border: none;
+  color: #3b1c5a;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 8px;
+  border-radius: 50%;
+  transition: 0.2s;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-add-member-btn:hover {
+  background: #efe8f7;
+  color: #4a2a73;
+}
+
+/* кнопка удаления команды */
+.team-delete-btn {
+  background: none;
+  border: none;
+  color: #dc2626;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 8px;
+  border-radius: 50%;
+  transition: 0.2s;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-delete-btn:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* кнопка добавления команды */
+.add-team-btn {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  background: #3b1c5a;
+  color: white;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(59,28,90,0.3);
+  transition: 0.2s;
+  z-index: 90;
+}
+
+.add-team-btn:hover {
+  transform: scale(1.05);
+  background: #4a2a73;
+}
+
+/* страница деталей команды */
+.team-detail-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 80px 20px 40px;
+}
+
+.back-btn {
+  background: #efe8f7;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #3b1c5a;
+  margin-bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.2s;
+}
+
+.back-btn:hover {
+  background: #c6b7e2;
+  transform: translateX(-3px);
+}
+
+.team-detail-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.team-detail-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #3b1c5a;
+}
+
+.team-detail-stats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.team-detail-stats span {
+  background: #efe8f7;
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 13px;
+  color: #3b1c5a;
+}
+
+/* вкладки */
+.team-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #ede7f5;
+  padding-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.team-tab {
+  flex: 1;
+  padding: 10px;
+  background: none;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  color: #8e84a3;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.team-tab.active {
+  background: #efe8f7;
+  color: #3b1c5a;
+}
+
+/* контент вкладок */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* секция добавления участника в деталях команды */
+.add-member-section {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #f8f6fc;
+  border-radius: 16px;
+}
+
+.add-member-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.add-member-form input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid #e4ddf0;
+  font-size: 14px;
+}
+
+.add-member-form button {
+  padding: 10px 20px;
+  background: #3b1c5a;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+/* список участников */
+.members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.member-item {
+  background: white;
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid #ede7f5;
+  transition: 0.2s;
+}
+
+.member-item:hover {
+  border-color: #c6b7e2;
+}
+
+.member-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #efe8f7, #e0d4f0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: #3b1c5a;
+  position: relative;
+}
+
+.online-status {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.online-status.online { background: #4caf50; }
+.online-status.offline { background: #c6b7e2; }
+
+.member-info {
+  flex: 1;
+}
+
+.member-name {
+  font-weight: 600;
+  color: #3b1c5a;
+  margin-bottom: 4px;
+}
+
+.member-role {
+  font-size: 12px;
+  color: #8e84a3;
+}
+
+.member-chat-btn {
+  background: #efe8f7;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.member-chat-btn:hover {
+  background: #c6b7e2;
+}
+
+/* выбор настроения */
+.mood-section {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid #ede7f5;
+}
+
+.mood-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #3b1c5a;
+  margin-bottom: 16px;
+}
+
+.mood-grid {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.mood-option {
+  flex: 1;
+  min-width: 55px;
+  padding: 12px 8px;
+  border-radius: 16px;
+  text-align: center;
+  background: #f8f6fc;
+  cursor: pointer;
+  transition: 0.2s;
+  border: 1px solid #e4ddf0;
+}
+
+.mood-option span {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.mood-option:hover {
+  transform: translateY(-3px);
+  background: #e8e2f0;
+}
+
+.mood-option.active {
+  background: #3b1c5a;
+  color: white;
+  border-color: #3b1c5a;
+}
+
+.mood-option[data-mood="1"].active { background: #ff5252; border-color: #ff5252; }
+.mood-option[data-mood="2"].active { background: #ff9800; border-color: #ff9800; }
+.mood-option[data-mood="3"].active { background: #ffd54f; color: #3b1c5a; border-color: #ffd54f; }
+.mood-option[data-mood="4"].active { background: #4caf50; border-color: #4caf50; }
+.mood-option[data-mood="5"].active { background: #2e7d32; border-color: #2e7d32; }
+
+.mood-note {
+  width: 100%;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid #e4ddf0;
+  resize: vertical;
+  font-size: 14px;
+  margin-bottom: 12px;
+  font-family: inherit;
+}
+
+.save-mood-btn {
+  width: 100%;
+  padding: 12px;
+  background: #3b1c5a;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.save-mood-btn:hover {
+  background: #4a2a73;
+  transform: translateY(-2px);
+}
+
+/* чат */
+.team-chat-box {
+  background: white;
+  border-radius: 20px;
+  border: 1px solid #ede7f5;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chat-messages-area {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f8f6fc;
+}
+
+.chat-message {
+  max-width: 75%;
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-size: 13px;
+}
+
+.chat-message.received {
+  background: white;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.chat-message.sent {
+  background: #3b1c5a;
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.chat-input-area {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  border-top: 1px solid #ede7f5;
+  background: white;
+}
+
+.chat-input-area input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 30px;
+  border: 1px solid #e4ddf0;
+  outline: none;
+  font-size: 13px;
+}
+
+.chat-input-area button {
+  background: #3b1c5a;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+/* аналитика */
+.team-chart {
+  background: white;
+  border-radius: 20px;
+  padding: 16px;
+  border: 1px solid #ede7f5;
+  height: 280px;
+}
+
+/* модальные окна */
+.team-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+}
+
+.team-modal-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.team-modal-content {
+  background: white;
+  border-radius: 24px;
+  padding: 28px;
+  width: 90%;
+  max-width: 380px;
+}
+
+.team-modal-content h3 {
+  font-size: 20px;
+  color: #3b1c5a;
+  margin-bottom: 16px;
+}
+
+.team-modal-content input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #e4ddf0;
+  margin-bottom: 20px;
+}
+
+.team-modal-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.team-modal-buttons button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modal-save {
+  background: #3b1c5a;
+  color: white;
+  border: none;
+}
+
+.modal-cancel {
+  background: #ece7f5;
+  color: #3b1c5a;
+  border: none;
+}
+
+/* секция добавления участников при создании */
+.add-members-section {
+  margin-top: 16px;
+  margin-bottom: 20px;
+  border-top: 1px solid #ede7f5;
+  padding-top: 16px;
+}
+
+.add-members-section h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #3b1c5a;
+  margin-bottom: 12px;
+}
+
+.members-input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.members-input-group input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid #e4ddf0;
+  font-size: 13px;
+}
+
+.members-input-group button {
+  padding: 10px 16px;
+  background: #efe8f7;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #3b1c5a;
+}
+
+.members-list-preview {
+  max-height: 150px;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+
+.member-preview-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #f8f6fc;
+  border-radius: 10px;
+  margin-bottom: 6px;
+}
+
+.member-preview-item span {
+  font-size: 13px;
+  color: #3b1c5a;
+}
+
+.remove-member-btn {
+  background: none;
+  border: none;
+  color: #dc2626;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0 4px;
+}
+
+/* модальное окно подтверждения удаления команды */
+.confirm-delete-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+}
+
+.confirm-delete-modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.confirm-delete-content {
+  background: white;
+  border-radius: 24px;
+  padding: 28px;
+  width: 90%;
+  max-width: 360px;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.confirm-delete-content h3 {
+  font-size: 20px;
+  color: #dc2626;
+  margin-bottom: 12px;
+}
+
+.confirm-delete-content p {
+  color: #8e84a3;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.confirm-delete-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.confirm-delete-buttons button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.confirm-delete-yes {
+  background: #dc2626;
+  color: white;
+}
+
+.confirm-delete-yes:hover {
+  background: #b91c1c;
+}
+
+.confirm-delete-no {
+  background: #ece7f5;
+  color: #3b1c5a;
+}
+
+.confirm-delete-no:hover {
+  background: #e0d4f0;
+}
+
+/* тост уведомления */
+.toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #3b1c5a;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 13px;
+  z-index: 2100;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* адаптив */
+@media (max-width: 600px) {
+  .team-page, .team-detail-page {
+    padding: 70px 16px 30px;
+  }
+  
+  .team-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+  
+  .team-stats {
+    justify-content: center;
+  }
+  
+  .team-detail-stats {
+    flex-wrap: wrap;
+  }
+  
+  .member-item {
+    flex-wrap: wrap;
+  }
+  
+  .member-chat-btn {
+    width: 100%;
+    text-align: center;
+    margin-top: 8px;
+  }
+  
+  .mood-grid {
+    gap: 6px;
+  }
+  
+  .mood-option {
+    min-width: 48px;
+    padding: 8px 4px;
+  }
+  
+  .mood-option span {
+    font-size: 9px;
+  }
+  
+  .team-tabs {
+    gap: 4px;
+  }
+  
+  .team-tab {
+    font-size: 12px;
+    padding: 8px 4px;
+  }
+  
+  .add-member-form {
+    flex-direction: column;
+  }
+}
+
 /* =========================
    SUPPORT PAGE
 ========================= */
