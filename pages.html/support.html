@@ -2,106 +2,117 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Support</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="stylesheet" href="../css/styles.css">
+  <title>Поддержка | Ресурсы помощи</title>
+ <link rel="stylesheet" href="..//FRONTEND/css/styles.css">>
 </head>
-
 <body>
-<!-- 🔥 кнопка -->
-<button class="menu-btn" id="menuBtn">☰</button>
 
-<!-- 🔥 затемнение -->
+<!-- кнопка меню -->
+<button class="menu-btn" id="menuBtn">☰</button>
 <div class="overlay" id="overlay"></div>
 
-<!-- 🔥 sidebar -->
+<!-- sidebar -->
 <nav class="sidebar" id="sidebar">
-
   <div class="sidebar-header">
     <h3>Vibe Check</h3>
     <button id="closeBtn">✕</button>
   </div>
-
   <a href="checkin.html">Главная</a>
-  <a href="journal.html"> Дневник</a>
-  <a href="insights.html"> Аналитика</a>
-  <a href="calendar.html"> Календарь</a>
+  <a href="journal.html">Дневник</a>
+  <a href="insights.html">Аналитика</a>
+  <a href="calendar.html">Календарь</a>
   <a href="tags.html">Теги</a>
-  <a href="team.html"> Команда</a>
-  <a href="support.html"> Поддержка</a>
-  <a href="profile.html"> Профиль</a>
-  <a href="export.html"> Экспорт</a>
-  <a href="metod.html">   О методологии</a>
+  <a href="team.html">Команда</a>
+  <a href="support.html">Поддержка</a>
+  <a href="profile.html">Профиль</a>
+  <a href="export.html">Экспорт</a>
+  <a href="metod.html">О методологии</a>
   <a href="npumin.html">Напоминания</a>
-
-
 </nav>
 
-
-
-
-<div class="container">
-
-  <h1>Ресурсы поддержки</h1>
-  <p class="subtitle">Проверенные источники помощи</p>
-
-  <div class="support-grid">
-
-    <!-- 1 -->
-    <div class="support-card red">
-      <div class="icon">📞</div>
-      <div class="info">
-        <h3>Телефон доверия</h3>
-        <p>Круглосуточная помощь</p>
-        <a href="tel:88002000122">8-800-2000-122</a>
-      </div>
-    </div>
-
-    <!-- 2 -->
-    <div class="support-card blue">
-      <div class="icon">💬</div>
-      <div class="info">
-        <h3>Онлайн помощь</h3>
-        <p>Чат с психологом</p>
-        <a href="https://psyhelp.ru" target="_blank">Открыть сайт</a>
-      </div>
-    </div>
-
-    <!-- 3 -->
-    <div class="support-card red">
-      <div class="icon">❤️</div>
-      <div class="info">
-        <h3>Кризисный центр</h3>
-        <p>Поддержка в трудных ситуациях</p>
-        <a href="tel:84950513151">8-495-051-31-51</a>
-      </div>
-    </div>
-
-    <!-- 4 -->
-    <div class="support-card green">
-      <div class="icon">🌿</div>
-      <div class="info">
-        <h3>Медитация</h3>
-        <p>Релаксация и практики</p>
-        <a href="https://meditation.ru" target="_blank">Перейти</a>
-      </div>
-    </div>
-    <div class="important-card">
-  <div class="important-icon">⚠️</div>
-  <div class="important-text">
-    <strong>Важно:</strong><br>
-    Если вы испытываете затяжное плохое настроение,
-    мысли о самоповреждении или другие серьезные симптомы,
-    пожалуйста, обратитесь к профессиональному психологу или психотерапевту.
-    Приложение предназначено для самонаблюдения,
-    но не заменяет профессиональную помощь.
+<!-- основной контент -->
+<div class="support-page">
+  <div class="support-header">
+    <h1>🫂 Ресурсы поддержки</h1>
+    <p class="support-subtitle">Проверенные материалы и специалисты для заботы о вашем эмоциональном состоянии</p>
   </div>
 
+  <!-- ЭКСТРЕННАЯ ПОМОЩЬ -->
+  <div class="emergency-card">
+    <h2>🆘 Экстренная психологическая помощь</h2>
+    <div class="emergency-phone">5200</div>
+    <p>Круглосуточно, анонимно, бесплатно</p>
+  </div>
+
+  <!-- ========== РЕСУРСЫ ИЗ БАЗЫ ДАННЫХ ========== -->
+
+  <!-- Самопомощь -->
+  <div class="category-section">
+    <h2 class="category-title">📚 Техники самопомощи</h2>
+    <div class="resources-grid">
+      <!-- Техники самопомощи 1 -->
+      <div class="resource-card">
+        <div class="resource-icon selfhelp">🌿</div>
+        <h3>Техники самопомощи</h3>
+        <p class="resource-description">Методы самопомощи при стрессе. Практические упражнения для снижения тревожности и восстановления эмоционального равновесия.</p>
+        <a href="https://www.b17.ru/blog/461922/" class="resource-link" target="_blank">Читать статью →</a>
+      </div>
+      <!-- Техники самопомощи 2 -->
+      <div class="resource-card">
+        <div class="resource-icon selfhelp">🧘</div>
+        <h3>Практики для улучшения состояния</h3>
+        <p class="resource-description">Простые и эффективные техники самопомощи для повседневной жизни. Быстрые способы справиться со стрессом.</p>
+        <a href="https://psyprosvet.ru/life/tehniki-samopomoshhi/" class="resource-link" target="_blank">Читать статью →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Медитация -->
+  <div class="category-section">
+    <h2 class="category-title">🧘 Медитация и осознанность</h2>
+    <div class="resources-grid">
+      <div class="resource-card">
+        <div class="resource-icon meditation">🎧</div>
+        <h3>Как правильно медитировать</h3>
+        <p class="resource-description">Руководство по медитации для начинающих. Техники осознанности, которые помогут успокоить ум и снизить уровень тревоги.</p>
+        <a href="https://skillbox.ru/media/health/meditation-technique/" class="resource-link" target="_blank">Читать руководство →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Психологи -->
+  <div class="category-section">
+    <h2 class="category-title">👤 Психологическая помощь</h2>
+    <div class="resources-grid">
+      <!-- Консультация психолога оффлайн -->
+      <div class="resource-card">
+        <div class="resource-icon psychologist">🏢</div>
+        <h3>Консультация психолога</h3>
+        <p class="resource-description">Оффлайн помощь специалиста в Кыргызстане. Личный приём, конфиденциально, профессиональная поддержка.</p>
+        <a href="https://psy-health.kg/index.php?option=com_content&view=article&id=131:konsultatsiya-psikhologa&catid=2:uncategorised" class="resource-link" target="_blank">Записаться →</a>
+      </div>
+      <!-- Консультация психолога онлайн -->
+      <div class="resource-card">
+        <div class="resource-icon psychologist">💻</div>
+        <h3>Консультация психолога онлайн</h3>
+        <p class="resource-description">Онлайн консультации с психологом. Удобно, анонимно, из любой точки мира. Квалифицированные специалисты.</p>
+        <a href="https://alter.ru/" class="resource-link" target="_blank">Записаться →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Важная информация -->
+  <div class="important-card">
+    <div class="important-icon">💙</div>
+    <div class="important-content">
+      <h4>Вы не одни</h4>
+      <p>Если вам нужна помощь, не стесняйтесь обращаться. Забота о психическом здоровье так же важна, как и о физическом. Все представленные ресурсы проверены и безопасны. Помните — просить о помощи — это признак силы, а не слабости.</p>
+    </div>
+  </div>
 </div>
 
-
-    <script src="../js/app.js"></script>
+<script src="../js/app.js"></script>
 
 </body>
 </html>
