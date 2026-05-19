@@ -1,132 +1,147 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-   <link rel="stylesheet" href="../css/styles.css">
-  <title>О методологии</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>О методологии | Vibe Check</title>
+  <link rel="stylesheet" href="..//FRONTEND/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
 </head>
-
 <body>
-    <!-- 🔥 кнопка -->
-<button class="menu-btn" id="menuBtn">☰</button>
 
-<!-- 🔥 затемнение -->
+<!-- КНОПКА МЕНЮ -->
+<button class="menu-btn" id="menuBtn">☰</button>
 <div class="overlay" id="overlay"></div>
 
-<!-- 🔥 sidebar -->
 <nav class="sidebar" id="sidebar">
-
   <div class="sidebar-header">
     <h3>Vibe Check</h3>
     <button id="closeBtn">✕</button>
-  </div>
-
+</div>
   <a href="checkin.html">Главная</a>
   <a href="journal.html">Дневник</a>
   <a href="insights.html">Аналитика</a>
   <a href="calendar.html">Календарь</a>
   <a href="tags.html">Теги</a>
   <a href="team.html">Команда</a>
-  <a href="support.html"> Поддержка</a>
+  <a href="support.html">Поддержка</a>
   <a href="profile.html">Профиль</a>
-  <a href="metod.html">  О методологии</a>
+  <a href="export.html">Экспорт</a>
+  <a href="metod.html">О методологии</a>
   <a href="npumin.html">Напоминания</a>
-
 </nav>
 
-<div class="container">
-
-  <div class="header">
-    <h1>О методологии</h1>
-    <p class="subtitle">
-      Как работают шкалы настроения и почему важно вести дневник
-    </p>
+<div class="methodology-container">
+  
+  <!-- ЗАГОЛОВОК -->
+  <div class="methodology-header">
+    <h1>📖 О методологии</h1>
+    <p class="subtitle">Как работает Vibe Check и почему вы можете нам доверять</p>
   </div>
 
-  <div class="space-y">
-
-    <div class="card">
-      <div class="icon">🧠</div>
-      <div>
-        <h2>Как работает шкала настроения</h2>
-        <p class="text">
-          Мы используем простую 5-балльную шкалу: от 1 (очень плохо) до 5 (отлично).
-          Эта методика основана на исследованиях в области позитивной психологии и
-          доказала свою эффективность для быстрой самооценки.
-        </p>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="icon">📈</div>
-      <div>
-        <h2>Анализ трендов</h2>
-        <p class="text">
-          Графики и статистика позволяют увидеть динамику настроения во времени.
-          Обращайте внимание на повторяющиеся спады — это может быть сигналом
-          для обращения к специалисту.
-        </p>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="icon">👥</div>
-      <div>
-        <h2>Командный режим</h2>
-        <p class="text">
-          Агрегированные данные помогают лидерам команд отслеживать общее
-          эмоциональное состояние коллектива без нарушения приватности.
-          Все личные записи остаются анонимными.
-        </p>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="icon">🛡️</div>
-      <div>
-        <h2>Конфиденциальность</h2>
-        <p class="text">
-          Приложение не заменяет профессиональную психологическую помощь.
-          Данные хранятся локально, мы не собираем и не передаем личную
-          информацию третьим лицам.
-        </p>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="icon">📖</div>
-      <div>
-        <h2>Почему важно вести дневник</h2>
-        <p class="text">
-          Письменная рефлексия помогает структурировать мысли, выявить триггеры
-          стресса и отмечать позитивные моменты. Исследования показывают,
-          что регулярное ведение дневника снижает уровень тревожности.
-        </p>
-      </div>
-    </div>
-
+  <!-- О ПРОЕКТЕ -->
+  <div class="section">
+    <h2><i class="fas fa-heart"></i> О проекте Vibe Check</h2>
+    <p><strong>Vibe Check</strong> — это современное веб-приложение для отслеживания эмоционального состояния и ведения дневника настроения. Приложение помогает пользователям лучше понимать свои эмоции, замечать закономерности и своевременно реагировать на изменения настроения.</p>
+    <p>Мы создали Vibe Check, потому что верим: регулярное наблюдение за своим эмоциональным состоянием — это первый шаг к лучшему пониманию себя и улучшению качества жизни.</p>
   </div>
 
-  <div class="recommend">
-    <h3>Рекомендации по использованию</h3>
-    <ul>
-      <li>✓ Делайте записи в одно и то же время каждый день</li>
-      <li>✓ Будьте честны с собой — никто не увидит ваши заметки</li>
-      <li>✓ Отмечайте не только плохое, но и хорошее</li>
-      <li>✓ Используйте теги для выявления паттернов</li>
-      <li>✓ Регулярно просматривайте графики для анализа</li>
-      <li>✓ Если заметили длительный спад настроения — обратитесь к специалисту</li>
+  <!-- ОСНОВНЫЕ ФУНКЦИИ -->
+  <div class="section">
+    <h2><i class="fas fa-star"></i> Основные функции</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">😊</div>
+        <h3>Ежедневный check-in</h3>
+        <p>Выбор настроения из 5 уровней с визуальной цветовой индикацией</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏷️</div>
+        <h3>Теги</h3>
+        <p>Добавление тегов к записям для анализа влияния различных факторов</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📔</div>
+        <h3>Дневник</h3>
+        <p>Все записи сохраняются в хронологическом порядке с возможностью редактирования</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Аналитика</h3>
+        <p>Графики динамики настроения, статистика и средние показатели</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h3>Календарь</h3>
+        <p>Визуальное отображение настроения по дням с цветовой индикацией</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <h3>Команды</h3>
+        <p>Создание команд, общение в чатах, анонимная статистика настроения</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- НАУЧНАЯ БАЗА -->
+  <div class="section">
+   
+    
+    <h2>📊 Шкала настроения (1-5)</h2>
+    <p>Используется 5-балльная шкала оценки настроения, которая позволяет точно и быстро зафиксировать эмоциональное состояние.</p>
+    
+    <div class="mood-scale">
+      <div class="mood-item"><span class="mood-color" style="background:#ff5252;"></span> 1 — Плохо</div>
+      <div class="mood-item"><span class="mood-color" style="background:#ff9800;"></span> 2 — Не очень</div>
+      <div class="mood-item"><span class="mood-color" style="background:#ffd54f;"></span> 3 — Нормально</div>
+      <div class="mood-item"><span class="mood-color" style="background:#4caf50;"></span> 4 — Хорошо</div>
+      <div class="mood-item"><span class="mood-color" style="background:#2e7d32;"></span> 5 — Отлично</div>
+    </div>
+  </div>
+
+  <!-- КОНФИДЕНЦИАЛЬНОСТЬ -->
+  <div class="section">
+    <h2><i class="fas fa-shield-alt"></i> Конфиденциальность и безопасность</h2>
+    <p>Мы серьезно относимся к защите ваших данных:</p>
+    <ul class="privacy-list">
+      <li><i class="fas fa-check-circle"></i> Все данные хранятся локально на вашем устройстве</li>
+      <li><i class="fas fa-check-circle"></i> Никакие данные не передаются на сервер</li>
+      <li><i class="fas fa-check-circle"></i> Полная анонимность — никакой регистрации</li>
+      <li><i class="fas fa-check-circle"></i> PIN-код для дополнительной защиты</li>
+      <li><i class="fas fa-check-circle"></i> Вы можете экспортировать и удалить свои данные в любой момент</li>
     </ul>
   </div>
 
-  <div class="footer">
-    <p>Vibe Check v1.0 • 2026</p>
-    <p>Создано с заботой о вашем ментальном здоровье</p>
+  <!-- ТЕХНОЛОГИИ -->
+  <div class="section">
+    <h2><i class="fas fa-code"></i> Технологии</h2>
+    <div class="tech-badges">
+      <span class="tech-badge">HTML5</span>
+      <span class="tech-badge">CSS3</span>
+      <span class="tech-badge">JavaScript</span>
+      <span class="tech-badge">Chart.js</span>
+      <span class="tech-badge">LocalStorage</span>
+      <span class="tech-badge">Font Awesome</span>
+    </div>
+    <p style="margin-top: 20px;">Все данные сохраняются в вашем браузере с использованием технологии LocalStorage. Вы можете экспортировать свои записи в PDF, CSV, JSON и TXT форматах.</p>
+  </div>
+
+  <!-- КОМАНДА -->
+  <div class="section">
+    <h2><i class="fas fa-users"></i> Команда</h2>
+    <p>Vibe Check создан командой энтузиастов, объединенных общей целью — сделать инструмент для заботы о ментальном здоровье доступным каждому.</p>
+    <p>Мы постоянно развиваем приложение и добавляем новые функции. Если у вас есть предложения или вопросы, свяжитесь с нами через раздел "Поддержка".</p>
+  </div>
+
+  <!-- ВЕРСИЯ -->
+  <div class="version-info">
+    <p><i class="fas fa-code-branch"></i> Версия 1.0.0 | © 2026 Vibe Check</p>
   </div>
 
 </div>
-    <script src="../js/app.js"></script>
+
+<script src="../js/app.js"></script>
+<script src="../js/metod.js"></script>
 </body>
 </html>

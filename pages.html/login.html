@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход в Vibe Check</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="..//FRONTEND/css/styles.css">
+</head>
+<body>
+<div class="login-container">
+  <div class="login-card">
+    <div class="logo">💜</div>
+    <h1>Vibe Check</h1>
+    <p class="subtitle">Введите PIN-код для входа</p>
+
+    <div class="pin-input">
+      <input type="password" class="pin-digit" id="digit1" maxlength="1" inputmode="numeric" pattern="[0-9]">
+      <input type="password" class="pin-digit" id="digit2" maxlength="1" inputmode="numeric" pattern="[0-9]">
+      <input type="password" class="pin-digit" id="digit3" maxlength="1" inputmode="numeric" pattern="[0-9]">
+      <input type="password" class="pin-digit" id="digit4" maxlength="1" inputmode="numeric" pattern="[0-9]">
+    </div>
+    <div class="error-message" id="errorMessage"></div>
+    <button class="login-btn" id="loginBtn">Войти</button>
+
+    <div class="skip-link">
+      <a href="#" id="skipPinLink">Пропустить (без PIN)</a>
+    </div>
+  </div>
+</div>
+
+<script src="../js/login.js"></script>
+</body>
+</html>
