@@ -5,26 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Вход в Vibe Check</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="..//FRONTEND/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+ <link rel="stylesheet" href="../FRONTEND/css/styles.css">
 </head>
 <body>
-<div class="login-container">
-  <div class="login-card">
-    <div class="logo">💜</div>
-    <h1>Vibe Check</h1>
-    <p class="subtitle">Введите PIN-код для входа</p>
+<div class="login-page">
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-logo">💜</div>
+      <h1>Vibe Check</h1>
+      <p class="login-subtitle">Введите PIN-код для входа</p>
 
-    <div class="pin-input">
-      <input type="password" class="pin-digit" id="digit1" maxlength="1" inputmode="numeric" pattern="[0-9]">
-      <input type="password" class="pin-digit" id="digit2" maxlength="1" inputmode="numeric" pattern="[0-9]">
-      <input type="password" class="pin-digit" id="digit3" maxlength="1" inputmode="numeric" pattern="[0-9]">
-      <input type="password" class="pin-digit" id="digit4" maxlength="1" inputmode="numeric" pattern="[0-9]">
-    </div>
-    <div class="error-message" id="errorMessage"></div>
-    <button class="login-btn" id="loginBtn">Войти</button>
+      <div class="login-pin-input">
+        <input type="password" class="login-pin-digit" id="digit1" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+        <input type="password" class="login-pin-digit" id="digit2" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+        <input type="password" class="login-pin-digit" id="digit3" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+        <input type="password" class="login-pin-digit" id="digit4" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+      </div>
+      
+      <div class="login-error-message" id="errorMessage"></div>
+      
+      <button class="login-btn" id="loginBtn">
+        <i class="fas fa-lock"></i> Войти
+      </button>
 
-    <div class="skip-link">
-      <a href="#" id="skipPinLink">Пропустить (без PIN)</a>
+      <div class="login-footer">
+        <a href="register.html">Создать аккаунт</a>
+      </div>
     </div>
   </div>
 </div>
