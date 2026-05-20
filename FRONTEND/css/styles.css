@@ -5537,3 +5537,440 @@ h1 {
     gap: 12px;
   }
 }
+/* ========================================
+   КОМПАКТНАЯ ВЕРСИЯ ЭКРАНА ПРИВЕТСТВИЯ
+======================================== */
+
+.welcome-page * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.welcome-page {
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e8d5f5 0%, #f0e6ff 50%, #fff5e0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  margin: 0;
+}
+
+.welcome-page::before,
+.welcome-page::after {
+  display: none;
+}
+
+.welcome-container {
+  max-width: 380px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.welcome-card {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  border-radius: 36px;
+  padding: 24px 20px;
+  text-align: center;
+  box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+@keyframes welcomeFadeScale {
+  0% { opacity: 0; transform: scale(0.96) translateY(12px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.welcome-card {
+  animation: welcomeFadeScale 0.35s ease forwards;
+}
+
+/* логотип */
+.welcome-logo {
+  margin-bottom: 14px;
+}
+
+.welcome-logo-icon {
+  font-size: 40px;
+  margin-bottom: 6px;
+  display: inline-block;
+  animation: welcomeFloat 3s ease-in-out infinite;
+}
+
+@keyframes welcomeFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.welcome-logo-text {
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #7c3aed, #c084fc, #fbbf24);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.welcome-logo-sub {
+  font-size: 8px;
+  color: #a78bfa;
+  letter-spacing: 2px;
+  margin-top: 3px;
+}
+
+/* приветствие */
+.welcome-greeting {
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #7c3aed, #c084fc, #fbbf24);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+}
+
+.welcome-subtitle {
+  color: #6b7280;
+  font-size: 12px;
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+/* фишки */
+.welcome-features {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.welcome-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 8px 12px;
+  border-radius: 18px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.welcome-feature-item:hover {
+  background: white;
+  transform: translateX(4px);
+}
+
+.welcome-feature-icon {
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, #e8d5f5, #f0e6ff);
+  border-radius: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+}
+
+.welcome-feature-text h4 {
+  font-size: 12px;
+  font-weight: 600;
+  color: #3b1c5a;
+  margin-bottom: 2px;
+}
+
+.welcome-feature-text p {
+  font-size: 10px;
+  color: #8e84a3;
+}
+
+/* кнопки */
+.welcome-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.welcome-btn-primary {
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(135deg, #7c3aed, #c084fc);
+  border: none;
+  border-radius: 35px;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.welcome-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+}
+
+.welcome-btn-secondary {
+  width: 100%;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: 35px;
+  color: #7c3aed;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.welcome-btn-secondary:hover {
+  background: white;
+  transform: translateY(-2px);
+}
+
+/* нижняя часть */
+.welcome-footer {
+  margin-top: 14px;
+  font-size: 9px;
+  color: #a78bfa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.welcome-footer i {
+  font-size: 9px;
+}
+
+/* анимация кнопки */
+@keyframes welcomeBtnPulse {
+  0% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.3); }
+  70% { box-shadow: 0 0 0 6px rgba(124, 58, 237, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0); }
+}
+
+.welcome-btn-primary {
+  animation: welcomeBtnPulse 2s infinite;
+}
+
+/* адаптив */
+@media (max-width: 400px) {
+  .welcome-card {
+    padding: 18px 16px;
+  }
+  
+  .welcome-greeting {
+    font-size: 20px;
+  }
+  
+  .welcome-logo-icon {
+    font-size: 34px;
+  }
+  
+  .welcome-logo-text {
+    font-size: 18px;
+  }
+  
+  .welcome-feature-item {
+    padding: 6px 10px;
+  }
+  
+  .welcome-feature-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+  }
+  
+  .welcome-feature-text h4 {
+    font-size: 11px;
+  }
+  
+  .welcome-feature-text p {
+    font-size: 9px;
+  }
+  
+  .welcome-btn-primary,
+  .welcome-btn-secondary {
+    padding: 8px;
+    font-size: 12px;
+  }
+}
+/* ========================================
+   ТОЛЬКО ДЛЯ СТРАНИЦЫ ПРИВЕТСТВИЯ
+   НЕ ВЛИЯЕТ НА ДРУГИЕ СТРАНИЦЫ
+======================================== */
+
+.welcome-body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e8d5f5 0%, #f0e6ff 50%, #fff5e0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* плавающие круги */
+.welcome-circle1 {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: #c68cff;
+  border-radius: 50%;
+  filter: blur(100px);
+  top: -100px;
+  left: -100px;
+  opacity: 0.4;
+  z-index: 0;
+}
+
+.welcome-circle2 {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  background: #fff08a;
+  border-radius: 50%;
+  filter: blur(100px);
+  bottom: -100px;
+  right: -100px;
+  opacity: 0.4;
+  z-index: 0;
+}
+
+/* главный экран */
+.welcome-screen {
+  text-align: center;
+  position: relative;
+  z-index: 10;
+  max-width: 500px;
+  width: 100%;
+}
+
+/* собачка */
+.welcome-dog-img {
+  width: 160px;
+  height: auto;
+  margin-bottom: 10px;
+  display: inline-block;
+  animation: welcomeFloat 3s ease-in-out infinite;
+  filter: drop-shadow(0 8px 20px rgba(124, 58, 237, 0.2));
+  border-radius: 20px;
+}
+
+@keyframes welcomeFloat {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* VIBE CHECK */
+.welcome-vibe {
+  font-size: 70px;
+  font-weight: 800;
+  color: #b266ff;
+  line-height: 0.9;
+}
+
+.welcome-check {
+  font-size: 70px;
+  font-weight: 800;
+  color: #f6c945;
+  line-height: 0.9;
+}
+
+/* LEAF HARMONY */
+.welcome-subtitle {
+  margin-top: 12px;
+  letter-spacing: 4px;
+  color: #9d7bc6;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 40px;
+}
+
+/* цитата */
+.welcome-quote {
+  color: #5e4a77;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.welcome-quote i {
+  color: #fbbf24;
+  font-size: 22px;
+}
+
+/* загрузка */
+.welcome-loading {
+  color: #b266ff;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+/* прогресс-бар */
+.welcome-progress {
+  width: 350px;
+  height: 12px;
+  background: #f7e7a0;
+  border-radius: 30px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.welcome-progress-bar {
+  width: 78%;
+  height: 100%;
+  background: linear-gradient(90deg, #b266ff, #d8b4ff);
+  border-radius: 30px;
+  transition: width 0.3s ease;
+}
+
+/* адаптив */
+@media (max-width: 550px) {
+  .welcome-vibe, .welcome-check {
+    font-size: 48px;
+  }
+  
+  .welcome-quote {
+    font-size: 16px;
+    margin-bottom: 35px;
+  }
+  
+  .welcome-loading {
+    font-size: 18px;
+  }
+  
+  .welcome-progress {
+    width: 280px;
+  }
+  
+  .welcome-dog-img {
+    width: 120px;
+  }
+  
+  .welcome-subtitle {
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-bottom: 30px;
+  }
+}
