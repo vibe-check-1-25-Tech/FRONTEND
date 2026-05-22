@@ -111,11 +111,6 @@ function resetForm() {
     document.querySelectorAll(".tag.active").forEach(tag => {
         tag.classList.remove("active");
     });
-    const preview = document.querySelector(".photo-preview");
-    if (preview) {
-        preview.remove();
-    }
-    photoInput.value = "";
 }
 
 
