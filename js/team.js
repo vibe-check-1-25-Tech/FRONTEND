@@ -1,577 +1,932 @@
-// =========================
-// TEAM PAGE - ФИНАЛЬНАЯ ВЕРСИЯ
-// =========================
+// ПОЛНОСТЬЮ ИСПРАВЛЕННЫЙ СКРИПТ ДЛЯ КОМАНД
+(function () {
+    "use strict";
 
-// ========== ДАННЫЕ ==========
-let teams = [
-    { id: 1, name: 'Frontend Team', members: ['Анна', 'Дмитрий', 'Максим'], avgMood: 4.2, moodEntries: [] },
-    { id: 2, name: 'Backend Team', members: ['Елена', 'Павел', 'Мария'], avgMood: 3.8, moodEntries: [] },
-    { id: 3, name: 'Design Team', members: ['Ольга', 'Кирилл'], avgMood: 4.5, moodEntries: [] }
-];
+    let teams = [];
+    let currentTeam = null;
+    let moodChart = null;
+    let selectedMood = 3;
+    let selectedTags = [];
+    let memberToDeleteId = null;
+    let currentPrivateChat = null;
+    let privateChats = {};
 
-let users = [
-    { id: 1, name: 'Анна', avatar: 'А', online: true, role: 'Team Lead', teamId: 1 },
-    { id: 2, name: 'Дмитрий', avatar: 'Д', online: true, role: 'Developer', teamId: 1 },
-    { id: 3, name: 'Максим', avatar: 'М', online: false, role: 'Developer', teamId: 1 },
-    { id: 4, name: 'Елена', avatar: 'Е', online: true, role: 'Team Lead', teamId: 2 },
-    { id: 5, name: 'Павел', avatar: 'П', online: false, role: 'Developer', teamId: 2 },
-    { id: 6, name: 'Мария', avatar: 'М', online: true, role: 'QA', teamId: 2 },
-    { id: 7, name: 'Ольга', avatar: 'О', online: true, role: 'Designer', teamId: 3 },
-    { id: 8, name: 'Кирилл', avatar: 'К', online: false, role: 'Designer', teamId: 3 }
-];
+    const CURRENT_USER = "user_" + Math.random().toString(36).substr(2, 8);
+    const CURRENT_NAME = "Я";
 
-let teamMessages = {
-    1: [{ text: 'Добро пожаловать в Frontend Team!', sender: 'system', time: '10:00' }],
-    2: [{ text: 'Добро пожаловать в Backend Team!', sender: 'system', time: '10:00' }],
-    3: [{ text: 'Добро пожаловать в Design Team!', sender: 'system', time: '10:00' }]
-};
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        if (!t) return;
 
-let privateMessages = {};
-let teamMoodStats = JSON.parse(localStorage.getItem('teamMoodStats')) || {};
-let globalMoodEntries = JSON.parse(localStorage.getItem('globalMoodEntries')) || [];
-let currentTeam = null;
-let currentPrivateUser = null;
-let selectedMood = 3;
-let moodChart = null;
-let tempMembers = [];
+        t.textContent = msg;
+        t.classList.add('show');
 
-const moodEmojis = { 1: '😢', 2: '😐', 3: '🙂', 4: '😊', 5: '😁' };
-const moodNames = { 1: 'Плохо', 2: 'Не очень', 3: 'Нормально', 4: 'Хорошо', 5: 'Отлично' };
-
-// ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
-function getCurrentTime() {
-    return new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-}
-
-function showToast(message) {
-    let toast = document.querySelector('.toast');
-    if (toast) toast.remove();
-    toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerHTML = `<i class="fas fa-info-circle"></i> ${message}`;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-}
-
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-
-// ========== ЕДИНОЕ АНОНИМНОЕ НАСТРОЕНИЕ ==========
-function updateAllTeamsMoodStats(moodValue) {
-    teams.forEach(team => {
-        if (!teamMoodStats[team.id]) {
-            teamMoodStats[team.id] = { totalMoods: [] };
-        }
-        teamMoodStats[team.id].totalMoods.push(moodValue);
-        if (teamMoodStats[team.id].totalMoods.length > 100) {
-            teamMoodStats[team.id].totalMoods.shift();
-        }
-        const sum = teamMoodStats[team.id].totalMoods.reduce((a, b) => a + b, 0);
-        const avg = sum / teamMoodStats[team.id].totalMoods.length;
-        team.avgMood = Math.round(avg * 10) / 10;
-    });
-    localStorage.setItem('teamMoodStats', JSON.stringify(teamMoodStats));
-}
-
-function saveGlobalMood() {
-    const note = document.getElementById('moodNote').value;
-    const moodValue = selectedMood;
-
-    const entry = {
-        id: Date.now(),
-        mood: moodValue,
-        emoji: moodEmojis[moodValue],
-        moodName: moodNames[moodValue],
-        note: note,
-        date: new Date().toLocaleDateString('ru-RU'),
-        time: getCurrentTime()
-    };
-
-    globalMoodEntries.unshift(entry);
-    if (globalMoodEntries.length > 50) globalMoodEntries.pop();
-    localStorage.setItem('globalMoodEntries', JSON.stringify(globalMoodEntries));
-
-    updateAllTeamsMoodStats(moodValue);
-
-    document.getElementById('moodNote').value = '';
-    renderTeams();
-    if (currentTeam) {
-        document.getElementById('detailAvgMood').innerHTML = `<i class="fas fa-chart-line"></i> Рейтинг: ${currentTeam.avgMood}/5`;
-        renderTeamAnalytics();
-    }
-    showToast(`😊 Настроение сохранено! ${moodEmojis[moodValue]} ${moodNames[moodValue]}`);
-}
-
-// ========== ГЛАВНАЯ СТРАНИЦА ==========
-function renderTeams() {
-    const searchTerm = document.getElementById('teamSearch')?.value.toLowerCase() || '';
-    const filtered = teams.filter(t => t.name.toLowerCase().includes(searchTerm));
-    const container = document.getElementById('teamsList');
-    if (!container) return;
-
-    container.innerHTML = filtered.map(team => `
-      <div class="team-card">
-        <div class="team-info" onclick="openTeamDetail(${team.id})">
-          <h3><i class="fas fa-users"></i> ${team.name}</h3>
-          <div class="team-stats">
-            <span><i class="fas fa-user"></i> ${team.members.length} участников</span>
-          </div>
-        </div>
-        <div style="display: flex; gap: 4px; align-items: center;">
-          <button class="team-add-member-btn" onclick="event.stopPropagation(); showAddMemberModal(${team.id})" title="Добавить участника">
-            <i class="fas fa-user-plus"></i>
-          </button>
-          <button class="team-delete-btn" onclick="event.stopPropagation(); showDeleteTeamConfirm(${team.id}, '${escapeHtml(team.name)}')" title="Удалить команду">
-            <i class="fas fa-trash-alt"></i>
-          </button>
-          <div class="team-rating">⭐ ${team.avgMood}</div>
-        </div>
-      </div>
-    `).join('');
-}
-
-// ========== ДОБАВЛЕНИЕ УЧАСТНИКА ==========
-function addMemberToTeam(teamId, memberName) {
-    const team = teams.find(t => t.id === teamId);
-    if (!team) return false;
-
-    if (team.members.includes(memberName)) {
-        showToast(`⚠️ ${memberName} уже состоит в команде`);
-        return false;
+        setTimeout(() => {
+            t.classList.remove('show');
+        }, 2500);
     }
 
-    team.members.push(memberName);
+    function save() {
+        localStorage.setItem('vibe_team_premium', JSON.stringify(teams));
+        localStorage.setItem('vibe_private_chats', JSON.stringify(privateChats));
+    }
 
-    const newUser = {
-        id: Date.now(),
-        name: memberName,
-        avatar: memberName.charAt(0).toUpperCase(),
-        online: true,
-        role: 'Участник',
-        teamId: teamId
-    };
-    users.push(newUser);
+    function escapeHtml(str) {
+        return String(str).replace(/[&<>]/g, function (m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
 
-    if (!privateMessages[newUser.id]) privateMessages[newUser.id] = [];
+    function load() {
+        const stored = localStorage.getItem('vibe_team_premium');
 
-    if (!teamMessages[teamId]) teamMessages[teamId] = [];
-    teamMessages[teamId].push({
-        text: `👋 ${memberName} присоединился к команде!`,
-        sender: 'system',
-        time: getCurrentTime()
-    });
+        if (stored) {
+            teams = JSON.parse(stored);
+        } else {
+            teams = [{
+                id: Date.now(),
+                name: "✨ Креативная команда",
+                membersList: [
+                    { id: 101, name: "Анна", avatar: "А", role: "Lead" },
+                    { id: 102, name: "Олег", avatar: "О", role: "Дизайнер" }
+                ],
+                moodRecords: [],
+                chat: [
+                    {
+                        userId: "Анна",
+                        authorName: "Анна",
+                        text: "Всем привет! 👋",
+                        time: new Date().toLocaleTimeString()
+                    }
+                ],
+                tagsStats: {},
+                customTags: [
+                    "Дедлайны",
+                    "Баги",
+                    "Мотивация",
+                    "Зарплата",
+                    "Усталость",
+                    "Поддержка",
+                    "Релиз",
+                    "Обучение"
+                ]
+            }];
+        }
 
-    renderTeams();
-    if (currentTeam && currentTeam.id === teamId) {
+        const storedChats = localStorage.getItem('vibe_private_chats');
+
+        if (storedChats) {
+            privateChats = JSON.parse(storedChats);
+        }
+
+        teams.forEach(t => {
+            if (!t.customTags) {
+                t.customTags = [
+                    "Дедлайны",
+                    "Баги",
+                    "Мотивация",
+                    "Зарплата",
+                    "Усталость",
+                    "Поддержка",
+                    "Релиз",
+                    "Обучение"
+                ];
+            }
+
+            if (!t.moodRecords) t.moodRecords = [];
+            if (!t.chat) t.chat = [];
+            if (!t.tagsStats) t.tagsStats = {};
+            if (!t.membersList) t.membersList = [];
+        });
+
+        renderTeams();
+    }
+
+    function getTeamAvg(team) {
+        if (!team.moodRecords.length) return "—";
+
+        const sum = team.moodRecords.reduce((a, b) => a + b.moodValue, 0);
+
+        return (sum / team.moodRecords.length).toFixed(1);
+    }
+
+    function renderTeams() {
+        const cont = document.getElementById('teamsList');
+
+        if (!cont) return;
+
+        cont.innerHTML = teams.map(t => `
+            <div class="team-card" data-id="${t.id}">
+                <div>
+                    <h3>${escapeHtml(t.name)}</h3>
+                    <div class="team-stats">
+                        👥 ${t.membersList.length} • ⭐ ${getTeamAvg(t)}
+                    </div>
+                </div>
+                <div class="team-rating">
+                    ⭐ ${getTeamAvg(t)}
+                </div>
+            </div>
+        `).join('');
+
+        document.querySelectorAll('.team-card').forEach(card => {
+            card.addEventListener('click', () => {
+                openTeam(parseInt(card.dataset.id));
+            });
+        });
+    }
+
+    function openTeam(id) {
+        currentTeam = teams.find(t => t.id === id);
+
+        if (!currentTeam) return;
+
+        document.getElementById('mainPage').style.display = 'none';
+        document.getElementById('teamDetailPage').style.display = 'block';
+        document.getElementById('addTeamBtn').style.display = 'none';
+
+        document.getElementById('detailTeamName').innerHTML =
+            `<i class="fas fa-users"></i> ${escapeHtml(currentTeam.name)}`;
+
+        document.getElementById('detailMemberCount').innerText =
+            currentTeam.membersList.length;
+
+        document.getElementById('detailRating').innerText =
+            getTeamAvg(currentTeam);
+
+        document.getElementById('detailVotes').innerText =
+            currentTeam.moodRecords.length;
+
+        selectedMood = 3;
+        selectedTags = [];
+
+        renderTagsGrid();
         renderMembers();
-        renderTeamChat();
+        renderChat();
+        renderAnalytics();
+
+        document.querySelectorAll('#teamMoodGrid .team-mood-option')
+            .forEach(opt => {
+                opt.classList.remove('active');
+
+                if (parseInt(opt.dataset.mood) === 3) {
+                    opt.classList.add('active');
+                }
+            });
     }
 
-    showToast(`✅ ${memberName} добавлен в команду ${team.name}`);
-    return true;
-}
+    function renderTagsGrid() {
+        const container = document.getElementById('teamTagsGrid');
 
-function showAddMemberModal(teamId) {
-    const memberName = prompt('Введите имя нового участника:');
-    if (memberName && memberName.trim()) {
-        addMemberToTeam(teamId, memberName.trim());
+        if (!container || !currentTeam) return;
+
+        container.innerHTML = (currentTeam.customTags || []).map(tag => `
+            <button class="team-mood-tag" data-tag="${escapeHtml(tag)}">
+                ${escapeHtml(tag)}
+                <span class="tag-delete-btn" data-tag="${escapeHtml(tag)}">
+                    <i class="fas fa-times-circle"></i>
+                </span>
+            </button>
+        `).join('');
+
+        document.querySelectorAll('.team-mood-tag').forEach(btn => {
+
+            btn.addEventListener('click', (e) => {
+
+                if (
+                    e.target.classList.contains('tag-delete-btn') ||
+                    e.target.closest('.tag-delete-btn')
+                ) {
+                    return;
+                }
+
+                const tg = btn.dataset.tag;
+
+                if (selectedTags.includes(tg)) {
+                    selectedTags = selectedTags.filter(t => t !== tg);
+                } else {
+                    selectedTags.push(tg);
+                }
+
+                btn.classList.toggle(
+                    'active',
+                    selectedTags.includes(tg)
+                );
+            });
+
+            const del = btn.querySelector('.tag-delete-btn');
+
+            if (del) {
+                del.addEventListener('click', (e) => {
+
+                    e.stopPropagation();
+
+                    const tg = del.dataset.tag;
+
+                    currentTeam.customTags =
+                        currentTeam.customTags.filter(t => t !== tg);
+
+                    selectedTags =
+                        selectedTags.filter(t => t !== tg);
+
+                    save();
+                    renderTagsGrid();
+
+                    showToast(`Тег "${tg}" удалён`);
+                });
+            }
+        });
     }
-}
 
-function addMemberFromDetail() {
-    const input = document.getElementById('newMemberName');
-    const name = input.value.trim();
-    if (!name) {
-        showToast('Введите имя участника');
-        return;
+    function renderMembers() {
+        const cont = document.getElementById('membersList');
+
+        if (!cont || !currentTeam) return;
+
+        cont.innerHTML = currentTeam.membersList.map(m => `
+            <div class="member-item">
+                <div class="member-info">
+                    <div class="member-avatar">
+                        ${escapeHtml(m.avatar)}
+                    </div>
+
+                    <div>
+                        <strong>${escapeHtml(m.name)}</strong>
+
+                        <div style="font-size:12px;">
+                            ${escapeHtml(m.role)}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="member-actions">
+                    <button
+                        class="member-chat-btn"
+                        data-id="${m.id}"
+                        data-name="${escapeHtml(m.name)}"
+                    >
+                        <i class="fas fa-comment"></i>
+                    </button>
+
+                    <button
+                        class="member-delete-btn"
+                        data-id="${m.id}"
+                    >
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('');
+
+        document.querySelectorAll('.member-chat-btn')
+            .forEach(btn => {
+                btn.addEventListener('click', () => {
+                    openPrivateChat(
+                        parseInt(btn.dataset.id),
+                        btn.dataset.name
+                    );
+                });
+            });
+
+        document.querySelectorAll('.member-delete-btn')
+            .forEach(btn => {
+                btn.addEventListener('click', () => {
+                    memberToDeleteId = parseInt(btn.dataset.id);
+
+                    document.getElementById('confirmDeleteMemberModal')
+                        .classList.add('show');
+                });
+            });
     }
-    if (addMemberToTeam(currentTeam.id, name)) {
-        input.value = '';
-    }
-}
 
-// ========== УДАЛЕНИЕ КОМАНДЫ ==========
-function showDeleteTeamConfirm(teamId, teamName) {
-    const modal = document.getElementById('confirmDeleteModal');
-    const messageSpan = document.getElementById('deleteTeamName');
-    if (messageSpan) messageSpan.textContent = teamName;
-    if (modal) {
-        modal.classList.add('show');
-        modal.setAttribute('data-team-id', teamId);
-    }
-}
+    function renderChat() {
+        const cont = document.getElementById('chatMessages');
 
-function closeDeleteConfirmModal() {
-    const modal = document.getElementById('confirmDeleteModal');
-    if (modal) modal.classList.remove('show');
-}
+        if (!cont || !currentTeam) return;
 
-function confirmDeleteTeam() {
-    const modal = document.getElementById('confirmDeleteModal');
-    const teamId = parseInt(modal?.getAttribute('data-team-id'));
-    if (!teamId) return;
+        cont.innerHTML = currentTeam.chat.map(msg => `
+            <div class="chat-message ${msg.userId === CURRENT_USER ? 'me' : ''}">
+                <div class="user">
+                    ${msg.userId === CURRENT_USER
+            ? CURRENT_NAME
+            : escapeHtml(msg.authorName)}
+                </div>
 
-    const teamIndex = teams.findIndex(t => t.id === teamId);
-    if (teamIndex === -1) return;
+                <div class="text">
+                    ${escapeHtml(msg.text)}
+                </div>
 
-    const teamName = teams[teamIndex].name;
+                <div style="font-size:10px; margin-top:4px; color:#8e84a3;">
+                    ${msg.time}
+                </div>
+            </div>
+        `).join('');
 
-    teams.splice(teamIndex, 1);
-    users = users.filter(u => u.teamId !== teamId);
-    delete teamMessages[teamId];
-    delete teamMoodStats[teamId];
-
-    localStorage.setItem('teamMoodStats', JSON.stringify(teamMoodStats));
-
-    renderTeams();
-
-    if (currentTeam && currentTeam.id === teamId) {
-        backToTeams();
+        cont.scrollTop = cont.scrollHeight;
     }
 
-    showToast(`🗑️ Команда "${teamName}" удалена`);
-    closeDeleteConfirmModal();
-}
+    function sendChat() {
+        const inp = document.getElementById('chatInput');
 
-// ========== ДЕТАЛИ КОМАНДЫ ==========
-window.openTeamDetail = function(teamId) {
-    currentTeam = teams.find(t => t.id === teamId);
-    if (!currentTeam) return;
+        if (!inp || !currentTeam) return;
 
-    document.getElementById('mainPage').style.display = 'none';
-    document.getElementById('teamDetailPage').style.display = 'block';
-    document.getElementById('addTeamBtn').style.display = 'none';
+        const txt = inp.value.trim();
 
-    document.getElementById('detailTeamName').innerHTML = `<i class="fas fa-users"></i> ${currentTeam.name}`;
-    document.getElementById('detailMemberCount').innerHTML = `<i class="fas fa-user"></i> ${currentTeam.members.length} участников`;
-    document.getElementById('detailAvgMood').innerHTML = `<i class="fas fa-chart-line"></i> Рейтинг: ${currentTeam.avgMood}/5`;
+        if (!txt) return;
 
-    renderMembers();
-    renderTeamChat();
-    renderTeamAnalytics();
-    initMoodSelector();
-}
+        currentTeam.chat.push({
+            userId: CURRENT_USER,
+            authorName: CURRENT_NAME,
+            text: txt,
+            time: new Date().toLocaleTimeString()
+        });
 
-function backToTeams() {
-    document.getElementById('mainPage').style.display = 'block';
-    document.getElementById('teamDetailPage').style.display = 'none';
-    document.getElementById('addTeamBtn').style.display = 'block';
-    currentTeam = null;
-    renderTeams();
-}
+        save();
+        renderChat();
 
-function renderMembers() {
-    const teamUsers = users.filter(u => u.teamId === currentTeam.id);
-    const container = document.getElementById('membersList');
-    if (!container) return;
+        inp.value = '';
+    }
 
-    container.innerHTML = `
-      <div class="add-member-section">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span><i class="fas fa-user-plus"></i> <strong>Добавить участника</strong></span>
-        </div>
-        <div class="add-member-form">
-          <input type="text" id="newMemberName" placeholder="Имя участника">
-          <button onclick="addMemberFromDetail()">Добавить</button>
-        </div>
-      </div>
-    `;
+    function renderAnalytics() {
+        const canvas = document.getElementById('teamChart');
 
-    container.innerHTML += teamUsers.map(user => `
-      <div class="member-item">
-        <div class="member-avatar">
-          ${user.avatar}
-          <div class="online-status ${user.online ? 'online' : 'offline'}"></div>
-        </div>
-        <div class="member-info">
-          <div class="member-name">${user.name}</div>
-          <div class="member-role">${user.role}</div>
-        </div>
-        <button class="member-chat-btn" onclick="openPrivateChat(${user.id})">
-          <i class="fas fa-comment"></i> Написать
-        </button>
-      </div>
-    `).join('');
-}
+        if (!canvas || !currentTeam) return;
 
-// ========== НАСТРОЕНИЕ ==========
-function initMoodSelector() {
-    const moodOptions = document.querySelectorAll('#tabMood .mood-option');
-    moodOptions.forEach(option => {
-        option.onclick = function() {
-            moodOptions.forEach(o => o.classList.remove('active'));
-            this.classList.add('active');
-            selectedMood = parseInt(this.dataset.mood);
-        };
-    });
-}
+        const ctx = canvas.getContext('2d');
 
-// ========== ЧАТ ==========
-function renderTeamChat() {
-    const messages = teamMessages[currentTeam.id] || [];
-    const container = document.getElementById('teamChatMessages');
-    if (!container) return;
-
-    container.innerHTML = messages.map(msg => `
-      <div class="chat-message ${msg.sender === 'me' ? 'sent' : 'received'}">
-        ${msg.text}
-        <div style="font-size:10px; opacity:0.6; margin-top:4px;">${msg.time}</div>
-      </div>
-    `).join('');
-    container.scrollTop = container.scrollHeight;
-}
-
-function sendTeamMessage() {
-    const input = document.getElementById('teamChatInput');
-    const text = input.value.trim();
-    if (!text || !currentTeam) return;
-
-    if (!teamMessages[currentTeam.id]) teamMessages[currentTeam.id] = [];
-    teamMessages[currentTeam.id].push({
-        text: text,
-        sender: 'me',
-        time: getCurrentTime()
-    });
-
-    input.value = '';
-    renderTeamChat();
-}
-
-// ========== ЛИЧНЫЙ ЧАТ ==========
-window.openPrivateChat = function(userId) {
-    currentPrivateUser = users.find(u => u.id === userId);
-    if (!currentPrivateUser) return;
-
-    document.getElementById('privateChatTitle').innerHTML = `<i class="fas fa-user"></i> ${currentPrivateUser.name}`;
-    renderPrivateMessages();
-    document.getElementById('privateChatModal').classList.add('show');
-}
-
-function renderPrivateMessages() {
-    const msgs = privateMessages[currentPrivateUser?.id] || [];
-    const container = document.getElementById('privateChatMessages');
-    if (!container) return;
-
-    container.innerHTML = msgs.map(msg => `
-      <div style="text-align: ${msg.sender === 'me' ? 'right' : 'left'}; margin-bottom: 8px;">
-        <div style="display: inline-block; background: ${msg.sender === 'me' ? '#3b1c5a' : '#efe8f7'}; color: ${msg.sender === 'me' ? 'white' : '#3b1c5a'}; padding: 8px 12px; border-radius: 12px; max-width: 80%;">
-          ${msg.text}
-          <div style="font-size: 10px; opacity: 0.6;">${msg.time}</div>
-        </div>
-      </div>
-    `).join('');
-    container.scrollTop = container.scrollHeight;
-}
-
-function sendPrivateMessage() {
-    const input = document.getElementById('privateChatInput');
-    const text = input.value.trim();
-    if (!text || !currentPrivateUser) return;
-
-    if (!privateMessages[currentPrivateUser.id]) privateMessages[currentPrivateUser.id] = [];
-    privateMessages[currentPrivateUser.id].push({
-        text: text,
-        sender: 'me',
-        time: getCurrentTime()
-    });
-
-    input.value = '';
-    renderPrivateMessages();
-    showToast(`Сообщение отправлено ${currentPrivateUser.name}`);
-}
-
-function closePrivateChat() {
-    document.getElementById('privateChatModal').classList.remove('show');
-    currentPrivateUser = null;
-}
-
-// ========== АНАЛИТИКА ==========
-function renderTeamAnalytics() {
-    const ctx = document.getElementById('teamMoodChart')?.getContext('2d');
-    if (!ctx) return;
-
-    const moodHistory = teamMoodStats[currentTeam.id]?.totalMoods || [];
-    const last14Days = moodHistory.slice(-14);
-    const labels = last14Days.map((_, i) => `${i+1} дн. назад`);
-    const data = last14Days;
-
-    if (moodChart) moodChart.destroy();
-    moodChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels.length ? labels : ['Нет данных'],
-            datasets: [{
-                label: 'Среднее настроение команды',
-                data: data.length ? data : [3],
-                borderColor: '#3b1c5a',
-                backgroundColor: 'rgba(59,28,90,0.1)',
-                borderWidth: 3,
-                pointRadius: 5,
-                fill: true,
-                tension: 0.3
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: { y: { min: 1, max: 5, title: { display: true, text: 'Настроение (1-5)' } } }
+        if (moodChart) {
+            moodChart.destroy();
         }
-    });
-}
 
-// ========== СОЗДАНИЕ КОМАНДЫ ==========
-function addTempMember() {
-    const input = document.getElementById('memberNameInput');
-    const name = input.value.trim();
-    if (!name) {
-        showToast('Введите имя участника');
-        return;
+        const days = [];
+
+        for (let i = 6; i >= 0; i--) {
+            const d = new Date();
+
+            d.setDate(d.getDate() - i);
+
+            days.push(d.toISOString().slice(0, 10));
+        }
+
+        const daily = {};
+
+        currentTeam.moodRecords.forEach(r => {
+            const day = r.date.slice(0, 10);
+
+            if (!daily[day]) {
+                daily[day] = [];
+            }
+
+            daily[day].push(r.moodValue);
+        });
+
+        const labels = [];
+        const values = [];
+
+        days.forEach(day => {
+
+            labels.push(day.slice(5));
+
+            if (daily[day]) {
+                values.push(
+                    daily[day].reduce((a, b) => a + b, 0) /
+                    daily[day].length
+                );
+            } else {
+                values.push(null);
+            }
+        });
+
+        const fl = labels.filter((_, i) => values[i] !== null);
+        const fv = values.filter(v => v !== null);
+
+        moodChart = new Chart(ctx, {
+            type: 'line',
+
+            data: {
+                labels: fl,
+
+                datasets: [{
+                    label: 'Среднее настроение',
+                    data: fv,
+                    borderColor: '#3b1c5a',
+                    tension: 0.2,
+                    fill: true,
+                    backgroundColor: 'rgba(59,28,90,0.05)'
+                }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        const tagCnt = {};
+
+        currentTeam.moodRecords.forEach(r => {
+
+            if (r.tags) {
+                r.tags.forEach(t => {
+                    tagCnt[t] = (tagCnt[t] || 0) + 1;
+                });
+            }
+        });
+
+        const statsDiv = document.getElementById('tagsStatsList');
+
+        if (!statsDiv) return;
+
+        if (Object.keys(tagCnt).length === 0) {
+
+            statsDiv.innerHTML =
+                '<div style="padding:20px; text-align:center;">Нет данных по тегам</div>';
+
+        } else {
+
+            statsDiv.innerHTML = Object.entries(tagCnt).map(([t, c]) => `
+                <div class="tag-stat-item">
+                    <div class="tag-stat-name">
+                        ${escapeHtml(t)}
+                    </div>
+
+                    <div class="tag-stat-bar">
+                        <div
+                            class="tag-stat-fill"
+                            style="width:${Math.min(100, c * 12)}%"
+                        ></div>
+                    </div>
+
+                    <div class="tag-stat-count">
+                        ${c}
+                    </div>
+                </div>
+            `).join('');
+        }
     }
-    if (tempMembers.includes(name)) {
-        showToast('Этот участник уже добавлен');
+
+    function saveMood() {
+        if (!currentTeam) return;
+
+        const today = new Date().toISOString().slice(0, 10);
+
+        const alreadyVoted = currentTeam.moodRecords.some(r =>
+            r.userId === CURRENT_USER &&
+            r.date.startsWith(today)
+        );
+
+        if (alreadyVoted) {
+            showToast("Сегодня вы уже голосовали в этой команде");
+            return;
+        }
+
+        currentTeam.moodRecords.push({
+            userId: CURRENT_USER,
+            date: new Date().toISOString(),
+            moodValue: selectedMood,
+            tags: [...selectedTags]
+        });
+
+        selectedTags.forEach(t => {
+            currentTeam.tagsStats[t] =
+                (currentTeam.tagsStats[t] || 0) + 1;
+        });
+
+        save();
+
+        document.getElementById('detailRating').innerText =
+            getTeamAvg(currentTeam);
+
+        document.getElementById('detailVotes').innerText =
+            currentTeam.moodRecords.length;
+
+        renderAnalytics();
+        renderTeams();
+
+        showToast(`✅ Голос принят! Настроение ${selectedMood}/5`);
+
+        selectedTags = [];
+
+        renderTagsGrid();
+    }
+
+    function addMember() {
+        const input = document.getElementById('newMemberName');
+
+        if (!input || !currentTeam) return;
+
+        const name = input.value.trim();
+
+        if (!name) return;
+
+        currentTeam.membersList.push({
+            id: Date.now(),
+            name,
+            avatar: name[0].toUpperCase(),
+            role: "Участник"
+        });
+
+        save();
+
+        renderMembers();
+
+        document.getElementById('detailMemberCount').innerText =
+            currentTeam.membersList.length;
+
+        showToast(`${name} добавлен`);
+
+        document.getElementById('addMemberModal')
+            .classList.remove('show');
+
         input.value = '';
-        return;
-    }
-    tempMembers.push(name);
-    renderMemberPreview();
-    input.value = '';
-    showToast(`➕ ${name} добавлен`);
-}
-
-function removeTempMember(index) {
-    const removed = tempMembers[index];
-    tempMembers.splice(index, 1);
-    renderMemberPreview();
-    showToast(`➖ ${removed} удален`);
-}
-
-function renderMemberPreview() {
-    const container = document.getElementById('membersPreviewList');
-    if (!container) return;
-
-    if (tempMembers.length === 0) {
-        container.innerHTML = '<div style="color: #8e84a3; text-align: center; padding: 12px;">Нет добавленных участников</div>';
-        return;
     }
 
-    container.innerHTML = tempMembers.map((member, idx) => `
-      <div class="member-preview-item">
-        <span><i class="fas fa-user"></i> ${escapeHtml(member)}</span>
-        <button class="remove-member-btn" onclick="removeTempMember(${idx})">✕</button>
-      </div>
-    `).join('');
-}
+    function deleteMember() {
+        if (currentTeam && memberToDeleteId) {
 
-function openCreateTeamModal() {
-    tempMembers = [];
-    document.getElementById('newTeamName').value = '';
-    document.getElementById('memberNameInput').value = '';
-    renderMemberPreview();
-    document.getElementById('createTeamModal').classList.add('show');
-}
+            currentTeam.membersList =
+                currentTeam.membersList.filter(
+                    m => m.id !== memberToDeleteId
+                );
 
-function closeCreateTeamModal() {
-    document.getElementById('createTeamModal').classList.remove('show');
-    tempMembers = [];
-}
+            save();
+            renderMembers();
 
-function createTeam() {
-    const name = document.getElementById('newTeamName').value.trim();
-    if (!name) {
-        showToast('Введите название команды');
-        return;
+            document.getElementById('detailMemberCount').innerText =
+                currentTeam.membersList.length;
+
+            showToast("Участник удалён");
+        }
+
+        document.getElementById('confirmDeleteMemberModal')
+            .classList.remove('show');
+
+        memberToDeleteId = null;
     }
 
-    const newTeamId = Date.now();
-    const newTeam = {
-        id: newTeamId,
-        name: name,
-        members: [...tempMembers],
-        avgMood: 3.5,
-        moodEntries: []
+    function createTeam() {
+        const input = document.getElementById('newTeamName');
+
+        if (!input) return;
+
+        const name = input.value.trim();
+
+        if (!name) return;
+
+        const newTeam = {
+            id: Date.now(),
+
+            name,
+
+            membersList: [{
+                id: Date.now() + 1,
+                name: "Я",
+                avatar: "Я",
+                role: "Lead"
+            }],
+
+            moodRecords: [],
+            chat: [],
+            tagsStats: {},
+
+            customTags: [
+                "Дедлайны",
+                "Баги",
+                "Мотивация",
+                "Зарплата",
+                "Усталость",
+                "Поддержка",
+                "Релиз",
+                "Обучение"
+            ]
+        };
+
+        teams.push(newTeam);
+
+        save();
+        renderTeams();
+
+        document.getElementById('createTeamModal')
+            .classList.remove('show');
+
+        input.value = '';
+
+        showToast(`Команда "${name}" создана`);
+    }
+
+    function deleteCurrentTeam() {
+        if (currentTeam) {
+
+            teams = teams.filter(t => t.id !== currentTeam.id);
+
+            save();
+            renderTeams();
+
+            document.getElementById('teamDetailPage').style.display = 'none';
+            document.getElementById('mainPage').style.display = 'block';
+            document.getElementById('addTeamBtn').style.display = 'flex';
+
+            currentTeam = null;
+
+            showToast("Команда удалена");
+        }
+
+        document.getElementById('confirmDeleteModal')
+            .classList.remove('show');
+    }
+
+    function goBack() {
+        document.getElementById('teamDetailPage').style.display = 'none';
+        document.getElementById('mainPage').style.display = 'block';
+        document.getElementById('addTeamBtn').style.display = 'flex';
+
+        currentTeam = null;
+    }
+
+    function addCustomTag() {
+        const input = document.getElementById('newTagName');
+
+        if (!input || !currentTeam) return;
+
+        const newTag = input.value.trim();
+
+        if (!newTag) return;
+
+        if (currentTeam.customTags.includes(newTag)) {
+            showToast("Такой тег уже есть");
+            return;
+        }
+
+        currentTeam.customTags.push(newTag);
+
+        save();
+        renderTagsGrid();
+
+        document.getElementById('addTagModal')
+            .classList.remove('show');
+
+        input.value = '';
+
+        showToast(`Тег "${newTag}" добавлен`);
+    }
+
+    function openPrivateChat(userId, userName) {
+        if (!currentTeam) return;
+
+        currentPrivateChat = {
+            teamId: currentTeam.id,
+            userId,
+            userName
+        };
+
+        const chatKey = `${currentTeam.id}_${userId}`;
+
+        if (!privateChats[chatKey]) {
+            privateChats[chatKey] = [];
+        }
+
+        renderPrivateChat();
+
+        document.getElementById('privateChatModal')
+            .classList.add('show');
+    }
+
+    function renderPrivateChat() {
+        if (!currentPrivateChat) return;
+
+        const chatKey =
+            `${currentPrivateChat.teamId}_${currentPrivateChat.userId}`;
+
+        const messages = privateChats[chatKey] || [];
+
+        const container =
+            document.getElementById('privateChatMessages');
+
+        if (!container) return;
+
+        container.innerHTML = messages.map(msg => `
+            <div class="private-message ${msg.sender === CURRENT_USER ? 'me' : 'other'}">
+                <div class="bubble">
+                    ${escapeHtml(msg.text)}
+
+                    <div style="font-size:10px; opacity:0.6; margin-top:4px;">
+                        ${msg.time}
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        container.scrollTop = container.scrollHeight;
+
+        document.querySelector(
+            '#privateChatModal .private-chat-header h3'
+        ).innerHTML =
+            `<i class="fas fa-user"></i> Чат с ${escapeHtml(currentPrivateChat.userName)}`;
+    }
+
+    function sendPrivateMessage() {
+        if (!currentPrivateChat) return;
+
+        const input =
+            document.getElementById('privateChatInput');
+
+        if (!input) return;
+
+        const text = input.value.trim();
+
+        if (!text) return;
+
+        const chatKey =
+            `${currentPrivateChat.teamId}_${currentPrivateChat.userId}`;
+
+        if (!privateChats[chatKey]) {
+            privateChats[chatKey] = [];
+        }
+
+        privateChats[chatKey].push({
+            sender: CURRENT_USER,
+            text,
+            time: new Date().toLocaleTimeString()
+        });
+
+        save();
+
+        renderPrivateChat();
+
+        input.value = '';
+    }
+
+    function closePrivateChat() {
+        document.getElementById('privateChatModal')
+            .classList.remove('show');
+
+        currentPrivateChat = null;
+    }
+
+    // EVENT LISTENERS
+
+    document.getElementById('backToTeamsBtn')
+        ?.addEventListener('click', goBack);
+
+    document.getElementById('addTeamBtn')
+        ?.addEventListener('click', () => {
+            document.getElementById('createTeamModal')
+                .classList.add('show');
+        });
+
+    document.getElementById('closeCreateModal')
+        ?.addEventListener('click', () => {
+            document.getElementById('createTeamModal')
+                .classList.remove('show');
+        });
+
+    document.getElementById('confirmCreateBtn')
+        ?.addEventListener('click', createTeam);
+
+    document.getElementById('deleteTeamBtn')
+        ?.addEventListener('click', () => {
+            document.getElementById('confirmDeleteModal')
+                .classList.add('show');
+        });
+
+    document.getElementById('confirmDeleteBtn')
+        ?.addEventListener('click', deleteCurrentTeam);
+
+    document.getElementById('cancelDeleteBtn')
+        ?.addEventListener('click', () => {
+            document.getElementById('confirmDeleteModal')
+                .classList.remove('show');
+        });
+
+    document.getElementById('openAddMemberBtn')
+        ?.addEventListener('click', () => {
+            document.getElementById('addMemberModal')
+                .classList.add('show');
+        });
+
+    document.getElementById('closeAddMemberModal')
+        ?.addEventListener('click', () => {
+            document.getElementById('addMemberModal')
+                .classList.remove('show');
+        });
+
+    document.getElementById('confirmAddMemberBtn')
+        ?.addEventListener('click', addMember);
+
+    document.getElementById('sendChatBtn')
+        ?.addEventListener('click', sendChat);
+
+    document.getElementById('chatInput')
+        ?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendChat();
+            }
+        });
+
+    document.getElementById('saveTeamMoodBtn')
+        ?.addEventListener('click', saveMood);
+
+    document.getElementById('confirmDeleteMemberBtn')
+        ?.addEventListener('click', deleteMember);
+
+    document.getElementById('cancelDeleteMemberBtn')
+        ?.addEventListener('click', () => {
+            document.getElementById('confirmDeleteMemberModal')
+                .classList.remove('show');
+        });
+
+    document.getElementById('closePrivateChatBtn')
+        ?.addEventListener('click', closePrivateChat);
+
+    document.getElementById('sendPrivateChatBtn')
+        ?.addEventListener('click', sendPrivateMessage);
+
+    document.getElementById('privateChatInput')
+        ?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendPrivateMessage();
+            }
+        });
+
+    document.getElementById('openAddTagBtn')
+        ?.addEventListener('click', () => {
+            document.getElementById('addTagModal')
+                .classList.add('show');
+        });
+
+    document.getElementById('closeTagModalBtn')
+        ?.addEventListener('click', () => {
+            document.getElementById('addTagModal')
+                .classList.remove('show');
+        });
+
+    document.getElementById('confirmAddTagBtn')
+        ?.addEventListener('click', addCustomTag);
+
+    document.querySelectorAll('#teamMoodGrid .team-mood-option')
+        .forEach(opt => {
+
+            opt.addEventListener('click', function () {
+
+                document.querySelectorAll('#teamMoodGrid .team-mood-option')
+                    .forEach(o => o.classList.remove('active'));
+
+                this.classList.add('active');
+
+                selectedMood = parseInt(this.dataset.mood);
+            });
+        });
+
+    document.querySelectorAll('.detail-tab')
+        .forEach(btn => {
+
+            btn.addEventListener('click', () => {
+
+                document.querySelectorAll('.detail-tab')
+                    .forEach(t => t.classList.remove('active'));
+
+                btn.classList.add('active');
+
+                document.querySelectorAll('.tab-content')
+                    .forEach(tc => tc.classList.remove('active'));
+
+                const tabId =
+                    `tab${btn.dataset.tab.charAt(0).toUpperCase()}${btn.dataset.tab.slice(1)}`;
+
+                document.getElementById(tabId)
+                    .classList.add('active');
+            });
+        });
+
+    // SIDEBAR
+
+    document.getElementById('menuBtn').onclick = () => {
+        document.getElementById('sidebar')
+            .classList.add('open');
+
+        document.getElementById('overlay')
+            .classList.add('show');
     };
 
-    teams.push(newTeam);
+    document.getElementById('closeBtn').onclick = () => {
+        document.getElementById('sidebar')
+            .classList.remove('open');
 
-    tempMembers.forEach((memberName, idx) => {
-        const newUser = {
-            id: Date.now() + idx,
-            name: memberName,
-            avatar: memberName.charAt(0).toUpperCase(),
-            online: true,
-            role: 'Участник',
-            teamId: newTeamId
-        };
-        users.push(newUser);
-        if (!privateMessages[newUser.id]) privateMessages[newUser.id] = [];
-    });
+        document.getElementById('overlay')
+            .classList.remove('show');
+    };
 
-    teamMessages[newTeamId] = [{
-        text: `✨ Добро пожаловать в команду ${name}!`,
-        sender: 'system',
-        time: getCurrentTime()
-    }];
+    document.getElementById('overlay').onclick = () => {
+        document.getElementById('sidebar')
+            .classList.remove('open');
 
-    renderTeams();
-    closeCreateTeamModal();
-    showToast(`✅ Команда "${name}" создана! Добавлено участников: ${tempMembers.length}`);
-    tempMembers = [];
-}
+        document.getElementById('overlay')
+            .classList.remove('show');
+    };
 
-// ========== ВКЛАДКИ ==========
-function switchTab(tabId) {
-    document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.classList.remove('active');
-    });
-    document.getElementById(`tab${tabId.charAt(0).toUpperCase() + tabId.slice(1)}`).classList.add('active');
+    load();
 
-    document.querySelectorAll('.team-tab').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.dataset.tab === tabId) btn.classList.add('active');
-    });
-
-    if (tabId === 'chat') renderTeamChat();
-    if (tabId === 'analytics') renderTeamAnalytics();
-}
-
-// ========== ИНИЦИАЛИЗАЦИЯ ==========
-document.getElementById('teamSearch')?.addEventListener('input', () => renderTeams());
-document.getElementById('addTeamBtn')?.addEventListener('click', openCreateTeamModal);
-document.getElementById('backToTeamsBtn')?.addEventListener('click', backToTeams);
-document.getElementById('saveTeamMoodBtn')?.addEventListener('click', saveGlobalMood);
-document.getElementById('sendTeamMsgBtn')?.addEventListener('click', sendTeamMessage);
-document.getElementById('sendPrivateMsgBtn')?.addEventListener('click', sendPrivateMessage);
-document.getElementById('closePrivateChatBtn')?.addEventListener('click', closePrivateChat);
-document.getElementById('closeCreateTeamBtn')?.addEventListener('click', closeCreateTeamModal);
-document.getElementById('createTeamBtn')?.addEventListener('click', createTeam);
-
-document.getElementById('teamChatInput')?.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendTeamMessage(); });
-document.getElementById('privateChatInput')?.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendPrivateMessage(); });
-
-document.querySelectorAll('.team-tab').forEach(btn => {
-    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
-});
-
-document.getElementById('privateChatModal')?.addEventListener('click', (e) => {
-    if (e.target === document.getElementById('privateChatModal')) closePrivateChat();
-});
-document.getElementById('createTeamModal')?.addEventListener('click', (e) => {
-    if (e.target === document.getElementById('createTeamModal')) closeCreateTeamModal();
-});
-document.getElementById('confirmDeleteModal')?.addEventListener('click', (e) => {
-    if (e.target === document.getElementById('confirmDeleteModal')) closeDeleteConfirmModal();
-});
-
-teams.forEach(team => {
-    if (teamMoodStats[team.id]) {
-        const sum = teamMoodStats[team.id].totalMoods?.reduce((a, b) => a + b, 0) || 0;
-        const avg = sum / (teamMoodStats[team.id].totalMoods?.length || 1);
-        team.avgMood = Math.round(avg * 10) / 10;
-    }
-});
-
-renderTeams();
+})();

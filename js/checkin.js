@@ -33,19 +33,57 @@ tags.forEach((tag) => {
     });
 });
 
-
-// ADD NEW TAG
+// TAG MODAL
 const addTagBtn = document.querySelector(".add-tag-btn");
 const tagsBar = document.querySelector(".tags-bar");
+
+const tagModal = document.getElementById("tagModal");
+const tagInput = document.getElementById("tagInput");
+const saveTagBtn = document.getElementById("saveTagBtn");
+
+// открыть
 addTagBtn.addEventListener("click", () => {
-    const newTag = prompt("Введите название тега");
-    if (!newTag || newTag.trim() === "") return;
+    tagModal.classList.add("show");
+    tagInput.focus();
+});
+
+// закрыть
+function closeTagModal() {
+    tagModal.classList.remove("show");
+    tagInput.value = "";
+}
+
+// сохранить тег
+saveTagBtn.addEventListener("click", createTag);
+
+// ENTER
+tagInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        createTag();
+    }
+});
+
+// создание тега
+function createTag() {
+    const newTag = tagInput.value.trim();
+    if (!newTag) return;
+
+    // проверка на дубликаты
+    const existingTags = document.querySelectorAll(".tag");
+
+    for (let tag of existingTags) {
+        if (tag.textContent.toLowerCase() === newTag.toLowerCase()) {
+            alert("Такой тег уже существует");
+            return;
+        }
+    }
+
     const tag = document.createElement("span");
     tag.className = "tag";
     tag.textContent = newTag;
     tagsBar.insertBefore(tag, addTagBtn);
 
-    // логика выбора нового тега
+    // клик по тегу
     tag.addEventListener("click", () => {
         tag.classList.toggle("active");
         if (selectedTags.includes(newTag)) {
@@ -53,9 +91,16 @@ addTagBtn.addEventListener("click", () => {
         } else {
             selectedTags.push(newTag);
         }
-
     });
 
+    closeTagModal();
+}
+
+// закрытие по клику вне окна
+tagModal.addEventListener("click", (e) => {
+    if (e.target === tagModal) {
+        closeTagModal();
+    }
 });
 
 // SAVE ENTRY
@@ -64,9 +109,9 @@ const textarea = document.querySelector("textarea");
 saveBtn.addEventListener("click", saveEntry);
 async function saveEntry() {
     const note = textarea.value.trim();
-    if (!note && selectedTags.length === 0 && !base64Image) {
+    if (!note && selectedTags.length === 0) {
         alert("Добавьте запись");
-        return;
+        return
     }
     const entry = {
         user_id: 1,
@@ -88,7 +133,6 @@ async function saveEntry() {
         }
         const result = await response.json();
         console.log("Сохранено:", result);
-        // показать мем/поддержку
         if (result.support) {
             showSupportModal(result.support);
         } else {
@@ -137,14 +181,3 @@ function closeSupportModal() {
 }
 
 
-function openTagModal() {
-  document
-    .getElementById("tagModal")
-    .classList.add("show");
-}
-
-function closeTagModal() {
-  document
-    .getElementById("tagModal")
-    .classList.remove("show");
-}

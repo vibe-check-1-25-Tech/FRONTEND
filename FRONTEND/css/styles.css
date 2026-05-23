@@ -890,7 +890,22 @@ textarea:focus {
   font-weight: 600;
   cursor: pointer;
 }
+.modal-actions .delete {
+  flex: 1;
+  padding: 14px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
 
+.modal-actions .delete:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+}
 .modal-actions .cancel {
   flex: 1;
   padding: 14px;
