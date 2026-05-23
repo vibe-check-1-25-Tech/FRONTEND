@@ -5,9 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Vibe Check | Команды</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="../FRONTEND/css/styles.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
- <link rel="stylesheet" href="..//FRONTEND/css/styles.css">>
-
 </head>
 <body>
 
@@ -19,17 +18,17 @@
     <h3>Vibe Check</h3>
     <button id="closeBtn">✕</button>
   </div>
-  <a href="checkin.html"><i class="fas fa-home"></i> Главная</a>
-  <a href="journal.html"><i class="fas fa-book"></i> Дневник</a>
-  <a href="insights.html"><i class="fas fa-chart-line"></i> Аналитика</a>
-  <a href="calendar.html"><i class="fas fa-calendar"></i> Календарь</a>
-  <a href="tags.html"><i class="fas fa-tags"></i> Теги</a>
-  <a href="team.html"><i class="fas fa-users"></i> Команда</a>
-  <a href="support.html"><i class="fas fa-headset"></i> Поддержка</a>
-  <a href="profile.html"><i class="fas fa-user"></i> Профиль</a>
-  <a href="export.html"><i class="fas fa-download"></i> Экспорт</a>
-  <a href="metod.html"><i class="fas fa-book-open"></i> О методологии</a>
-  <a href="npumin.html"><i class="fas fa-bell"></i> Напоминания</a>
+  <a href="checkin.html">Главная</a>
+  <a href="journal.html">Дневник</a>
+  <a href="insights.html">Аналитика</a>
+  <a href="calendar.html">Календарь</a>
+  <a href="tags.html">Теги</a>
+  <a href="team.html">Команда</a>
+  <a href="support.html">Поддержка</a>
+  <a href="profile.html">Профиль</a>
+  <a href="export.html">Экспорт</a>
+  <a href="metod.html">О методологии</a>
+  <a href="npumin.html">Напоминания</a>
 </nav>
 
 <!-- ГЛАВНАЯ СТРАНИЦА -->
@@ -66,8 +65,9 @@
     </div>
   </div>
   
+  <!-- ОТДЕЛЬНОЕ НАСТРОЕНИЕ ВНУТРИ КОМАНДЫ -->
   <div class="team-mood-section">
-    <h4><i class="fas fa-smile"></i> Ваше настроение сегодня</h4>
+    <h4><i class="fas fa-smile"></i> Ваше настроение сегодня в команде</h4>
     <div class="team-mood-grid" id="teamMoodGrid">
       <div class="team-mood-option" data-mood="1">😢<span>Плохо</span></div>
       <div class="team-mood-option" data-mood="2">😐<span>Не очень</span></div>
@@ -75,16 +75,13 @@
       <div class="team-mood-option" data-mood="4">😊<span>Хорошо</span></div>
       <div class="team-mood-option" data-mood="5">😁<span>Отлично</span></div>
     </div>
-    <div class="team-tags-grid" id="teamTagsGrid">
-      <button class="team-mood-tag" data-tag="Дедлайны">⚡ Дедлайны</button>
-      <button class="team-mood-tag" data-tag="Баги">💻 Баги</button>
-      <button class="team-mood-tag" data-tag="Мотивация">🚀 Мотивация</button>
-      <button class="team-mood-tag" data-tag="Зарплата">💸 Зарплата</button>
-      <button class="team-mood-tag" data-tag="Усталость">😴 Усталость</button>
-      <button class="team-mood-tag" data-tag="Поддержка">🤝 Поддержка</button>
-      <button class="team-mood-tag" data-tag="Релиз">🎉 Релиз</button>
-      <button class="team-mood-tag" data-tag="Обучение">📚 Обучение</button>
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin: 12px 0 8px;">
+      <span style="font-weight: 600;"><i class="fas fa-tags"></i> Теги настроения</span>
+      <button id="openAddTagBtn" class="add-tag-btn"><i class="fas fa-plus"></i> Добавить тег</button>
     </div>
+    <div class="team-tags-grid" id="teamTagsGrid"></div>
+    
     <button class="team-save-mood-btn" id="saveTeamMoodBtn">
       <i class="fas fa-vote-yea"></i> Проголосовать
     </button>
@@ -93,7 +90,7 @@
   
   <div class="detail-tabs">
     <button class="detail-tab active" data-tab="members">👥 Участники</button>
-    <button class="detail-tab" data-tab="chat">💬 Чат</button>
+    <button class="detail-tab" data-tab="chat">💬 Чат команды</button>
     <button class="detail-tab" data-tab="analytics">📊 Аналитика</button>
   </div>
   
@@ -105,7 +102,7 @@
   <div id="tabChat" class="tab-content">
     <div class="chat-box" id="chatMessages"></div>
     <div class="chat-input-area">
-      <input type="text" id="chatInput" class="chat-input" placeholder="Сообщение...">
+      <input type="text" id="chatInput" class="chat-input" placeholder="Сообщение в команду...">
       <button class="chat-send-btn" id="sendChatBtn"><i class="fas fa-paper-plane"></i></button>
     </div>
   </div>
@@ -123,12 +120,12 @@
     </div>
   </div>
   
-  <button class="delete-team-btn" id="deleteTeamBtn">🗑 Удалить команду</button>
+  <button class="delete-team-btn" id="deleteTeamBtn"><i class="fas fa-trash-alt"></i> Удалить команду</button>
 </div>
 
 <button class="add-team-btn" id="addTeamBtn">+</button>
 
-<!-- МОДАЛЬНОЕ ОКНО СОЗДАНИЯ КОМАНДЫ -->
+<!-- МОДАЛЬНЫЕ ОКНА -->
 <div id="createTeamModal" class="simple-modal">
   <div class="simple-modal-content">
     <h3><i class="fas fa-plus-circle"></i> Создать команду</h3>
@@ -140,12 +137,10 @@
   </div>
 </div>
 
-<!-- МОДАЛЬНОЕ ОКНО ДОБАВЛЕНИЯ УЧАСТНИКА -->
 <div id="addMemberModal" class="simple-modal">
   <div class="simple-modal-content">
     <h3><i class="fas fa-user-plus"></i> Добавить участника</h3>
     <input type="text" id="newMemberName" placeholder="Имя участника">
-    <div id="memberNameError" style="color: #dc2626; font-size: 12px; margin-bottom: 12px; display: none;">Введите имя участника</div>
     <div class="modal-buttons">
       <button class="modal-cancel" id="closeAddMemberModal">Отмена</button>
       <button class="modal-save" id="confirmAddMemberBtn">Добавить</button>
@@ -153,14 +148,24 @@
   </div>
 </div>
 
-<!-- МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ УЧАСТНИКА -->
+<div id="addTagModal" class="tag-modal">
+  <div class="tag-modal-content">
+    <h3><i class="fas fa-tag"></i> Новый тег</h3>
+    <input type="text" id="newTagName" placeholder="Например: Вдохновение, Стресс">
+    <div class="modal-buttons">
+      <button class="modal-cancel" id="closeTagModalBtn">Отмена</button>
+      <button class="modal-save" id="confirmAddTagBtn">Добавить</button>
+    </div>
+  </div>
+</div>
+
 <div id="confirmDeleteMemberModal" class="confirm-member-modal">
   <div class="confirm-member-content">
     <h3><i class="fas fa-exclamation-triangle"></i> Удалить участника?</h3>
-    <p id="confirmDeleteMemberText">Вы уверены, что хотите удалить этого участника из команды?</p>
-    <div class="confirm-member-buttons">
-      <button class="confirm-member-cancel" id="cancelDeleteMemberBtn">Отмена</button>
-      <button class="confirm-member-delete" id="confirmDeleteMemberBtn">Да, удалить</button>
+    <p id="confirmDeleteMemberText">Вы уверены?</p>
+    <div class="modal-buttons">
+      <button class="modal-cancel" id="cancelDeleteMemberBtn">Отмена</button>
+      <button class="modal-save" id="confirmDeleteMemberBtn">Да, удалить</button>
     </div>
   </div>
 </div>
@@ -168,8 +173,8 @@
 <div id="privateChatModal" class="private-chat-modal">
   <div class="private-chat-content">
     <div class="private-chat-header">
-      <h3 id="privateChatTitle"><i class="fas fa-user"></i> Чат</h3>
-      <button class="private-chat-close" id="closePrivateChatBtn"><i class="fas fa-times"></i></button>
+      <h3><i class="fas fa-comment"></i> Личный чат</h3>
+      <button id="closePrivateChatBtn" style="background:none; border:none; color:white; font-size:20px;"><i class="fas fa-times"></i></button>
     </div>
     <div class="private-chat-messages" id="privateChatMessages"></div>
     <div class="private-chat-input">
@@ -179,551 +184,19 @@
   </div>
 </div>
 
-<!-- МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ КОМАНДЫ -->
 <div id="confirmDeleteModal" class="confirm-modal">
   <div class="confirm-modal-content">
     <h3><i class="fas fa-exclamation-triangle"></i> Удалить команду?</h3>
-    <p id="confirmDeleteText">Вы уверены, что хотите удалить эту команду?<br>Все данные будут потеряны.</p>
-    <div class="confirm-modal-buttons">
-      <button class="confirm-cancel" id="cancelDeleteBtn">Отмена</button>
-      <button class="confirm-cancel confirm-delete-btn" id="confirmDeleteBtn">Да, удалить</button>
+    <p>Все данные будут потеряны</p>
+    <div class="modal-buttons">
+      <button class="modal-cancel" id="cancelDeleteBtn">Отмена</button>
+      <button class="modal-save" id="confirmDeleteBtn">Да, удалить</button>
     </div>
   </div>
 </div>
 
 <div id="toast" class="toast"></div>
 
-<script>
-// =========================
-// TEAM PAGE - ПОЛНАЯ ВЕРСИЯ
-// =========================
-
-document.addEventListener('DOMContentLoaded', function() {
-  
-  // ========== МЕНЮ ==========
-  const menuBtn = document.getElementById('menuBtn');
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('overlay');
-  const closeBtn = document.getElementById('closeBtn');
-
-  if (menuBtn) {
-    menuBtn.addEventListener('click', () => {
-      sidebar.classList.add('open');
-      overlay.classList.add('show');
-    });
-  }
-  if (closeBtn) {
-    closeBtn.addEventListener('click', () => {
-      sidebar.classList.remove('open');
-      overlay.classList.remove('show');
-    });
-  }
-  if (overlay) {
-    overlay.addEventListener('click', () => {
-      sidebar.classList.remove('open');
-      overlay.classList.remove('show');
-    });
-  }
-
-  // ========== ДАННЫЕ ==========
-  let teams = [
-    { id: 1, name: 'Frontend Team', members: 12, rating: 4.3, votes: 45, moodHistory: [3,4,2,5,4],
-      membersList: [
-        { id: 101, name: 'Айдана', avatar: 'А', role: 'Frontend Developer' },
-        { id: 102, name: 'Медер', avatar: 'М', role: 'UI/UX Designer' }
-      ],
-      messages: [
-        { user: 'Айдана', text: 'Сегодня закрыли все баги 🎉', time: '10:00' },
-        { user: 'Медер', text: 'Отлично! Осталось доделать адаптив', time: '10:05' }
-      ],
-      tagsStats: [
-        { name: 'Дедлайны', count: 12 },
-        { name: 'Баги', count: 8 },
-        { name: 'Мотивация', count: 6 }
-      ]
-    },
-    { id: 2, name: 'Backend Team', members: 8, rating: 4.0, votes: 32, moodHistory: [4,3,4,5,4],
-      membersList: [
-        { id: 201, name: 'Елена', avatar: 'Е', role: 'Team Lead' },
-        { id: 202, name: 'Павел', avatar: 'П', role: 'Developer' }
-      ],
-      messages: [
-        { user: 'Елена', text: 'API готово!', time: '09:30' }
-      ],
-      tagsStats: [
-        { name: 'Баги', count: 10 },
-        { name: 'Мотивация', count: 7 }
-      ]
-    }
-  ];
-  
-  let currentTeam = null;
-  let currentPrivateUser = null;
-  let privateChats = {};
-  let moodChart = null;
-  let pendingTeamForMember = null;
-  let pendingDeleteMember = null;
-  
-  let selectedTeamMood = 3;
-  let selectedTeamTags = [];
-  
-  const moodEmojis = { 1: '😢', 2: '😐', 3: '🙂', 4: '😊', 5: '😁' };
-  const moodNames = { 1: 'Плохо', 2: 'Не очень', 3: 'Нормально', 4: 'Хорошо', 5: 'Отлично' };
-  
-  function getCurrentTime() {
-    return new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-  }
-  
-  function showToast(message) {
-    const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2500);
-  }
-  
-  function saveToLocalStorage() {
-    localStorage.setItem('teams', JSON.stringify(teams));
-    localStorage.setItem('privateChats', JSON.stringify(privateChats));
-  }
-  
-  // ========== ОТРИСОВКА СПИСКА КОМАНД ==========
-  function renderTeamsList() {
-    const container = document.getElementById('teamsList');
-    if (!container) return;
-    container.innerHTML = teams.map(team => `
-      <div class="team-card" onclick="showTeamDetailPage(${team.id})">
-        <div class="team-info">
-          <h3><i class="fas fa-users"></i> ${team.name}</h3>
-          <div class="team-stats">${team.members} участников • ${team.votes} голосов</div>
-        </div>
-        <div class="team-rating">⭐ ${team.rating}</div>
-      </div>
-    `).join('');
-  }
-  
-  // ========== НАВИГАЦИЯ ==========
-  window.showMainPage = function() {
-    document.getElementById('mainPage').style.display = 'block';
-    document.getElementById('teamDetailPage').style.display = 'none';
-    document.getElementById('addTeamBtn').style.display = 'flex';
-  };
-  
-  window.showTeamDetailPage = function(teamId) {
-    currentTeam = teams.find(t => t.id === teamId);
-    if (!currentTeam) return;
-    
-    document.getElementById('mainPage').style.display = 'none';
-    document.getElementById('teamDetailPage').style.display = 'block';
-    document.getElementById('addTeamBtn').style.display = 'none';
-    
-    document.getElementById('detailTeamName').innerHTML = `<i class="fas fa-users"></i> ${currentTeam.name}`;
-    document.getElementById('detailMemberCount').textContent = currentTeam.members;
-    document.getElementById('detailRating').textContent = currentTeam.rating;
-    document.getElementById('detailVotes').textContent = currentTeam.votes;
-    
-    renderMembersList();
-    renderTeamChat();
-    renderTeamAnalytics();
-    renderTagsStats();
-    
-    selectedTeamMood = 3;
-    selectedTeamTags = [];
-    const moodOptions = document.querySelectorAll('#teamMoodGrid .team-mood-option');
-    moodOptions.forEach(opt => {
-      if (parseInt(opt.dataset.mood) === 3) {
-        opt.classList.add('active');
-      } else {
-        opt.classList.remove('active');
-      }
-    });
-    document.querySelectorAll('#teamTagsGrid .team-mood-tag.active').forEach(tag => {
-      tag.classList.remove('active');
-    });
-  };
-  
-  function renderMembersList() {
-    const container = document.getElementById('membersList');
-    if (!container) return;
-    container.innerHTML = currentTeam.membersList.map(m => `
-      <div class="member-item" data-id="${m.id}">
-        <div class="member-info">
-          <div class="member-avatar">${m.avatar}</div>
-          <div>
-            <strong>${m.name}</strong>
-            <div style="font-size:12px; color:#8e84a3;">${m.role}</div>
-          </div>
-        </div>
-        <div class="member-actions">
-          <button class="member-chat-btn" onclick="openPrivateChat(${m.id}, '${m.name}')"><i class="fas fa-comment"></i></button>
-          <button class="member-delete-btn" onclick="showConfirmDeleteMember(${m.id}, '${m.name}')"><i class="fas fa-trash-alt"></i></button>
-        </div>
-      </div>
-    `).join('');
-  }
-  
-  function renderTeamChat() {
-    const container = document.getElementById('chatMessages');
-    if (!container) return;
-    container.innerHTML = currentTeam.messages.map(msg => `
-      <div class="chat-message ${msg.user === 'Я' ? 'me' : ''}">
-        <div class="user">${msg.user}</div>
-        <div class="text">${msg.text}</div>
-        <div style="font-size:10px; color:#8e84a3; margin-top:2px;">${msg.time}</div>
-      </div>
-    `).join('');
-    container.scrollTop = container.scrollHeight;
-  }
-  
-  function sendTeamMessage() {
-    const input = document.getElementById('chatInput');
-    const text = input.value.trim();
-    if (!text || !currentTeam) return;
-    currentTeam.messages.push({ user: 'Я', text: text, time: getCurrentTime() });
-    saveToLocalStorage();
-    renderTeamChat();
-    input.value = '';
-  }
-  
-  function renderTeamAnalytics() {
-    const ctx = document.getElementById('teamChart').getContext('2d');
-    if (!ctx) return;
-    if (moodChart) moodChart.destroy();
-    moodChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт'],
-        datasets: [{
-          label: 'Настроение команды',
-          data: currentTeam.moodHistory || [3,4,2,5,4],
-          borderColor: '#3b1c5a',
-          backgroundColor: 'rgba(59,28,90,0.1)',
-          borderWidth: 3,
-          tension: 0.3,
-          fill: true,
-          pointRadius: 5
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: { y: { min: 1, max: 5 } }
-      }
-    });
-  }
-  
-  function renderTagsStats() {
-    const container = document.getElementById('tagsStatsList');
-    if (!container) return;
-    if (!currentTeam.tagsStats || currentTeam.tagsStats.length === 0) {
-      container.innerHTML = '<div style="text-align:center; padding:20px; color:#8e84a3;">Нет данных по тегам</div>';
-      return;
-    }
-    const maxCount = Math.max(...currentTeam.tagsStats.map(t => t.count));
-    container.innerHTML = currentTeam.tagsStats.map(tag => {
-      const percentage = (tag.count / maxCount) * 100;
-      return `
-        <div class="tag-stat-item">
-          <div class="tag-stat-name">${tag.name}</div>
-          <div class="tag-stat-bar">
-            <div class="tag-stat-fill" style="width: ${percentage}%"></div>
-          </div>
-          <div class="tag-stat-count">${tag.count} раз</div>
-        </div>
-      `;
-    }).join('');
-  }
-  
-  // ========== ВЫБОР НАСТРОЕНИЯ ==========
-  function initTeamMoodSelector() {
-    const moodOptions = document.querySelectorAll('#teamMoodGrid .team-mood-option');
-    moodOptions.forEach(option => {
-      option.addEventListener('click', function() {
-        moodOptions.forEach(o => o.classList.remove('active'));
-        this.classList.add('active');
-        selectedTeamMood = parseInt(this.dataset.mood);
-      });
-    });
-    
-    const tagOptions = document.querySelectorAll('#teamTagsGrid .team-mood-tag');
-    tagOptions.forEach(tag => {
-      tag.addEventListener('click', function() {
-        this.classList.toggle('active');
-        const tagName = this.dataset.tag;
-        if (selectedTeamTags.includes(tagName)) {
-          selectedTeamTags = selectedTeamTags.filter(t => t !== tagName);
-        } else {
-          selectedTeamTags.push(tagName);
-        }
-      });
-    });
-  }
-  
-  function saveTeamMood() {
-    if (!currentTeam) return;
-    
-    currentTeam.moodHistory.push(selectedTeamMood);
-    if (currentTeam.moodHistory.length > 7) currentTeam.moodHistory.shift();
-    
-    const sum = currentTeam.moodHistory.reduce((a, b) => a + b, 0);
-    currentTeam.rating = Math.round((sum / currentTeam.moodHistory.length) * 10) / 10;
-    currentTeam.votes = (currentTeam.votes || 0) + 1;
-    
-    selectedTeamTags.forEach(tag => {
-      const existing = currentTeam.tagsStats.find(t => t.name === tag);
-      if (existing) {
-        existing.count++;
-      } else {
-        currentTeam.tagsStats.push({ name: tag, count: 1 });
-      }
-    });
-    
-    saveToLocalStorage();
-    
-    document.getElementById('detailRating').textContent = currentTeam.rating;
-    document.getElementById('detailVotes').textContent = currentTeam.votes;
-    renderTeamAnalytics();
-    renderTagsStats();
-    renderTeamsList();
-    
-    showToast(`✅ Голос учтён! ${moodEmojis[selectedTeamMood]} ${moodNames[selectedTeamMood]}`);
-    
-    document.querySelectorAll('#teamTagsGrid .team-mood-tag.active').forEach(tag => {
-      tag.classList.remove('active');
-    });
-    selectedTeamTags = [];
-    
-    const moodOptions = document.querySelectorAll('#teamMoodGrid .team-mood-option');
-    moodOptions.forEach(opt => {
-      if (parseInt(opt.dataset.mood) === 3) {
-        opt.classList.add('active');
-      } else {
-        opt.classList.remove('active');
-      }
-    });
-    selectedTeamMood = 3;
-  }
-  
-  // ========== ДОБАВЛЕНИЕ УЧАСТНИКА ==========
-  function openAddMemberModal() {
-    if (!currentTeam) return;
-    pendingTeamForMember = currentTeam;
-    document.getElementById('newMemberName').value = '';
-    document.getElementById('memberNameError').style.display = 'none';
-    document.getElementById('addMemberModal').classList.add('show');
-  }
-  
-  function closeAddMemberModal() {
-    document.getElementById('addMemberModal').classList.remove('show');
-    document.getElementById('newMemberName').value = '';
-    pendingTeamForMember = null;
-  }
-  
-  function addMember() {
-    const name = document.getElementById('newMemberName').value.trim();
-    const errorDiv = document.getElementById('memberNameError');
-    
-    if (!name) {
-      errorDiv.style.display = 'block';
-      setTimeout(() => {
-        errorDiv.style.display = 'none';
-      }, 2000);
-      return;
-    }
-    
-    const newMember = {
-      id: Date.now(),
-      name: name,
-      avatar: name[0].toUpperCase(),
-      role: 'Участник'
-    };
-    
-    if (pendingTeamForMember) {
-      pendingTeamForMember.membersList.push(newMember);
-      pendingTeamForMember.members = pendingTeamForMember.membersList.length;
-      saveToLocalStorage();
-      renderMembersList();
-      document.getElementById('detailMemberCount').textContent = pendingTeamForMember.members;
-      closeAddMemberModal();
-      showToast(`✅ ${name} добавлен в команду!`);
-    }
-  }
-  
-  // ========== УДАЛЕНИЕ УЧАСТНИКА ==========
-  window.showConfirmDeleteMember = function(memberId, memberName) {
-    pendingDeleteMember = { id: memberId, name: memberName };
-    document.getElementById('confirmDeleteMemberText').innerHTML = `Вы уверены, что хотите удалить участника <strong>${memberName}</strong> из команды?`;
-    document.getElementById('confirmDeleteMemberModal').classList.add('show');
-  };
-  
-  function hideConfirmDeleteMember() {
-    document.getElementById('confirmDeleteMemberModal').classList.remove('show');
-    pendingDeleteMember = null;
-  }
-  
-  function deleteMember() {
-    if (!currentTeam || !pendingDeleteMember) return;
-    
-    currentTeam.membersList = currentTeam.membersList.filter(m => m.id !== pendingDeleteMember.id);
-    currentTeam.members = currentTeam.membersList.length;
-    saveToLocalStorage();
-    renderMembersList();
-    document.getElementById('detailMemberCount').textContent = currentTeam.members;
-    hideConfirmDeleteMember();
-    showToast(`🗑️ ${pendingDeleteMember.name} удалён из команды`);
-  }
-  
-  // ========== УДАЛЕНИЕ КОМАНДЫ ==========
-  function showConfirmDelete() {
-    if (!currentTeam) return;
-    document.getElementById('confirmDeleteText').innerHTML = `Вы уверены, что хотите удалить команду <strong>${currentTeam.name}</strong>?<br>Все данные будут потеряны.`;
-    document.getElementById('confirmDeleteModal').classList.add('show');
-  }
-  
-  function hideConfirmDelete() {
-    document.getElementById('confirmDeleteModal').classList.remove('show');
-  }
-  
-  function deleteCurrentTeam() {
-    if (!currentTeam) return;
-    teams = teams.filter(t => t.id !== currentTeam.id);
-    saveToLocalStorage();
-    renderTeamsList();
-    if (currentTeam) {
-      showMainPage();
-    }
-    hideConfirmDelete();
-    showToast(`🗑️ Команда удалена`);
-  }
-  
-  // ========== ЛИЧНЫЙ ЧАТ ==========
-  window.openPrivateChat = function(userId, userName) {
-    currentPrivateUser = { id: userId, name: userName };
-    document.getElementById('privateChatTitle').innerHTML = `<i class="fas fa-user"></i> ${userName}`;
-    if (!privateChats[userId]) {
-      privateChats[userId] = [{ text: `Чат с ${userName}`, sender: 'system', time: getCurrentTime() }];
-    }
-    renderPrivateChat();
-    document.getElementById('privateChatModal').classList.add('show');
-  };
-  
-  function renderPrivateChat() {
-    const container = document.getElementById('privateChatMessages');
-    if (!container || !currentPrivateUser) return;
-    const messages = privateChats[currentPrivateUser.id] || [];
-    container.innerHTML = messages.map(msg => `
-      <div class="private-message ${msg.sender === 'me' ? 'me' : 'other'}">
-        <div class="bubble">
-          ${msg.text}
-          <div style="font-size:10px; opacity:0.6; margin-top:4px;">${msg.time}</div>
-        </div>
-      </div>
-    `).join('');
-    container.scrollTop = container.scrollHeight;
-  }
-  
-  function sendPrivateMessage() {
-    const input = document.getElementById('privateChatInput');
-    const text = input.value.trim();
-    if (!text || !currentPrivateUser) return;
-    if (!privateChats[currentPrivateUser.id]) privateChats[currentPrivateUser.id] = [];
-    privateChats[currentPrivateUser.id].push({ text: text, sender: 'me', time: getCurrentTime() });
-    saveToLocalStorage();
-    renderPrivateChat();
-    input.value = '';
-  }
-  
-  function closePrivateChat() {
-    document.getElementById('privateChatModal').classList.remove('show');
-    currentPrivateUser = null;
-  }
-  
-  // ========== СОЗДАНИЕ КОМАНДЫ ==========
-  function openCreateTeamModal() {
-    document.getElementById('createTeamModal').classList.add('show');
-  }
-  
-  function closeCreateTeamModal() {
-    document.getElementById('createTeamModal').classList.remove('show');
-    document.getElementById('newTeamName').value = '';
-  }
-  
-  function createTeam() {
-    const name = document.getElementById('newTeamName').value.trim();
-    if (!name) {
-      showToast('Введите название команды');
-      return;
-    }
-    const newTeam = {
-      id: Date.now(),
-      name: name,
-      members: 1,
-      rating: 3.5,
-      votes: 0,
-      moodHistory: [3],
-      membersList: [],
-      messages: [{ user: 'Система', text: `Добро пожаловать в команду ${name}!`, time: getCurrentTime() }],
-      tagsStats: []
-    };
-    teams.push(newTeam);
-    saveToLocalStorage();
-    renderTeamsList();
-    closeCreateTeamModal();
-    showToast(`✅ Команда "${name}" создана!`);
-  }
-  
-  // ========== ВКЛАДКИ ==========
-  function switchTab(tabId) {
-    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-    document.getElementById(`tab${tabId.charAt(0).toUpperCase() + tabId.slice(1)}`).classList.add('active');
-    document.querySelectorAll('.detail-tab').forEach(btn => btn.classList.remove('active'));
-    document.querySelector(`.detail-tab[data-tab="${tabId}"]`).classList.add('active');
-  }
-  
-  // ========== ОБРАБОТЧИКИ ==========
-  document.getElementById('backToTeamsBtn')?.addEventListener('click', showMainPage);
-  document.getElementById('addTeamBtn')?.addEventListener('click', openCreateTeamModal);
-  document.getElementById('closeCreateModal')?.addEventListener('click', closeCreateTeamModal);
-  document.getElementById('confirmCreateBtn')?.addEventListener('click', createTeam);
-  document.getElementById('deleteTeamBtn')?.addEventListener('click', showConfirmDelete);
-  document.getElementById('confirmDeleteBtn')?.addEventListener('click', deleteCurrentTeam);
-  document.getElementById('cancelDeleteBtn')?.addEventListener('click', hideConfirmDelete);
-  document.getElementById('openAddMemberBtn')?.addEventListener('click', openAddMemberModal);
-  document.getElementById('closeAddMemberModal')?.addEventListener('click', closeAddMemberModal);
-  document.getElementById('confirmAddMemberBtn')?.addEventListener('click', addMember);
-  document.getElementById('sendChatBtn')?.addEventListener('click', sendTeamMessage);
-  document.getElementById('chatInput')?.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendTeamMessage(); });
-  document.getElementById('sendPrivateChatBtn')?.addEventListener('click', sendPrivateMessage);
-  document.getElementById('privateChatInput')?.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendPrivateMessage(); });
-  document.getElementById('closePrivateChatBtn')?.addEventListener('click', closePrivateChat);
-  document.getElementById('saveTeamMoodBtn')?.addEventListener('click', saveTeamMood);
-  document.getElementById('confirmDeleteMemberBtn')?.addEventListener('click', deleteMember);
-  document.getElementById('cancelDeleteMemberBtn')?.addEventListener('click', hideConfirmDeleteMember);
-  
-  document.querySelectorAll('.detail-tab').forEach(btn => {
-    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
-  });
-  
-  document.getElementById('createTeamModal')?.addEventListener('click', (e) => {
-    if (e.target === document.getElementById('createTeamModal')) closeCreateTeamModal();
-  });
-  document.getElementById('addMemberModal')?.addEventListener('click', (e) => {
-    if (e.target === document.getElementById('addMemberModal')) closeAddMemberModal();
-  });
-  document.getElementById('privateChatModal')?.addEventListener('click', (e) => {
-    if (e.target === document.getElementById('privateChatModal')) closePrivateChat();
-  });
-  document.getElementById('confirmDeleteModal')?.addEventListener('click', (e) => {
-    if (e.target === document.getElementById('confirmDeleteModal')) hideConfirmDelete();
-  });
-  document.getElementById('confirmDeleteMemberModal')?.addEventListener('click', (e) => {
-    if (e.target === document.getElementById('confirmDeleteMemberModal')) hideConfirmDeleteMember();
-  });
-  
-  // ========== ЗАПУСК ==========
-  initTeamMoodSelector();
-  renderTeamsList();
-  showMainPage();
-});
-</script>
+<script src="team-script.js"></script>
 </body>
 </html>
