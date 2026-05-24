@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Регистрация | Vibe Check</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="..//FRONTEND/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="..//FRONTEND/css/styles.css">
 </head>
 <body>
 
@@ -16,12 +16,17 @@
     <h1>Добро пожаловать</h1>
     <p class="register-subtitle">Создай свой аккаунт и начни отслеживать настроение</p>
 
+    <div class="register-success hidden" id="successMessage">
+      <i class="fa-solid fa-circle-check"></i>
+      <span>Регистрация успешно завершена!</span>
+    </div>
+
     <!-- AVATAR -->
     <div class="register-avatar">
-      <div class="avatar-preview">
+      <div class="register-avatar-preview">
         <img id="avatarImg" src="https://i.pravatar.cc/150?img=12" alt="Avatar">
       </div>
-      <label class="avatar-btn">
+      <label class="register-avatar-btn">
         <i class="fa-solid fa-camera"></i> Выбрать фото
         <input type="file" id="avatarUpload" accept="image/*" hidden>
       </label>
@@ -29,41 +34,88 @@
 
     <!-- FORM -->
     <form class="register-form" id="registerForm">
-      <div class="form-group">
+      <div class="register-form-group">
         <label><i class="fa-solid fa-user"></i> Имя</label>
-        <input type="text" id="userName" placeholder="Введите имя" required>
+        <input type="text" id="userName" placeholder="Введите имя">
       </div>
 
-      <div class="form-group">
+      <div class="register-form-group">
         <label><i class="fa-solid fa-envelope"></i> Email</label>
-        <input type="email" id="userEmail" placeholder="example@gmail.com" required>
+        <input type="email" id="userEmail" placeholder="example@gmail.com">
       </div>
 
-      <div class="form-group">
+      <div class="register-form-group">
         <label><i class="fa-solid fa-phone"></i> Телефон</label>
-        <input type="tel" id="userPhone" placeholder="+996 700 00 00 00" required>
+        <input type="tel" id="userPhone" placeholder="+996 700 00 00 00">
       </div>
 
-      <div class="form-group">
+      <div class="register-form-group">
         <label><i class="fa-solid fa-key"></i> Пароль</label>
-        <input type="password" id="userPassword" placeholder="Введите пароль" required>
+        <input type="password" id="userPassword" placeholder="Введите пароль">
       </div>
 
-      <div class="form-group">
+      <div class="register-form-group">
         <label><i class="fa-solid fa-shield-halved"></i> Подтвердите пароль</label>
-        <input type="password" id="userConfirmPassword" placeholder="Повторите пароль" required>
+        <input type="password" id="userConfirmPassword" placeholder="Повторите пароль">
       </div>
 
       <button type="submit" class="register-btn">Создать аккаунт</button>
     </form>
 
-    <div class="login-link">
-      Уже есть аккаунт? <a href="login.html">Войти</a>
+    <div class="register-login-link">
+      Уже есть аккаунт? <a href="#">Войти</a>
     </div>
   </div>
 </div>
 
-<script src="../js/registr.js"></script>
+<!-- МОДАЛЬНОЕ ОКНО -->
+<div class="privacy-modal" id="privacyModal">
+  <div class="privacy-modal-card">
+    <div class="privacy-modal-header">
+      <i class="fa-solid fa-shield-heart"></i>
+      <h2>Конфиденциальность</h2>
+      <button class="privacy-modal-close" id="closeModalBtn">✕</button>
+    </div>
+
+    <div class="privacy-modal-content">
+      <div class="privacy-modal-intro">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>Используя Vibe Check, вы соглашаетесь на обработку ваших данных для работы приложения.</span>
+      </div>
+
+      <div class="privacy-modal-grid">
+        <div class="privacy-modal-item"><i class="fa-solid fa-user"></i><span>Имя, Email, Телефон</span></div>
+        <div class="privacy-modal-item"><i class="fa-solid fa-camera"></i><span>Фото профиля</span></div>
+        <div class="privacy-modal-item"><i class="fa-solid fa-chart-line"></i><span>Данные о настроении</span></div>
+        <div class="privacy-modal-item"><i class="fa-solid fa-pen"></i><span>Заметки и аналитика</span></div>
+      </div>
+
+      <div class="privacy-modal-compact">
+        <p><i class="fa-solid fa-database"></i> <strong>Для чего используются</strong> — управление аккаунтом, дневник настроения, статистика.</p>
+      </div>
+      <div class="privacy-modal-compact">
+        <p><i class="fa-solid fa-lock"></i> <strong>Конфиденциальность</strong> — данные не передаются третьим лицам.</p>
+      </div>
+      <div class="privacy-modal-compact">
+        <p><i class="fa-solid fa-trash"></i> <strong>Хранение</strong> — данные в защищённой базе. При удалении аккаунта — удаляются.</p>
+      </div>
+      <div class="privacy-modal-compact">
+        <p><i class="fa-solid fa-brain"></i> <strong>Важно</strong> — Vibe Check не заменяет медицинскую помощь.</p>
+      </div>
+
+      <label class="privacy-modal-check">
+        <input type="checkbox" id="agreeCheckbox">
+        <span>Я согласен(а) с политикой конфиденциальности</span>
+      </label>
+
+      <div class="privacy-modal-actions">
+        <button class="privacy-modal-cancel" id="cancelModal">Отмена</button>
+        <button class="privacy-modal-continue" id="continueBtn" disabled>Продолжить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 </body>
 </html>
