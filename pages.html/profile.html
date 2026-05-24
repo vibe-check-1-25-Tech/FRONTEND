@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Профиль | Vibe Check</title>
- <link rel="stylesheet" href="../FRONTEND/css/styles.css">
+  <link rel="stylesheet" href="../FRONTEND/css/styles.css">
+  <link rel="stylesheet" href="..//FRONTEND/css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
 </head>
@@ -18,19 +19,18 @@
   <div class="sidebar-header">
     <h3>Vibe Check</h3>
     <button id="closeBtn">✕</button>
-  </div>
-
-  <a href="checkin.html"> Главная</a>
-  <a href="journal.html"> Дневник</a>
+ </div>
+  <a href="checkin.html">Главная</a>
+  <a href="journal.html">Дневник</a>
   <a href="insights.html">Аналитика</a>
   <a href="calendar.html">Календарь</a>
   <a href="tags.html">Теги</a>
-  <a href="team.html"> Команда</a>
-  <a href="support.html"> Поддержка</a>
-  <a href="profile.html"> Профиль</a>
-  <a href="export.html"> Экспорт</a>
-  <a href="metod.html"> О методологии</a>
-  <a href="npumin.html"> Напоминания</a>
+  <a href="team.html">Команда</a>
+  <a href="support.html">Поддержка</a>
+  <a href="profile.html">Профиль</a>
+  <a href="export.html">Экспорт</a>
+  <a href="metod.html">О методологии</a>
+  <a href="npumin.html">Напоминания</a>
 </nav>
 
 <div class="profile-page">
@@ -112,6 +112,25 @@
     </div>
   </div>
 
+  <!-- КАРТОЧКА: ЖАЛОБЫ И ПРЕДЛОЖЕНИЯ -->
+  <div class="profile-card">
+    <div class="card-title">
+      <div class="card-icon complaint-icon"><i class="fas fa-envelope-open-text"></i></div>
+      <div>
+        <h2>Жалобы и предложения</h2>
+        <p>Напишите нам о проблеме или поделитесь идеей</p>
+      </div>
+    </div>
+    <div class="complaint-preview">
+      <p class="complaint-text">
+        <i class="fas fa-comment-dots"></i> Мы ценим ваше мнение. Сообщите о баге, оставьте отзыв или предложите улучшение.
+      </p>
+      <button class="save-profile-btn complaint-open-btn" id="openComplaintBtn">
+        <i class="fas fa-pen"></i> Написать обращение
+      </button>
+    </div>
+  </div>
+
   <!-- КАРТОЧКА БЕЗОПАСНОСТИ (PIN-код) -->
   <div class="profile-card">
     <div class="card-title">
@@ -134,7 +153,7 @@
         <input type="password" id="pinInput" class="pin-input" maxlength="4" placeholder="****" inputmode="numeric">
         <button class="pin-eye" id="togglePinEye"><i class="fas fa-eye"></i></button>
       </div>
-      <div id="pinError" style="color: #dc2626; font-size: 12px; margin-top: 8px; display: none;"></div>
+      <div id="pinError" class="pin-error" style="display: none;"></div>
       <button class="save-profile-btn" id="savePinBtn" style="margin-top: 12px;">Сохранить PIN</button>
     </div>
   </div>
@@ -162,6 +181,96 @@
     <i class="fas fa-sign-out-alt"></i> Выйти из аккаунта
   </button>
 </div>
+
+<!-- МОДАЛЬНОЕ ОКНО ДЛЯ ЖАЛОБ И ПРЕДЛОЖЕНИЙ -->
+<div class="complaint-modal" id="complaintModal">
+  <div class="complaint-card">
+    <div class="complaint-header">
+      <i class="fas fa-envelope-open-text"></i>
+      <h3>Обратная связь</h3>
+      <button class="complaint-close" id="closeComplaintBtn">✕</button>
+    </div>
+    <div class="complaint-type">
+      <button class="type-btn active" data-type="complaint">📢 Жалоба</button>
+      <button class="type-btn" data-type="suggestion">💡 Предложение</button>
+      <button class="type-btn" data-type="feedback">⭐ Отзыв</button>
+    </div>
+    <textarea id="complaintText" rows="4" placeholder="Опишите подробно..."></textarea>
+    <div class="complaint-actions">
+      <button class="complaint-cancel" id="cancelComplaintBtn">Отмена</button>
+      <button class="complaint-send" id="sendComplaintBtn">Отправить</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Модальное окно для жалоб
+  const complaintModal = document.getElementById('complaintModal');
+  const openComplaintBtn = document.getElementById('openComplaintBtn');
+  const closeComplaintBtn = document.getElementById('closeComplaintBtn');
+  const cancelComplaintBtn = document.getElementById('cancelComplaintBtn');
+  const sendComplaintBtn = document.getElementById('sendComplaintBtn');
+  const complaintText = document.getElementById('complaintText');
+  const typeBtns = document.querySelectorAll('.type-btn');
+  let selectedType = 'complaint';
+
+  typeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      typeBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedType = btn.dataset.type;
+    });
+  });
+
+  function openModal() {
+    complaintModal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    complaintText.value = '';
+  }
+
+  function closeModal() {
+    complaintModal.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+
+  function showToast(message) {
+    const existingToast = document.querySelector('.complaint-toast');
+    if (existingToast) existingToast.remove();
+    
+    const toast = document.createElement('div');
+    toast.className = 'complaint-toast';
+    toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => toast.remove(), 3000);
+  }
+
+  openComplaintBtn.addEventListener('click', openModal);
+  closeComplaintBtn.addEventListener('click', closeModal);
+  cancelComplaintBtn.addEventListener('click', closeModal);
+  
+  complaintModal.addEventListener('click', (e) => {
+    if (e.target === complaintModal) closeModal();
+  });
+
+  sendComplaintBtn.addEventListener('click', () => {
+    const message = complaintText.value.trim();
+    if (!message) {
+      alert('Пожалуйста, напишите текст обращения');
+      return;
+    }
+    
+    let typeText = '';
+    if (selectedType === 'complaint') typeText = 'жалобу';
+    else if (selectedType === 'suggestion') typeText = 'предложение';
+    else typeText = 'отзыв';
+    
+    console.log('Обращение:', { type: selectedType, message });
+    
+    showToast(`Спасибо! Ваша ${typeText} отправлена разработчикам.`);
+    closeModal();
+  });
+</script>
 
 <script src="../js/app.js"></script>
 <script src="../js/profile.js"></script>

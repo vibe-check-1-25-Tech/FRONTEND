@@ -3614,6 +3614,273 @@ body {
     width: 100%;
   }
 }
+/* ========================================
+   ПРОФИЛЬ - ДОПОЛНИТЕЛЬНЫЕ СТИЛИ
+   (ЖАЛОБЫ И ПРЕДЛОЖЕНИЯ)
+   ======================================== */
+
+/* Иконка для жалоб */
+.complaint-icon {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  width: 48px;
+  height: 48px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.complaint-icon i {
+  font-size: 24px;
+  color: white;
+}
+
+/* Текст в карточке жалоб */
+.complaint-text {
+  color: #6b6b76;
+  font-size: 14px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.complaint-text i {
+  color: #f59e0b;
+  font-size: 18px;
+}
+
+/* Кнопка открытия жалоб */
+.complaint-open-btn {
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+}
+
+.complaint-open-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+}
+
+/* ===== МОДАЛЬНОЕ ОКНО ЖАЛОБ ===== */
+.complaint-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.complaint-modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.complaint-card {
+  background: white;
+  border-radius: 32px;
+  max-width: 500px;
+  width: 90%;
+  padding: 28px;
+  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.2);
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+
+.complaint-modal.show .complaint-card {
+  transform: scale(1);
+}
+
+.complaint-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.complaint-header i {
+  font-size: 32px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.complaint-header h3 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1e1b2e;
+  margin: 0;
+  flex: 1;
+}
+
+.complaint-close {
+  background: #f3f4f6;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.complaint-close:hover {
+  background: #e5e7eb;
+  transform: rotate(90deg);
+}
+
+.complaint-type {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.type-btn {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #e2e8f0;
+  background: white;
+  border-radius: 40px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.type-btn.active {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-color: #764ba2;
+  color: white;
+}
+
+.type-btn:hover:not(.active) {
+  background: #f3f4f6;
+  border-color: #cbd5e1;
+}
+
+.complaint-card textarea {
+  width: 100%;
+  padding: 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  resize: vertical;
+  margin-bottom: 16px;
+  transition: all 0.2s;
+}
+
+.complaint-card textarea:focus {
+  outline: none;
+  border-color: #764ba2;
+  box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
+}
+
+.complaint-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.complaint-cancel {
+  padding: 10px 24px;
+  border-radius: 40px;
+  background: #f3f4f6;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.complaint-cancel:hover {
+  background: #e5e7eb;
+}
+
+.complaint-send {
+  padding: 10px 24px;
+  border-radius: 40px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.complaint-send:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+}
+
+/* Тост-уведомление */
+.complaint-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #10b981;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 50px;
+  z-index: 2100;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  animation: complaintToastFade 0.3s ease;
+}
+
+@keyframes complaintToastFade {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Адаптив */
+@media (max-width: 560px) {
+  .complaint-card {
+    padding: 20px;
+  }
+  
+  .complaint-header h3 {
+    font-size: 18px;
+  }
+  
+  .complaint-header i {
+    font-size: 24px;
+  }
+  
+  .type-btn {
+    padding: 8px;
+    font-size: 12px;
+  }
+  
+  .complaint-cancel,
+  .complaint-send {
+    padding: 8px 20px;
+  }
+}
+
+.pin-error {
+  color: #dc2626;
+  font-size: 12px;
+  margin-top: 8px;
+}
 /* =========================
    EXPORT PAGE
 ========================= */
