@@ -4713,237 +4713,6 @@ body {
     font-size: 13px;
   }
 }
-/*регистрация */
-/* ========================================
-   REGISTER PAGE STYLES (ТОЛЬКО ДЛЯ СТРАНИЦЫ РЕГИСТРАЦИИ)
-   ======================================== */
-
-.register-page * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.register-page body {
-  font-family: 'Inter', sans-serif;
-  background: #f6f1e8;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.register-page {
-  width: 100%;
-  max-width: 500px;
-  font-family: 'Inter', sans-serif;
-}
-
-.register-page .register-card {
-  background: white;
-  border-radius: 32px;
-  padding: 40px 32px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-  border: 1px solid #ede7f5;
-  transition: transform 0.3s ease;
-}
-
-.register-page .register-card:hover {
-  transform: translateY(-5px);
-}
-
-.register-page .register-logo {
-  font-size: 56px;
-  text-align: center;
-  margin-bottom: 16px;
-}
-
-.register-page .register-logo i {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.register-page h1 {
-  font-size: 28px;
-  font-weight: 700;
-  text-align: center;
-  background: linear-gradient(135deg, #1e1b2e, #3b1c5a);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  margin-bottom: 8px;
-}
-
-.register-page .register-subtitle {
-  text-align: center;
-  color: #8a8fa3;
-  font-size: 14px;
-  margin-bottom: 28px;
-}
-
-.register-page .success-message {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: white;
-  padding: 14px 24px;
-  border-radius: 50px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 14px;
-  font-weight: 500;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  z-index: 1100;
-  animation: registerSlideDown 0.3s ease;
-}
-
-@keyframes registerSlideDown {
-  from {
-    top: -60px;
-    opacity: 0;
-  }
-  to {
-    top: 20px;
-    opacity: 1;
-  }
-}
-
-.register-page .register-avatar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 24px;
-}
-
-.register-page .avatar-preview {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: linear-gradient(135deg, #e0d4f0, #c6b7e2);
-  margin-bottom: 12px;
-  border: 3px solid #764ba2;
-  transition: transform 0.2s;
-}
-
-.register-page .avatar-preview:hover {
-  transform: scale(1.05);
-}
-
-.register-page .avatar-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.register-page .avatar-btn {
-  background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
-  padding: 8px 20px;
-  border-radius: 40px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #4b5563;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: none;
-}
-
-.register-page .avatar-btn:hover {
-  background: linear-gradient(135deg, #e5e7eb, #d1d5db);
-  transform: translateY(-2px);
-}
-
-.register-page .register-form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.register-page .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.register-page .form-group label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #374151;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.register-page .form-group label i {
-  color: #764ba2;
-  width: 18px;
-}
-
-.register-page .form-group input {
-  padding: 14px 16px;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 20px;
-  font-size: 14px;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s;
-  background: #fafafa;
-}
-
-.register-page .form-group input:focus {
-  outline: none;
-  border-color: #764ba2;
-  background: white;
-  box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.15);
-}
-
-.register-page .register-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  padding: 14px;
-  border-radius: 40px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  margin-top: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.register-page .register-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(118, 75, 162, 0.3);
-}
-
-.register-page .login-link {
-  text-align: center;
-  margin-top: 24px;
-  font-size: 14px;
-  color: #8a8fa3;
-}
-
-.register-page .login-link a {
-  color: #764ba2;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.register-page .login-link a:hover {
-  text-decoration: underline;
-}
-
 /* ========================================
    MODAL STYLES (ТОЛЬКО ДЛЯ МОДАЛЬНОГО ОКНА)
    ======================================== */
@@ -6196,5 +5965,709 @@ body {
     font-size: 11px;
     letter-spacing: 3px;
     margin-bottom: 30px;
+  }
+}
+/* ========================================
+   PROFILE PAGE - ПОЛНЫЙ CSS ФАЙЛ
+   ======================================== */
+
+.profile-app {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background: #f6f1e8;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.profile-app * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ========== КНОПКА МЕНЮ ========== */
+.profile-app .profile-menu-btn {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 16px;
+  background: #3a1661;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 1100;
+  transition: 0.3s ease;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-app .profile-menu-btn:hover {
+  transform: scale(1.06);
+  background: #4a2078;
+}
+
+/* ========== ОВЕРЛЕЙ ========== */
+.profile-app .profile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  transition: .3s ease;
+  z-index: 999;
+}
+
+.profile-app .profile-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ========== САЙДБАР ========== */
+.profile-app .profile-sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100vh;
+  background: #39155d;
+  color: white;
+  z-index: 1000;
+  padding: 22px 20px;
+  transition: .35s ease;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.profile-app .profile-sidebar.show {
+  left: 0;
+}
+
+/* ЖЁЛТЫЙ СКРОЛЛБАР */
+.profile-app .profile-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.profile-app .profile-sidebar::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+}
+
+.profile-app .profile-sidebar::-webkit-scrollbar-thumb {
+  background: #ffbe3b;
+  border-radius: 10px;
+}
+
+.profile-app .profile-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #ffd966;
+}
+
+/* Для Firefox */
+.profile-app .profile-sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: #ffbe3b rgba(255,255,255,0.15);
+}
+
+/* Шапка сайдбара */
+.profile-app .profile-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+
+.profile-app .profile-sidebar-header h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffbe3b;
+}
+
+.profile-app .profile-sidebar-close {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.profile-app .profile-sidebar-close:hover {
+  transform: rotate(90deg);
+}
+
+/* Ссылки меню */
+.profile-app .profile-sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 14px;
+  margin-bottom: 8px;
+  border-radius: 18px;
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  transition: .25s ease;
+}
+
+.profile-app .profile-sidebar a i {
+  font-size: 18px;
+  width: 24px;
+  color: white;
+}
+
+.profile-app .profile-sidebar a:hover {
+  background: rgba(255,255,255,.12);
+  transform: translateX(4px);
+}
+
+.profile-app .profile-sidebar a.active {
+  background: rgba(255,255,255,.15);
+  color: #ffbe3b;
+}
+
+.profile-app .profile-sidebar a.active i {
+  color: #ffbe3b;
+}
+
+/* ========== ОСНОВНОЙ КОНТЕНТ ========== */
+.profile-app .profile-page {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 80px 20px 40px;
+}
+
+.profile-app .profile-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.profile-app .profile-header h1 {
+  font-size: 32px;
+  color: #1e1b2e;
+  margin-bottom: 8px;
+}
+
+.profile-app .profile-subtitle {
+  color: #8a8fa3;
+  font-size: 14px;
+}
+
+/* ========== КАРТОЧКИ ========== */
+.profile-app .profile-card {
+  background: white;
+  border-radius: 28px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 1px solid #f0e4d0;
+}
+
+.profile-app .profile-card-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.profile-app .profile-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-app .profile-card-icon i {
+  font-size: 24px;
+  color: white;
+}
+
+.profile-app .profile-card-icon.blue { background: #3a1661; }
+.profile-app .profile-card-icon.purple { background: #6b4c7a; }
+.profile-app .profile-card-icon.green { background: #10b981; }
+.profile-app .profile-card-icon.red { background: #ef4444; }
+
+.profile-app .profile-card-title h2 {
+  font-size: 18px;
+  color: #1e1b2e;
+  margin-bottom: 4px;
+}
+
+.profile-app .profile-card-title p {
+  font-size: 13px;
+  color: #8a8fa3;
+}
+
+/* ========== АВАТАР ========== */
+.profile-app .profile-avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-app .profile-avatar-preview {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #3a1661;
+}
+
+.profile-app .profile-avatar-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-app .profile-avatar-btn {
+  background: #f3f4f6;
+  padding: 8px 20px;
+  border-radius: 40px;
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+}
+
+.profile-app .profile-avatar-btn:hover {
+  background: #e5e7eb;
+}
+
+/* ========== ФОРМА ========== */
+.profile-app .profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-app .profile-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.profile-app .profile-form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.profile-app .profile-form-group label i {
+  color: #3a1661;
+  width: 20px;
+}
+
+.profile-app .profile-form-group input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 20px;
+  font-size: 14px;
+  background: #fafafa;
+}
+
+.profile-app .profile-form-group input:focus {
+  outline: none;
+  border-color: #3a1661;
+}
+
+/* ========== КНОПКИ ========== */
+.profile-app .profile-save-btn {
+  background: #3a1661;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.profile-app .profile-save-btn:hover {
+  background: #4a2078;
+  transform: translateY(-2px);
+}
+
+.profile-app .profile-complaint-open-btn {
+  background: #d97706 !important;
+}
+
+.profile-app .profile-complaint-open-btn:hover {
+  background: #b85e00 !important;
+}
+
+/* ========== ПАРОЛЬ ========== */
+.profile-app .profile-password-box {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f0e4d0;
+}
+
+.profile-app .profile-password-box h4 {
+  font-size: 14px;
+  color: #1e1b2e;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-app .profile-password-input {
+  margin-bottom: 12px;
+}
+
+.profile-app .profile-password-input input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.profile-app .profile-forgot-link {
+  text-align: right;
+  margin-bottom: 12px;
+}
+
+.profile-app .profile-forgot-link a {
+  font-size: 12px;
+  color: #d97706;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.profile-app .profile-forgot-link a:hover {
+  text-decoration: underline;
+}
+
+.profile-app .profile-password-error {
+  color: #dc2626;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* ========== СТАТИСТИКА ========== */
+.profile-app .profile-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  text-align: center;
+}
+
+.profile-app .profile-stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #3a1661;
+}
+
+.profile-app .profile-stat-label {
+  font-size: 12px;
+  color: #8a8fa3;
+  margin-top: 4px;
+}
+
+/* ========== ПРИВАТНОСТЬ ========== */
+.profile-app .profile-privacy-text {
+  font-size: 13px;
+  color: #6b6b80;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.profile-app .profile-privacy-list {
+  list-style: none;
+}
+
+.profile-app .profile-privacy-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #5a6b4a;
+  margin-bottom: 10px;
+}
+
+.profile-app .profile-privacy-list li i {
+  color: #10b981;
+}
+
+/* ========== ВЫХОД ========== */
+.profile-app .profile-logout-btn {
+  width: 100%;
+  background: #fee2e2;
+  color: #dc2626;
+  border: none;
+  padding: 14px;
+  border-radius: 40px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+.profile-app .profile-logout-btn:hover {
+  background: #fecaca;
+  transform: translateY(-2px);
+}
+
+/* ========== МОДАЛЬНЫЕ ОКНА ========== */
+.profile-app .profile-reset-modal,
+.profile-app .profile-complaint-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+
+.profile-app .profile-reset-modal.show,
+.profile-app .profile-complaint-modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.profile-app .profile-reset-card,
+.profile-app .profile-complaint-card {
+  background: white;
+  border-radius: 32px;
+  max-width: 500px;
+  width: 90%;
+  padding: 28px;
+}
+
+.profile-app .profile-reset-header,
+.profile-app .profile-complaint-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.profile-app .profile-reset-header i,
+.profile-app .profile-complaint-header i {
+  font-size: 28px;
+  color: #d97706;
+}
+
+.profile-app .profile-reset-header h3,
+.profile-app .profile-complaint-header h3 {
+  font-size: 20px;
+  flex: 1;
+  margin: 0;
+}
+
+.profile-app .profile-reset-close,
+.profile-app .profile-complaint-close {
+  background: #f3f4f6;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.profile-app .profile-reset-close:hover,
+.profile-app .profile-complaint-close:hover {
+  background: #e5e7eb;
+  transform: rotate(90deg);
+}
+
+/* Жалобы */
+.profile-app .profile-complaint-type {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.profile-app .profile-type-btn {
+  flex: 1;
+  padding: 8px;
+  border: 2px solid #e2e8f0;
+  background: white;
+  border-radius: 40px;
+  cursor: pointer;
+}
+
+.profile-app .profile-type-btn.active {
+  background: #d97706;
+  color: white;
+  border-color: #d97706;
+}
+
+.profile-app .profile-complaint-card textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 20px;
+  font-family: inherit;
+  margin-bottom: 16px;
+}
+
+.profile-app .profile-complaint-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.profile-app .profile-complaint-cancel,
+.profile-app .profile-complaint-send {
+  padding: 8px 24px;
+  border-radius: 40px;
+  border: none;
+  cursor: pointer;
+}
+
+.profile-app .profile-complaint-cancel {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.profile-app .profile-complaint-send {
+  background: #d97706;
+  color: white;
+}
+
+/* Сброс пароля */
+.profile-app .profile-reset-card p {
+  font-size: 14px;
+  color: #6b6b80;
+  margin-bottom: 20px;
+}
+
+.profile-app .profile-reset-card input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.profile-app .profile-reset-send {
+  width: 100%;
+  padding: 12px;
+  border-radius: 40px;
+  background: #d97706;
+  color: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.profile-app .profile-reset-send:hover {
+  transform: translateY(-2px);
+}
+
+/* ========== УВЕДОМЛЕНИЯ ========== */
+.profile-app .profile-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #10b981;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 50px;
+  z-index: 2100;
+  font-size: 14px;
+  animation: toastFade 0.3s ease;
+}
+
+@keyframes toastFade {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* ========== АДАПТАЦИЯ ========== */
+@media (max-width: 768px) {
+  .profile-app .profile-page {
+    padding: 70px 16px 30px;
+  }
+  .profile-app .profile-header h1 {
+    font-size: 28px;
+  }
+  .profile-app .profile-card {
+    padding: 20px;
+  }
+  .profile-app .profile-stat-value {
+    font-size: 24px;
+  }
+  .profile-app .profile-sidebar {
+    width: 270px;
+  }
+  .profile-app .profile-menu-btn {
+    width: 46px;
+    height: 46px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-app .profile-page {
+    padding: 60px 12px 20px;
+  }
+  .profile-app .profile-header h1 {
+    font-size: 24px;
+  }
+  .profile-app .profile-card {
+    padding: 16px;
+  }
+  .profile-app .profile-card-icon {
+    width: 40px;
+    height: 40px;
+  }
+  .profile-app .profile-card-icon i {
+    font-size: 20px;
+  }
+  .profile-app .profile-avatar-preview {
+    width: 80px;
+    height: 80px;
+  }
+  .profile-app .profile-stat-value {
+    font-size: 20px;
+  }
+  .profile-app .profile-reset-card,
+  .profile-app .profile-complaint-card {
+    padding: 20px;
+  }
+  .profile-app .profile-toast {
+    white-space: normal;
+    text-align: center;
+    max-width: 90%;
   }
 }
