@@ -1,27 +1,5 @@
-// ===== MOCK ДАННЫЕ =====
-let tags = [
-    {
-        id: 1,
-        name: "Работа",
-        icon: "💼",
-        count: 12,
-        type: "neutral"
-    },
-    {
-        id: 2,
-        name: "Дом",
-        icon: "🏠",
-        count: 8,
-        type: "positive"
-    },
-    {
-        id: 3,
-        name: "Спорт",
-        icon: "🏃",
-        count: 7,
-        type: "positive"
-    }
-];
+// ===== STATE =====
+let tags = [];
 
 // ===== ЭЛЕМЕНТЫ =====
 const tagsGrid =
@@ -37,7 +15,7 @@ const clearSearchBtn =
 const searchResultInfo =
     document.getElementById("searchResultInfo");
 
-// ===== МОДАЛКА РЕДАКТИРОВАНИЯ =====
+// ===== МОДАЛКИ =====
 const editModal =
     document.getElementById("editModal");
 const editTagInput =
@@ -47,7 +25,6 @@ const saveEditBtn =
 const cancelEditBtn =
     document.getElementById("cancelEditBtn");
 
-// ===== МОДАЛКА УДАЛЕНИЯ =====
 const deleteModal =
     document.getElementById("deleteModal");
 const deleteTagName =
@@ -57,16 +34,36 @@ const confirmDeleteBtn =
 const cancelDeleteBtn =
     document.getElementById("cancelDeleteBtn");
 
-// ===== СОСТОЯНИЕ =====
+// ===== STATE =====
 let currentEditId = null;
 let currentDeleteId = null;
 
-// ===== РЕНДЕР ТЕГОВ =====
+
+// =======================
+// LOAD (API)
+// =======================
+async function loadTags() {
+    try {
+        tags = await getTags(); // 👈 API
+
+        if (!Array.isArray(tags)) tags = [];
+
+        renderTags(tags);
+    } catch (e) {
+        console.error("Tags load error:", e);
+        tags = [];
+        renderTags([]);
+    }
+}
+
+
+// =======================
+// RENDER
+// =======================
 function renderTags(data = tags) {
     tagsGrid.innerHTML = "";
 
-    // ПУСТО
-    if (data.length === 0) {
+    if (!Array.isArray(data) || data.length === 0) {
         tagsGrid.innerHTML = `
             <div class="empty">
                 Теги не найдены
@@ -75,185 +72,165 @@ function renderTags(data = tags) {
         return;
     }
 
-    // СОЗДАНИЕ КАРТОЧЕК
     data.forEach(tag => {
-        const card =
-            document.createElement("div");
-        card.className =
-            `tag-card ${tag.type}`;
+        const card = document.createElement("div");
+        card.className = `tag-card ${tag.type}`;
+
         card.innerHTML = `
             <div class="tag-card-content">
                 <div class="tag-icon-wrapper ${tag.type}">
                     ${tag.icon}
                 </div>
+
                 <div class="tag-info">
-                    <div class="tag-name">
-                        ${tag.name}
-                    </div>
-                    <div class="tag-count">
-                        ${tag.count} раз
-                    </div>
+                    <div class="tag-name">${tag.name}</div>
+                    <div class="tag-count">${tag.count} раз</div>
                 </div>
+
                 <div class="tag-actions">
-                    <button
-                        class="tag-edit-btn"
-                        data-id="${tag.id}"
-                    >
-                        ✏️
-                    </button>
-                    <button
-                        class="tag-delete-btn"
-                        data-id="${tag.id}"
-                    >
-                        🗑️
-                    </button>
+                    <button class="tag-edit-btn" data-id="${tag.id}">✏️</button>
+                    <button class="tag-delete-btn" data-id="${tag.id}">🗑️</button>
                 </div>
             </div>
         `;
+
         tagsGrid.appendChild(card);
     });
+
     searchResultInfo.textContent =
         `Всего тегов: ${data.length}`;
 }
 
-// ===== ДОБАВЛЕНИЕ ТЕГА =====
-addTagBtn.addEventListener("click", () => {
-    const value =
-        newTagInput.value.trim();
+
+// =======================
+// ADD (API)
+// =======================
+addTagBtn.addEventListener("click", async () => {
+    const value = newTagInput.value.trim();
     if (!value) return;
+
     const newTag = {
-        id: Date.now(),
         name: value,
         icon: "🏷️",
         count: 0,
         type: "neutral"
     };
-    tags.unshift(newTag);
+
+    await createTag(newTag); // 👈 API
+
     newTagInput.value = "";
-    renderTags();
+    await loadTags();
 });
 
 
-// ===== ПОИСК =====
-function searchTags() {
-    const query =
-        tagSearchInput.value
-            .toLowerCase()
-            .trim();
-    const filtered =
-        tags.filter(tag => {
-            return (
-                tag.name
-                    .toLowerCase()
-                    .includes(query)
-            );
-        });
-    renderTags(filtered);
-    searchResultInfo.textContent =
-        `Найдено тегов: ${filtered.length}`;
+// =======================
+// SEARCH (API)
+// =======================
+async function searchTags() {
+    const query = tagSearchInput.value.trim().toLowerCase();
+
+    if (!query) {
+        renderTags(tags);
+        return;
+    }
+
+    try {
+        const results = await searchTagsApi(query); // 👈 API
+
+        renderTags(results || []);
+        searchResultInfo.textContent =
+            `Найдено тегов: ${(results || []).length}`;
+    } catch (e) {
+        console.error(e);
+    }
 }
 
-// ===== ОЧИСТКА ПОИСКА =====
-clearSearchBtn.addEventListener(
-    "click",
-    () => {
-        tagSearchInput.value = "";
-        renderTags();
-    }
-);
 
-// ===== ВВОД ПОИСКА =====
-tagSearchInput.addEventListener(
-    "input",
-    searchTags
-);
+// =======================
+// CLEAR
+// =======================
+clearSearchBtn.addEventListener("click", async () => {
+    tagSearchInput.value = "";
+    await loadTags();
+});
 
+tagSearchInput.addEventListener("input", searchTags);
+
+
+// =======================
+// EDIT / DELETE (EVENTS)
+// =======================
 tagsGrid.addEventListener("click", (e) => {
 
-    // РЕДАКТИРОВАТЬ
     if (e.target.classList.contains("tag-edit-btn")) {
 
         const id = Number(e.target.dataset.id);
-
         const tag = tags.find(t => t.id === id);
 
         if (!tag) return;
 
         currentEditId = id;
-
         editTagInput.value = tag.name;
+
         editModal.classList.add("show");
     }
 
-    // УДАЛИТЬ
     if (e.target.classList.contains("tag-delete-btn")) {
 
         const id = Number(e.target.dataset.id);
-
         const tag = tags.find(t => t.id === id);
 
         if (!tag) return;
 
         currentDeleteId = id;
-
         deleteTagName.textContent = tag.name;
+
         deleteModal.classList.add("show");
     }
 });
-// ===== СОХРАНЕНИЕ =====
-saveEditBtn.addEventListener(
-    "click",
-    () => {
-        const tag =
-            tags.find(
-                t => t.id === currentEditId
-            );
-        if (!tag) return;
-        tag.name =
-            editTagInput.value.trim();
-        editModal.classList.remove("show");
-        renderTags();
-    }
+
+
+// =======================
+// SAVE EDIT (API)
+// =======================
+saveEditBtn.addEventListener("click", async () => {
+    const tag = tags.find(t => t.id === currentEditId);
+    if (!tag) return;
+
+    await updateTag({
+        id: currentEditId,
+        name: editTagInput.value.trim()
+    }); // 👈 API
+
+    editModal.classList.remove("show");
+    await loadTags();
+});
+
+
+// =======================
+// DELETE (API)
+// =======================
+confirmDeleteBtn.addEventListener("click", async () => {
+    await deleteTag(currentDeleteId); // 👈 API
+
+    deleteModal.classList.remove("show");
+    await loadTags();
+});
+
+
+// =======================
+// CANCEL
+// =======================
+cancelEditBtn.addEventListener("click", () =>
+    editModal.classList.remove("show")
+);
+
+cancelDeleteBtn.addEventListener("click", () =>
+    deleteModal.classList.remove("show")
 );
 
 
-// ===== ОТМЕНА РЕДАКТИРОВАНИЯ =====
-cancelEditBtn.addEventListener(
-    "click",
-    () => {
-        editModal.classList.remove("show");
-    }
-);
-
-// ===== ПОДТВЕРЖДЕНИЕ УДАЛЕНИЯ =====
-confirmDeleteBtn.addEventListener(
-    "click",
-    () => {
-        tags = tags.filter(
-            tag => tag.id !== currentDeleteId
-        );
-        deleteModal.classList.remove("show");
-        renderTags();
-    }
-);
-
-// ===== ОТМЕНА УДАЛЕНИЯ =====
-cancelDeleteBtn.addEventListener(
-    "click",
-    () => {
-        deleteModal.classList.remove("show");
-    }
-);
-
-// ===== ENTER ДОБАВЛЕНИЕ =====
-newTagInput.addEventListener(
-    "keydown",
-    e => {
-        if (e.key === "Enter") {
-            addTagBtn.click();
-        }
-    }
-);
-
-// ===== ПЕРВЫЙ РЕНДЕР =====
-renderTags();
+// =======================
+// INIT
+// =======================
+loadTags();

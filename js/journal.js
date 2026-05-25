@@ -1,137 +1,214 @@
-// ===== MOCK ДАННЫЕ =====
-// потом можно заменить на API или LocalStorage
-let entries = [
-    {
-        id: 1,
-        mood: 3,
-        date: "2026-03-11 10:15",
-        note: "Обычный рабочий день"
-    },
-    {
-        id: 2,
-        mood: 5,
-        date: "2026-03-10 18:30",
-        note: "Отличный день! Встретился с друзьями"
-    },
-    {
-        id: 3,
-        mood: 1,
-        date: "2026-03-09 08:00",
-        note: "Не выспался, голова болит"
-    }
-];
+// =======================
+// STATE
+// =======================
+
+let entries = [];
+
+let currentFilter = "all";
+
+let currentEditId = null;
+
+let currentDeleteId = null;
 
 
-// ===== ЭЛЕМЕНТЫ =====
-const entriesList = document.getElementById("entriesList");
-const searchInput = document.getElementById("searchInput");
+// =======================
+// ELEMENTS
+// =======================
+
+const entriesList =
+    document.getElementById("entriesList");
+
+const searchInput =
+    document.getElementById("searchInput");
+
 const clearSearch =
     document.getElementById("clearSearch");
+
 const searchResultInfo =
     document.getElementById("searchResultInfo");
 
-// ===== МОДАЛКА РЕДАКТИРОВАНИЯ =====
+
+// ===== MODAL EDIT =====
+
 const modal =
     document.getElementById("modal");
+
 const editText =
     document.getElementById("editText");
+
 const editMood =
     document.getElementById("editMood");
+
 const saveBtn =
     document.getElementById("saveBtn");
+
 const modalCloseBtn =
     document.getElementById("modalCloseBtn");
 
-// ===== МОДАЛКА УДАЛЕНИЯ =====
+
+// ===== MODAL DELETE =====
+
 const deleteModal =
     document.getElementById("deleteModal");
+
 const confirmDeleteBtn =
     document.getElementById("confirmDeleteBtn");
+
 const cancelDeleteBtn =
     document.getElementById("cancelDeleteBtn");
 
-// ===== КНОПКИ ФИЛЬТРА =====
+
+// ===== FILTERS =====
+
 const filterButtons =
     document.querySelectorAll(".mood-filter-btn");
 
-// ===== СОСТОЯНИЕ =====
-let currentFilter = "all";
-let currentEditId = null;
-let currentDeleteId = null;
 
-// ===== ЭМОДЗИ =====
+// =======================
+// EMOJI
+// =======================
+
 const moodEmoji = {
+
     1: "😢",
     2: "😐",
     3: "🙂",
     4: "😊",
     5: "😁"
+
 };
 
-// ===== РЕНДЕР ЗАПИСЕЙ =====
-function renderEntries(data = entries) {
-    entriesList.innerHTML = "";
-    // ПУСТО
-    if (data.length === 0) {
+
+// =======================
+// LOAD DATA
+// =======================
+
+async function loadEntries() {
+
+    try {
+
+        const response =
+            await getAllMoods();
+
+        if (!response.ok) {
+
+            throw new Error("Ошибка загрузки");
+
+        }
+
+        entries =
+            await response.json();
+
+        renderEntries(entries);
+
+    } catch (error) {
+
+        console.error(error);
+
         entriesList.innerHTML = `
-      <div class="empty">
-        Ничего не найдено
-      </div>
-    `;
+            <div class="empty">
+                Ошибка загрузки данных
+            </div>
+        `;
+    }
+
+}
+
+
+// =======================
+// RENDER
+// =======================
+
+function renderEntries(data = entries) {
+
+    entriesList.innerHTML = "";
+
+    if (!data.length) {
+
+        entriesList.innerHTML = `
+            <div class="empty">
+                Ничего не найдено
+            </div>
+        `;
+
         return;
     }
 
-    // СОЗДАНИЕ КАРТОЧЕК
     data.forEach(entry => {
-        const card = document.createElement("div");
+
+        const card =
+            document.createElement("div");
+
         card.className = "card";
+
         card.innerHTML = `
-      <div class="icon m${entry.mood}">
-        ${moodEmoji[entry.mood]}
-      </div>
-      <div class="content">
-        <div class="top">
-          <div>
-            <div class="date">
-              ${formatDate(entry.date)}
+            <div class="icon m${entry.score}">
+                ${moodEmoji[entry.score]}
             </div>
-            <div class="title">
-              Настроение: ${entry.mood}/5
+
+            <div class="content">
+
+                <div class="top">
+
+                    <div>
+
+                        <div class="date">
+                            ${formatDate(entry.timestamp)}
+                        </div>
+
+                        <div class="title">
+                            Настроение: ${entry.score}/5
+                        </div>
+
+                    </div>
+
+                    <div class="actions">
+
+                        <button
+                            class="btn edit-btn"
+                            data-id="${entry.id}"
+                        >
+                            ✏️
+                        </button>
+
+                        <button
+                            class="btn delete-btn"
+                            data-id="${entry.id}"
+                        >
+                            🗑️
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="note">
+                    ${entry.note || ""}
+                </div>
+
             </div>
-          </div>
-          <div class="actions">
+        `;
 
-            <button
-              class="btn edit-btn"
-              data-id="${entry.id}"
-            >
-              ✏️
-            </button>
-
-            <button
-              class="btn delete-btn"
-              data-id="${entry.id}"
-            >
-              🗑️
-            </button>
-          </div>
-        </div>
-        <div class="note">
-          ${entry.note}
-        </div>
-      </div>
-    `;
         entriesList.appendChild(card);
+
     });
+
     attachEvents();
 
 }
 
 
-// ===== ФОРМАТ ДАТЫ =====
+// =======================
+// DATE FORMAT
+// =======================
+
 function formatDate(dateString) {
-    const date = new Date(dateString);
+
+    const date =
+        new Date(dateString);
+
     return date.toLocaleString("ru-RU", {
+
         day: "numeric",
         month: "long",
         year: "numeric",
@@ -143,140 +220,298 @@ function formatDate(dateString) {
 }
 
 
-// ===== ПОИСК =====
-function searchEntries() {
+// =======================
+// SEARCH
+// =======================
+
+async function searchEntries() {
+
     const query =
-        searchInput.value.toLowerCase().trim();
-    let filtered = entries.filter(entry => {
+        searchInput.value.trim();
 
-        // ПОИСК ПО ЗАМЕТКЕ
-        const noteMatch =
-            entry.note.toLowerCase()
-                .includes(query);
+    // если пусто
+    if (!query) {
 
-        // ПОИСК ПО ДАТЕ
-        const dateMatch =
-            formatDate(entry.date)
-                .toLowerCase()
-                .includes(query);
+        applyFilter(entries);
 
-        // ПОИСК ПО НАСТРОЕНИЮ
-        const moodMatch =
-            String(entry.mood)
-                .includes(query);
+        return;
+    }
 
-        const matchesSearch =
-            noteMatch ||
-            dateMatch ||
-            moodMatch;
+    try {
 
-        // ФИЛЬТР ПО НАСТРОЕНИЮ
-        const matchesMood =
-            currentFilter === "all" ||
-            String(entry.mood) === currentFilter;
-        return matchesSearch && matchesMood;
+        const response =
+            await searchMoods(query);
 
-    });
+        if (!response.ok) {
+
+            throw new Error("Ошибка поиска");
+
+        }
+
+        const results =
+            await response.json();
+
+        applyFilter(results);
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+// =======================
+// FILTER
+// =======================
+
+function applyFilter(data) {
+
+    let filtered = data;
+
+    if (currentFilter !== "all") {
+
+        filtered = data.filter(entry =>
+
+            String(entry.score) === currentFilter
+
+        );
+    }
 
     renderEntries(filtered);
+
     searchResultInfo.textContent =
         `Найдено записей: ${filtered.length}`;
 
 }
 
-// ===== ФИЛЬТРЫ =====
+
+// =======================
+// FILTER BUTTONS
+// =======================
+
 filterButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
+
+    btn.addEventListener("click", async () => {
+
         filterButtons.forEach(button => {
+
             button.classList.remove("active");
+
         });
+
         btn.classList.add("active");
-        currentFilter = btn.dataset.mood;
-        searchEntries();
+
+        currentFilter =
+            btn.dataset.mood;
+
+        await searchEntries();
 
     });
 
 });
 
 
-// ===== ОЧИСТКА ПОИСКА =====
+// =======================
+// CLEAR SEARCH
+// =======================
+
 clearSearch.addEventListener("click", () => {
+
     searchInput.value = "";
-    searchEntries();
+
+    applyFilter(entries);
 
 });
 
-// ===== ВВОД ПОИСКА =====
+
+// =======================
+// INPUT SEARCH
+// =======================
+
 searchInput.addEventListener(
     "input",
     searchEntries
 );
 
 
-// ===== EVENTS =====
+// =======================
+// EVENTS
+// =======================
+
 function attachEvents() {
-    // ===== РЕДАКТИРОВАНИЕ =====
+
+    // ===== EDIT =====
+
     document.querySelectorAll(".edit-btn")
         .forEach(btn => {
-            btn.addEventListener("click", () => {
-                const id =
-                    Number(btn.dataset.id);
-                const entry = entries.find(
-                    e => e.id === id
-                );
-                currentEditId = id;
-                editText.value = entry.note;
-                editMood.value = entry.mood;
-                modal.classList.remove("hidden");
+
+            btn.addEventListener("click", async () => {
+
+                try {
+
+                    const id =
+                        Number(btn.dataset.id);
+
+                    const response =
+                        await getMoodById(id);
+
+                    if (!response.ok) {
+
+                        throw new Error("Ошибка");
+
+                    }
+
+                    const entry =
+                        await response.json();
+
+                    currentEditId = id;
+
+                    editText.value =
+                        entry.note || "";
+
+                    editMood.value =
+                        entry.score;
+
+                    modal.classList.remove("hidden");
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    alert("Ошибка загрузки записи");
+
+                }
+
             });
+
         });
 
 
-    // ===== УДАЛЕНИЕ =====
+    // ===== DELETE =====
+
     document.querySelectorAll(".delete-btn")
         .forEach(btn => {
+
             btn.addEventListener("click", () => {
+
                 currentDeleteId =
                     Number(btn.dataset.id);
+
                 deleteModal.classList.remove("hidden");
+
             });
+
         });
+
 }
 
 
-// ===== СОХРАНЕНИЕ =====
-saveBtn.addEventListener("click", () => {
-    const entry = entries.find(
-        e => e.id === currentEditId
-    );
-    if (!entry) return;
-    entry.note = editText.value;
-    entry.mood =
-        Number(editMood.value);
-    modal.classList.add("hidden");
-    searchEntries();
+// =======================
+// SAVE UPDATE
+// =======================
+
+saveBtn.addEventListener("click", async () => {
+
+    const updatedData = {
+
+        id: currentEditId,
+
+        score: Number(editMood.value),
+
+        note: editText.value,
+
+        tags: ""
+
+    };
+
+    try {
+
+        const response =
+            await updateMood(updatedData);
+
+        if (!response.ok) {
+
+            throw new Error("Ошибка обновления");
+
+        }
+
+        modal.classList.add("hidden");
+
+        await loadEntries();
+
+        await searchEntries();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Ошибка обновления");
+
+    }
+
 });
 
-// ===== ЗАКРЫТЬ РЕДАКТИРОВАНИЕ =====
+
+// =======================
+// CLOSE EDIT MODAL
+// =======================
+
 modalCloseBtn.addEventListener("click", () => {
+
     modal.classList.add("hidden");
 
 });
 
-// ===== ПОДТВЕРЖДЕНИЕ УДАЛЕНИЯ =====
-confirmDeleteBtn.addEventListener("click", () => {
-    entries = entries.filter(
-        entry => entry.id !== currentDeleteId
-    );
-    deleteModal.classList.add("hidden");
-    searchEntries();
+
+// =======================
+// CONFIRM DELETE
+// =======================
+
+confirmDeleteBtn.addEventListener("click", async () => {
+
+    try {
+
+        const response =
+            await deleteMood(currentDeleteId);
+
+        if (!response.ok) {
+
+            throw new Error("Ошибка удаления");
+
+        }
+
+        deleteModal.classList.add("hidden");
+
+        await loadEntries();
+
+        await searchEntries();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Ошибка удаления");
+
+    }
+
 });
 
 
-// ===== ОТМЕНА УДАЛЕНИЯ =====
+// =======================
+// CANCEL DELETE
+// =======================
+
 cancelDeleteBtn.addEventListener("click", () => {
+
     deleteModal.classList.add("hidden");
+
 });
 
-// ===== ПЕРВЫЙ РЕНДЕР =====
-renderEntries();
+
+// =======================
+// INIT
+// =======================
+
+loadEntries();
