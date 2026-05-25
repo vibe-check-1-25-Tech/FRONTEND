@@ -366,16 +366,16 @@
     e.preventDefault();
     const email = loginEmail.value.trim();
     const password = loginPassword.value;
-    
+
     if (!email || !password) {
       showToast('Заполните все поля', true);
       return;
     }
-    
+
     const loginBtn = document.querySelector('.login-btn');
     loginBtn.disabled = true;
     loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Вход...';
-    
+
     // Имитация входа (замените на реальный запрос к бэкенду)
     setTimeout(() => {
       // Для демонстрации: любой email и пароль подходят
@@ -384,15 +384,13 @@
       localStorage.setItem('userName', 'Пользователь');
       showToast('✅ Успешный вход! Перенаправление...');
       setTimeout(() => {
-        window.location.href = 'profile.html';
+        window.location.href = 'loading.html';
       }, 1000);
     }, 1000);
   });
 
   // Проверка авторизации
-  if (localStorage.getItem('token')) {
-    window.location.href = 'profile.html';
-  }
+
 </script>
 </body>
 </html>

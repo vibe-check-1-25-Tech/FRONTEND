@@ -158,11 +158,27 @@ function showSuccess() {
 }
 
 function finishRegistration(userData) {
+
     closePrivacyModal();
+
+    // сохраняем пользователя
+    localStorage.setItem('token', 'registered_user');
+
+    localStorage.setItem('userName', userData.name);
+
+    localStorage.setItem('userEmail', userData.email);
 
     showSuccess();
 
     console.log('Регистрация:', userData);
+
+    // переход на loading
+    setTimeout(() => {
+
+        window.location.href = 'loading.html';
+
+    }, 1500);
+
 }
 
 registerForm.addEventListener('submit', (e) => {
