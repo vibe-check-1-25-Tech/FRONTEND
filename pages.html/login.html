@@ -94,6 +94,7 @@
       font-size: 12px;
       color: #764ba2;
       text-decoration: none;
+      cursor: pointer;
     }
 
     .login-btn {
@@ -108,6 +109,11 @@
       cursor: pointer;
     }
 
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(118, 75, 162, 0.3);
+    }
+
     .register-link {
       text-align: center;
       margin-top: 24px;
@@ -119,6 +125,10 @@
       color: #764ba2;
       text-decoration: none;
       font-weight: 600;
+    }
+
+    .register-link a:hover {
+      text-decoration: underline;
     }
 
     /* МОДАЛЬНОЕ ОКНО ЗАБЫЛИ ПАРОЛЬ */
@@ -147,7 +157,7 @@
     .reset-card {
       background: white;
       border-radius: 32px;
-      max-width: 400px;
+      max-width: 420px;
       width: 90%;
       padding: 28px;
     }
@@ -167,6 +177,7 @@
     .reset-header h3 {
       font-size: 20px;
       flex: 1;
+      margin: 0;
     }
 
     .reset-close {
@@ -176,6 +187,18 @@
       height: 32px;
       border-radius: 50%;
       cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .reset-close:hover {
+      background: #e5e7eb;
+      transform: rotate(90deg);
+    }
+
+    .reset-card p {
+      font-size: 14px;
+      color: #6b6b80;
+      margin-bottom: 20px;
     }
 
     .reset-card input {
@@ -186,18 +209,30 @@
       margin-bottom: 20px;
     }
 
-    .reset-card button {
-      width: 100%;
-      padding: 12px;
-      border-radius: 40px;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
+    .reset-card input:focus {
+      outline: none;
+      border-color: #f59e0b;
     }
 
     .reset-send {
+      width: 100%;
+      padding: 12px;
+      border-radius: 40px;
       background: linear-gradient(135deg, #f59e0b, #d97706);
       color: white;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .reset-send:hover {
+      transform: translateY(-2px);
+    }
+
+    .reset-send:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     .toast-message {
@@ -210,6 +245,19 @@
       padding: 12px 24px;
       border-radius: 50px;
       z-index: 1100;
+      font-size: 14px;
+      animation: fadeInUp 0.3s ease;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
     }
   </style>
 </head>
@@ -220,9 +268,10 @@
   <h1>Добро пожаловать</h1>
   <p class="login-subtitle">Войдите в свой аккаунт</p>
 
-      <div class="login-footer">
-        <a href="registr.html">Создать аккаунт</a>
-      </div>
+  <form id="loginForm">
+    <div class="form-group">
+      <label><i class="fas fa-envelope"></i> Email</label>
+      <input type="email" id="loginEmail" placeholder="example@gmail.com">
     </div>
     <div class="form-group">
       <label><i class="fas fa-lock"></i> Пароль</label>
@@ -244,12 +293,10 @@
   <div class="reset-card">
     <div class="reset-header">
       <i class="fas fa-key"></i>
-      <h3>Сброс пароля</h3>
+      <h3>Восстановление пароля</h3>
       <button class="reset-close" id="closeResetBtn">✕</button>
     </div>
-    <p style="font-size: 14px; color: #6b6b80; margin-bottom: 16px;">
-      Введите ваш email, и мы отправим инструкцию для сброса пароля.
-    </p>
+    <p>Введите ваш email, и мы отправим инструкцию для сброса пароля.</p>
     <input type="email" id="resetEmail" placeholder="Ваш email">
     <button class="reset-send" id="sendResetBtn">Отправить</button>
   </div>
@@ -261,25 +308,32 @@
   const closeResetBtn = document.getElementById('closeResetBtn');
   const sendResetBtn = document.getElementById('sendResetBtn');
   const resetEmail = document.getElementById('resetEmail');
+  const loginForm = document.getElementById('loginForm');
+  const loginEmail = document.getElementById('loginEmail');
+  const loginPassword = document.getElementById('loginPassword');
 
-  function showToast(message) {
+  function showToast(message, isError = false) {
     const existing = document.querySelector('.toast-message');
     if (existing) existing.remove();
     const toast = document.createElement('div');
     toast.className = 'toast-message';
-    toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+    toast.style.background = isError ? '#dc2626' : '#10b981';
+    toast.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${message}`;
     document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
+    setTimeout(() => toast.remove(), 4000);
   }
 
+  // Открыть модальное окно
   forgotBtn.addEventListener('click', (e) => {
     e.preventDefault();
     resetModal.classList.add('show');
+    document.body.style.overflow = 'hidden';
     resetEmail.value = '';
   });
 
   function closeModal() {
     resetModal.classList.remove('show');
+    document.body.style.overflow = '';
   }
 
   closeResetBtn.addEventListener('click', closeModal);
@@ -287,29 +341,58 @@
     if (e.target === resetModal) closeModal();
   });
 
-  sendResetBtn.addEventListener('click', () => {
+  // Отправка запроса на сброс пароля
+  sendResetBtn.addEventListener('click', async () => {
     const email = resetEmail.value.trim();
     if (!email) {
-      alert('Введите email');
+      showToast('Введите email', true);
       return;
     }
     
-    // Здесь будет запрос к бэкенду
-    console.log('Запрос сброса пароля для:', email);
+    sendResetBtn.disabled = true;
+    sendResetBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
     
-    // Имитация отправки
-    showToast(`Инструкция по сбросу пароля отправлена на ${email}`);
-    closeModal();
+    // Имитация отправки (замените на реальный запрос к бэкенду)
+    setTimeout(() => {
+      showToast(`✅ Инструкция по сбросу пароля отправлена на ${email}`);
+      closeModal();
+      sendResetBtn.disabled = false;
+      sendResetBtn.innerHTML = 'Отправить';
+    }, 1500);
   });
 
-  // Вход
-  document.getElementById('loginForm').addEventListener('submit', (e) => {
+  // Вход в аккаунт
+  loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-    console.log('Вход:', { email, password });
-    alert('Функция входа в разработке');
+    const email = loginEmail.value.trim();
+    const password = loginPassword.value;
+    
+    if (!email || !password) {
+      showToast('Заполните все поля', true);
+      return;
+    }
+    
+    const loginBtn = document.querySelector('.login-btn');
+    loginBtn.disabled = true;
+    loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Вход...';
+    
+    // Имитация входа (замените на реальный запрос к бэкенду)
+    setTimeout(() => {
+      // Для демонстрации: любой email и пароль подходят
+      localStorage.setItem('token', 'demo_token');
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userName', 'Пользователь');
+      showToast('✅ Успешный вход! Перенаправление...');
+      setTimeout(() => {
+        window.location.href = 'profile.html';
+      }, 1000);
+    }, 1000);
   });
+
+  // Проверка авторизации
+  if (localStorage.getItem('token')) {
+    window.location.href = 'profile.html';
+  }
 </script>
 </body>
 </html>
