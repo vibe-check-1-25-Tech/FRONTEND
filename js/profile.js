@@ -4,56 +4,69 @@ console.log("profile.js подключен");
 // LOAD PROFILE
 // =========================
 function loadProfileData() {
-    const savedName = localStorage.getItem("userName");
-    const savedEmail = localStorage.getItem("userEmail");
-    const savedPhone = localStorage.getItem("userPhone");
-    const savedAvatar = localStorage.getItem("userAvatar");
 
-    const savedPin = localStorage.getItem("userPin");
+    const savedName =
+        localStorage.getItem("userName");
+
+    const savedEmail =
+        localStorage.getItem("userEmail");
+
+    const savedPhone =
+        localStorage.getItem("userPhone");
+
+    const savedAvatar =
+        localStorage.getItem("userAvatar");
+
+    const savedPin =
+        localStorage.getItem("userPin");
 
     const pinEnabled =
         localStorage.getItem("pinEnabled") === "true";
 
+    // NAME
     if (savedName) {
         document.getElementById("userName").value =
             savedName;
     }
 
+    // EMAIL
     if (savedEmail) {
         document.getElementById("userEmail").value =
             savedEmail;
     }
 
+    // PHONE
     if (savedPhone) {
         document.getElementById("userPhone").value =
             savedPhone;
     }
 
+    // AVATAR
     if (savedAvatar) {
         document.getElementById("avatarImg").src =
             savedAvatar;
     }
 
+    // PIN
     if (savedPin) {
         document.getElementById("pinInput").value =
             savedPin;
     }
 
-    const pinToggle =
-        document.getElementById("pinToggle");
-
-    const pinBox = document.getElementById("pinBox");
-
+    // TOGGLE
     if (pinToggle) {
         pinToggle.checked = pinEnabled;
     }
 
+    // SHOW/HIDE PIN BOX
     if (pinBox) {
+
         if (pinEnabled) {
             pinBox.classList.add("show");
         } else {
             pinBox.classList.remove("show");
         }
+
     }
 }
 
@@ -61,6 +74,7 @@ function loadProfileData() {
 // SAVE PROFILE
 // =========================
 function saveProfile() {
+
     const name =
         document.getElementById("userName").value;
 
@@ -71,7 +85,9 @@ function saveProfile() {
         document.getElementById("userPhone").value;
 
     localStorage.setItem("userName", name);
+
     localStorage.setItem("userEmail", email);
+
     localStorage.setItem("userPhone", phone);
 
     showToast("✅ Профиль сохранен");
@@ -84,7 +100,9 @@ const avatarUpload =
     document.getElementById("avatarUpload");
 
 if (avatarUpload) {
+
     avatarUpload.addEventListener("change", e => {
+
         const file = e.target.files[0];
 
         if (!file) return;
@@ -92,6 +110,7 @@ if (avatarUpload) {
         const reader = new FileReader();
 
         reader.onload = event => {
+
             const avatar =
                 document.getElementById("avatarImg");
 
@@ -103,10 +122,13 @@ if (avatarUpload) {
             );
 
             showToast("✅ Аватар обновлен");
+
         };
 
         reader.readAsDataURL(file);
+
     });
+
 }
 
 // =========================
@@ -130,66 +152,114 @@ const savePinBtn =
 const togglePinEye =
     document.getElementById("togglePinEye");
 
+// VALIDATE
 function validatePin(pin) {
     return /^\d{4}$/.test(pin);
 }
 
-function showPinError(message) {
+// ERROR
+function showPinError(message, success = false) {
+
     if (!pinError) return;
 
-    pinError.textContent = message;
-
     pinError.style.display = "block";
+
+    pinError.style.color =
+        success ? "green" : "#dc2626";
+
+    pinError.textContent = message;
 
     setTimeout(() => {
         pinError.style.display = "none";
     }, 3000);
 }
 
+// SAVE PIN
 function savePin() {
-    const pin = pinInput.value.trim();
 
+    const pin =
+        pinInput.value.trim();
+
+    // CHECK
     if (!validatePin(pin)) {
+
         showPinError(
             "PIN должен содержать 4 цифры"
         );
+
         return;
     }
 
+    // SAVE
     localStorage.setItem("userPin", pin);
+
+    // ENABLE PIN
+    localStorage.setItem(
+        "pinEnabled",
+        "true"
+    );
+
+    // ENABLE TOGGLE
+    if (pinToggle) {
+        pinToggle.checked = true;
+    }
+
+    // SHOW BOX
+    if (pinBox) {
+        pinBox.classList.add("show");
+    }
+
+    showPinError(
+        "PIN успешно сохранён",
+        true
+    );
 
     showToast("✅ PIN сохранен");
 }
 
-// toggle visibility
+// TOGGLE EYE
 if (togglePinEye) {
+
     togglePinEye.addEventListener("click", () => {
+
         const isHidden =
             pinInput.type === "password";
 
-        pinInput.type = isHidden
-            ? "text"
-            : "password";
+        pinInput.type =
+            isHidden
+                ? "text"
+                : "password";
 
-        togglePinEye.innerHTML = isHidden
-            ? '<i class="fas fa-eye-slash"></i>'
-            : '<i class="fas fa-eye"></i>';
+        togglePinEye.innerHTML =
+            isHidden
+                ? '<i class="fas fa-eye-slash"></i>'
+                : '<i class="fas fa-eye"></i>';
+
     });
+
 }
 
-// only numbers
+// ONLY NUMBERS
 if (pinInput) {
+
     pinInput.addEventListener("input", () => {
-        pinInput.value = pinInput.value
-            .replace(/\D/g, "")
-            .slice(0, 4);
+
+        pinInput.value =
+            pinInput.value
+                .replace(/\D/g, "")
+                .slice(0, 4);
+
     });
+
 }
 
-// toggle pin
+// TOGGLE PIN
 if (pinToggle) {
+
     pinToggle.addEventListener("change", () => {
+
         if (pinToggle.checked) {
+
             pinBox.classList.add("show");
 
             localStorage.setItem(
@@ -198,7 +268,9 @@ if (pinToggle) {
             );
 
             showToast("PIN включен");
+
         } else {
+
             pinBox.classList.remove("show");
 
             localStorage.setItem(
@@ -206,27 +278,35 @@ if (pinToggle) {
                 "false"
             );
 
-            localStorage.removeItem("userPin");
+            localStorage.removeItem(
+                "userPin"
+            );
 
             pinInput.value = "";
 
             showToast("PIN отключен");
+
         }
+
     });
+
 }
 
-// save pin
+// SAVE PIN BTN
 if (savePinBtn) {
+
     savePinBtn.addEventListener(
         "click",
         savePin
     );
+
 }
 
 // =========================
 // STATS
 // =========================
 function loadStats() {
+
     const entries =
         JSON.parse(
             localStorage.getItem(
@@ -234,25 +314,28 @@ function loadStats() {
             )
         ) || [];
 
-    const total = entries.length;
+    const total =
+        entries.length;
 
-    const avg = total
-        ? (
-            entries.reduce(
-                (sum, e) =>
-                    sum + Number(e.mood || 0),
-                0
-            ) / total
-        ).toFixed(1)
-        : 0;
+    const avg =
+        total
+            ? (
+                entries.reduce(
+                    (sum, e) =>
+                        sum + Number(e.mood || 0),
+                    0
+                ) / total
+            ).toFixed(1)
+            : 0;
 
-    const best = total
-        ? Math.max(
-            ...entries.map(e =>
-                Number(e.mood || 0)
+    const best =
+        total
+            ? Math.max(
+                ...entries.map(e =>
+                    Number(e.mood || 0)
+                )
             )
-        )
-        : 0;
+            : 0;
 
     const moodEmoji = {
         1: "😢",
@@ -272,15 +355,18 @@ function loadStats() {
 
     document.getElementById(
         "bestMood"
-    ).textContent = best
-        ? moodEmoji[best]
-        : "—";
+    ).textContent =
+        best
+            ? moodEmoji[best]
+            : "—";
+
 }
 
 // =========================
 // TOAST
 // =========================
 function showToast(message) {
+
     const oldToast =
         document.querySelector(".profile-toast");
 
@@ -291,12 +377,13 @@ function showToast(message) {
     const toast =
         document.createElement("div");
 
-    toast.className = "profile-toast";
+    toast.className =
+        "profile-toast";
 
     toast.innerHTML = `
-    <i class="fas fa-info-circle"></i>
-    ${message}
-  `;
+        <i class="fas fa-info-circle"></i>
+        ${message}
+    `;
 
     toast.style.position = "fixed";
     toast.style.bottom = "20px";
@@ -312,6 +399,7 @@ function showToast(message) {
     setTimeout(() => {
         toast.remove();
     }, 2500);
+
 }
 
 // =========================
@@ -321,19 +409,27 @@ const logoutBtn =
     document.getElementById("logoutBtn");
 
 if (logoutBtn) {
+
     logoutBtn.addEventListener("click", () => {
-        const confirmLogout = confirm(
-            "Выйти из аккаунта?"
-        );
+
+        const confirmLogout =
+            confirm(
+                "Выйти из аккаунта?"
+            );
 
         if (confirmLogout) {
+
             localStorage.removeItem(
                 "isAuthenticated"
             );
 
-            window.location.href = "login.html";
+            window.location.href =
+                "login.html";
+
         }
+
     });
+
 }
 
 // =========================
@@ -345,10 +441,12 @@ const saveProfileBtn =
     );
 
 if (saveProfileBtn) {
+
     saveProfileBtn.addEventListener(
         "click",
         saveProfile
     );
+
 }
 
 // =========================

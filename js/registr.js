@@ -1,65 +1,234 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const avatarUpload = document.querySelector('#avatarUpload');
-    const avatarImg = document.getElementById('avatarImg');
-    const registerForm = document.querySelector('.register-form');
+let pendingFormData = null;
 
-    // Загрузка аватара
-    if (avatarUpload) {
-        avatarUpload.addEventListener('change', function(e) {
-            const file = e.target.files[0];
+const userNameInput = document.getElementById('userName');
+const userEmailInput = document.getElementById('userEmail');
+const userPhoneInput = document.getElementById('userPhone');
+const userPasswordInput = document.getElementById('userPassword');
+const userConfirmPasswordInput = document.getElementById('userConfirmPassword');
+const registerForm = document.getElementById('registerForm');
 
-            if (file) {
-                const reader = new FileReader();
+const privacyModal = document.getElementById('privacyModal');
+const agreeCheckbox = document.getElementById('agreeCheckbox');
+const continueBtn = document.getElementById('continueBtn');
+const cancelModalBtn = document.getElementById('cancelModal');
+const closeModalBtn = document.getElementById('closeModalBtn');
 
-                reader.onload = function(event) {
-                    avatarImg.src = event.target.result;
-                };
+const avatarUpload = document.getElementById('avatarUpload');
+const avatarImg = document.getElementById('avatarImg');
+const successMessage = document.getElementById('successMessage');
 
-                reader.readAsDataURL(file);
-            }
-        });
+function clearErrors() {
+    document.querySelectorAll('.register-error').forEach(el => el.remove());
+
+    document.querySelectorAll('.register-input-error')
+        .forEach(el => el.classList.remove('register-input-error'));
+}
+
+function showError(inputElement, message) {
+    const formGroup = inputElement.closest('.register-form-group');
+
+    const existingError = formGroup.querySelector('.register-error');
+
+    if (existingError) {
+        existingError.remove();
     }
 
-    // Регистрация
-    if (registerForm) {
-        registerForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+    const errorDiv = document.createElement('div');
 
-            const name = document.querySelector('#userName')?.value;
-            const email = document.querySelector('#userEmail')?.value;
-            const phone = document.querySelector('#userPhone')?.value;
-            const password = document.querySelector('#userPassword')?.value;
-            const confirmPassword = document.querySelector('#userConfirmPassword')?.value;
+    errorDiv.className = 'register-error';
 
-            if (!name || !email || !phone || !password) {
-                alert('Заполните все поля');
-                return;
-            }
+    errorDiv.innerHTML = `
+    <i class="fa-solid fa-circle-exclamation"></i> ${message}
+  `;
 
-            if (password !== confirmPassword) {
-                alert('Пароли не совпадают');
-                return;
-            }
+    formGroup.appendChild(errorDiv);
 
-            if (password.length < 4) {
-                alert('Пароль должен быть не менее 4 символов');
-                return;
-            }
+    inputElement.classList.add('register-input-error');
+}
 
-            // Сохраняем данные
-            localStorage.setItem('userName', name);
-            localStorage.setItem('userEmail', email);
-            localStorage.setItem('userPhone', phone);
+function validateForm() {
+    clearErrors();
 
-            const avatarSrc = avatarImg?.src || '';
+    let isValid = true;
 
-            if (avatarSrc) {
-                localStorage.setItem('userAvatar', avatarSrc);
-            }
+    // NAME
+    const name = userNameInput.value.trim();
 
-            alert('✅ Регистрация успешна!');
-
-            window.location.href = 'checkin.html';
-        });
+    if (!name) {
+        showError(userNameInput, 'Введите имя');
+        isValid = false;
+    } else if (name.length < 2) {
+        showError(userNameInput, 'Имя должно содержать хотя бы 2 символа');
+        isValid = false;
     }
+
+    // EMAIL
+    const email = userEmailInput.value.trim();
+
+    const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+
+    if (!email) {
+        showError(userEmailInput, 'Введите email');
+        isValid = false;
+    } else if (!emailRegex.test(email)) {
+        showError(userEmailInput, 'Введите корректный email');
+        isValid = false;
+    }
+
+    // PHONE
+    const phone = userPhoneInput.value.trim();
+
+    const phoneRegex = /^[\+\d\s\-\(\)]{8,20}$/;
+
+    if (!phone) {
+        showError(userPhoneInput, 'Введите номер телефона');
+        isValid = false;
+    } else if (!phoneRegex.test(phone)) {
+        showError(userPhoneInput, 'Введите корректный номер');
+        isValid = false;
+    }
+
+    // PASSWORD
+    const password = userPasswordInput.value;
+
+    if (!password) {
+        showError(userPasswordInput, 'Введите пароль');
+        isValid = false;
+    } else if (password.length < 6) {
+        showError(userPasswordInput, 'Минимум 6 символов');
+        isValid = false;
+    }
+
+    // CONFIRM PASSWORD
+    const confirmPassword = userConfirmPasswordInput.value;
+
+    if (!confirmPassword) {
+        showError(userConfirmPasswordInput, 'Подтвердите пароль');
+        isValid = false;
+    } else if (password !== confirmPassword) {
+        showError(userConfirmPasswordInput, 'Пароли не совпадают');
+        isValid = false;
+    }
+
+    return isValid;
+}
+
+function collectFormData() {
+    return {
+        name: userNameInput.value.trim(),
+        email: userEmailInput.value.trim(),
+        phone: userPhoneInput.value.trim(),
+        password: userPasswordInput.value,
+        avatarSrc: avatarImg.src
+    };
+}
+
+function openPrivacyModal(formData) {
+    pendingFormData = formData;
+
+    privacyModal.classList.add('show');
+
+    document.body.style.overflow = 'hidden';
+
+    agreeCheckbox.checked = false;
+    continueBtn.disabled = true;
+}
+
+function closePrivacyModal() {
+    privacyModal.classList.remove('show');
+
+    document.body.style.overflow = '';
+
+    pendingFormData = null;
+}
+
+function showSuccess() {
+    successMessage.classList.remove('hidden');
+
+    successMessage.style.display = 'flex';
+
+    registerForm.reset();
+
+    avatarImg.src = 'https://i.pravatar.cc/150?img=12';
+
+    setTimeout(() => {
+        successMessage.classList.add('hidden');
+        successMessage.style.display = 'none';
+    }, 4000);
+}
+
+function finishRegistration(userData) {
+    closePrivacyModal();
+
+    showSuccess();
+
+    console.log('Регистрация:', userData);
+}
+
+registerForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+
+    openPrivacyModal(collectFormData());
+});
+
+agreeCheckbox.addEventListener('change', () => {
+    continueBtn.disabled = !agreeCheckbox.checked;
+});
+
+continueBtn.addEventListener('click', () => {
+    if (!agreeCheckbox.checked) return;
+
+    if (pendingFormData) {
+        finishRegistration(pendingFormData);
+    }
+});
+
+cancelModalBtn.addEventListener('click', closePrivacyModal);
+closeModalBtn.addEventListener('click', closePrivacyModal);
+
+privacyModal.addEventListener('click', (e) => {
+    if (e.target === privacyModal) {
+        closePrivacyModal();
+    }
+});
+
+avatarUpload.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+
+    if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            avatarImg.src = e.target.result;
+        };
+
+        reader.readAsDataURL(file);
+    }
+});
+
+const allInputs = [
+    userNameInput,
+    userEmailInput,
+    userPhoneInput,
+    userPasswordInput,
+    userConfirmPasswordInput
+];
+
+allInputs.forEach(input => {
+    input.addEventListener('input', () => {
+        if (input.classList.contains('register-input-error')) {
+
+            input.classList.remove('register-input-error');
+
+            const errorMsg = input
+                .closest('.register-form-group')
+                ?.querySelector('.register-error');
+
+            if (errorMsg) {
+                errorMsg.remove();
+            }
+        }
+    });
 });
