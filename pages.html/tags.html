@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Управление тегами</title>
+<link rel="stylesheet" href="../FRONTEND/css/styles.css">
+</head>
+<body>
+
+<!-- ========== МЕНЮ (ОБЯЗАТЕЛЬНО ДЛЯ РАБОТЫ) ========== -->
+<button class="menu-btn" id="menuBtn">☰</button>
+<div class="overlay" id="overlay"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h3>Vibe Check</h3>
+    <button id="closeBtn">✕</button>
+  </div>
+  <a href="checkin.html">Главная</a>
+  <a href="journal.html">Дневник</a>
+  <a href="insights.html">Аналитика</a>
+  <a href="calendar.html">Календарь</a>
+  <a href="tags.html">Теги</a>
+  <a href="team.html">Команда</a>
+  <a href="support.html">Поддержка</a>
+  <a href="profile.html">Профиль</a>
+  <a href="export.html">Экспорт</a>
+  <a href="metod.html">О методологии</a>
+  <a href="npumin.html">Напоминания</a>
+</nav>
+
+<!-- ОСНОВНОЙ КОНТЕНТ -->
+<div class="tags-page">
+  <div class="tags-header">
+    <h1>🏷️ Управление тегами</h1>
+    <p class="tags-subtitle">Создавайте категории для анализа влияния на настроение</p>
+  </div>
+
+  <!-- КАРТОЧКА ДОБАВЛЕНИЯ -->
+  <div class="tags-add-card">
+    <h2>Добавить новый тег</h2>
+    <div class="tags-add-form">
+      <input type="text" id="newTagInput" placeholder="Название тега" maxlength="20">
+      <button id="addTagBtn" class="add-tag-button">+ Добавить</button>
+    </div>
+  </div>
+
+  <!-- ПОИСКОВИК -->
+  <div class="tags-search-wrapper">
+    <div class="tags-search-box">
+      <span class="tags-search-icon">🔍</span>
+      <input type="text" id="tagSearchInput" class="tags-search-input" placeholder="Поиск тегов...">
+      <button class="tags-search-clear" id="clearSearchBtn">✕</button>
+    </div>
+    <div class="tags-search-info" id="searchResultInfo"></div>
+  </div>
+
+  <h2 class="tags-section-title">Ваши теги</h2>
+  
+  <!-- СЕТКА ТЕГОВ -->
+  <div class="tags-grid" id="tagsGrid"></div>
+</div>
+
+<!-- МОДАЛЬНОЕ ОКНО РЕДАКТИРОВАНИЯ -->
+<div id="editModal" class="tags-modal">
+  <div class="tags-modal-content">
+    <h3>✏️ Редактировать тег</h3>
+    <input type="text" id="editTagInput" placeholder="Новое название" maxlength="20">
+    <div class="tags-modal-buttons">
+      <button id="saveEditBtn" class="modal-save-btn">Сохранить</button>
+      <button id="cancelEditBtn" class="modal-cancel-btn">Отмена</button>
+    </div>
+  </div>
+</div>
+
+<!-- МОДАЛЬНОЕ ОКНО УДАЛЕНИЯ -->
+<div id="deleteModal" class="tags-modal">
+  <div class="tags-modal-content">
+    <h3>🗑️ Удалить тег?</h3>
+    <p>Вы уверены, что хотите удалить тег <strong id="deleteTagName"></strong>?</p>
+    <div class="tags-modal-buttons">
+      <button id="confirmDeleteBtn" class="modal-delete-btn">Да, удалить</button>
+      <button id="cancelDeleteBtn" class="modal-cancel-btn">Отмена</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== ПОДКЛЮЧЕНИЕ JS (ВАЖНО ДЛЯ МЕНЮ) ========== -->
+<script src="../js/app.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/tags.js"></script>
+
+
+</body>
+</html>
