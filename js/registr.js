@@ -18,112 +18,206 @@ const avatarImg = document.getElementById('avatarImg');
 const successMessage = document.getElementById('successMessage');
 
 function clearErrors() {
-    document.querySelectorAll('.register-error').forEach(el => el.remove());
+
+    document.querySelectorAll('.register-error')
+        .forEach(el => el.remove());
 
     document.querySelectorAll('.register-input-error')
         .forEach(el => el.classList.remove('register-input-error'));
+
 }
 
 function showError(inputElement, message) {
-    const formGroup = inputElement.closest('.register-form-group');
 
-    const existingError = formGroup.querySelector('.register-error');
+    const formGroup =
+        inputElement.closest('.register-form-group');
+
+    const existingError =
+        formGroup.querySelector('.register-error');
 
     if (existingError) {
         existingError.remove();
     }
 
-    const errorDiv = document.createElement('div');
+    const errorDiv =
+        document.createElement('div');
 
     errorDiv.className = 'register-error';
 
     errorDiv.innerHTML = `
-    <i class="fa-solid fa-circle-exclamation"></i> ${message}
-  `;
+        <i class="fa-solid fa-circle-exclamation"></i>
+        ${message}
+    `;
 
     formGroup.appendChild(errorDiv);
 
-    inputElement.classList.add('register-input-error');
+    inputElement.classList.add(
+        'register-input-error'
+    );
+
 }
 
 function validateForm() {
+
     clearErrors();
 
     let isValid = true;
 
     // NAME
-    const name = userNameInput.value.trim();
+    const name =
+        userNameInput.value.trim();
 
     if (!name) {
-        showError(userNameInput, 'Введите имя');
+
+        showError(
+            userNameInput,
+            'Введите имя'
+        );
+
         isValid = false;
+
     } else if (name.length < 2) {
-        showError(userNameInput, 'Имя должно содержать хотя бы 2 символа');
+
+        showError(
+            userNameInput,
+            'Имя должно содержать хотя бы 2 символа'
+        );
+
         isValid = false;
+
     }
 
     // EMAIL
-    const email = userEmailInput.value.trim();
+    const email =
+        userEmailInput.value.trim();
 
-    const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+    const emailRegex =
+        /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
 
     if (!email) {
-        showError(userEmailInput, 'Введите email');
+
+        showError(
+            userEmailInput,
+            'Введите email'
+        );
+
         isValid = false;
+
     } else if (!emailRegex.test(email)) {
-        showError(userEmailInput, 'Введите корректный email');
+
+        showError(
+            userEmailInput,
+            'Введите корректный email'
+        );
+
         isValid = false;
+
     }
 
     // PHONE
-    const phone = userPhoneInput.value.trim();
+    const phone =
+        userPhoneInput.value.trim();
 
-    const phoneRegex = /^[\+\d\s\-\(\)]{8,20}$/;
+    const phoneRegex =
+        /^[\+\d\s\-\(\)]{8,20}$/;
 
     if (!phone) {
-        showError(userPhoneInput, 'Введите номер телефона');
+
+        showError(
+            userPhoneInput,
+            'Введите номер телефона'
+        );
+
         isValid = false;
+
     } else if (!phoneRegex.test(phone)) {
-        showError(userPhoneInput, 'Введите корректный номер');
+
+        showError(
+            userPhoneInput,
+            'Введите корректный номер'
+        );
+
         isValid = false;
+
     }
 
     // PASSWORD
-    const password = userPasswordInput.value;
+    const password =
+        userPasswordInput.value;
 
     if (!password) {
-        showError(userPasswordInput, 'Введите пароль');
+
+        showError(
+            userPasswordInput,
+            'Введите пароль'
+        );
+
         isValid = false;
+
     } else if (password.length < 6) {
-        showError(userPasswordInput, 'Минимум 6 символов');
+
+        showError(
+            userPasswordInput,
+            'Минимум 6 символов'
+        );
+
         isValid = false;
+
     }
 
     // CONFIRM PASSWORD
-    const confirmPassword = userConfirmPasswordInput.value;
+    const confirmPassword =
+        userConfirmPasswordInput.value;
 
     if (!confirmPassword) {
-        showError(userConfirmPasswordInput, 'Подтвердите пароль');
+
+        showError(
+            userConfirmPasswordInput,
+            'Подтвердите пароль'
+        );
+
         isValid = false;
+
     } else if (password !== confirmPassword) {
-        showError(userConfirmPasswordInput, 'Пароли не совпадают');
+
+        showError(
+            userConfirmPasswordInput,
+            'Пароли не совпадают'
+        );
+
         isValid = false;
+
     }
 
     return isValid;
+
 }
 
 function collectFormData() {
+
     return {
-        name: userNameInput.value.trim(),
-        email: userEmailInput.value.trim(),
-        phone: userPhoneInput.value.trim(),
-        password: userPasswordInput.value,
-        avatarSrc: avatarImg.src
+
+        name:
+            userNameInput.value.trim(),
+
+        email:
+            userEmailInput.value.trim(),
+
+        phone:
+            userPhoneInput.value.trim(),
+
+        password:
+            userPasswordInput.value,
+
+        avatarSrc:
+            avatarImg.src
+
     };
+
 }
 
 function openPrivacyModal(formData) {
+
     pendingFormData = formData;
 
     privacyModal.classList.add('show');
@@ -131,98 +225,212 @@ function openPrivacyModal(formData) {
     document.body.style.overflow = 'hidden';
 
     agreeCheckbox.checked = false;
+
     continueBtn.disabled = true;
+
 }
 
 function closePrivacyModal() {
+
     privacyModal.classList.remove('show');
 
     document.body.style.overflow = '';
 
     pendingFormData = null;
+
 }
 
 function showSuccess() {
+
     successMessage.classList.remove('hidden');
 
     successMessage.style.display = 'flex';
 
     registerForm.reset();
 
-    avatarImg.src = 'https://i.pravatar.cc/150?img=12';
+    avatarImg.src =
+        'https://i.pravatar.cc/150?img=12';
 
     setTimeout(() => {
+
         successMessage.classList.add('hidden');
+
         successMessage.style.display = 'none';
+
     }, 4000);
+
 }
 
 function finishRegistration(userData) {
 
     closePrivacyModal();
 
-    // сохраняем пользователя
-    localStorage.setItem('token', 'registered_user');
+    try {
 
-    localStorage.setItem('userName', userData.name);
+        // СОХРАНЕНИЕ ПРОФИЛЯ
+        localStorage.setItem(
+            'token',
+            'registered_user'
+        );
 
-    localStorage.setItem('userEmail', userData.email);
+        localStorage.setItem(
+            'userName',
+            userData.name
+        );
 
-    showSuccess();
+        localStorage.setItem(
+            'userEmail',
+            userData.email
+        );
 
-    console.log('Регистрация:', userData);
+        localStorage.setItem(
+            'userPhone',
+            userData.phone
+        );
 
-    // переход на loading
-    setTimeout(() => {
+        localStorage.setItem(
+            'isAuthenticated',
+            'true'
+        );
 
-        window.location.href = 'loading.html';
+        // СОХРАНЕНИЕ АВАТАРА
+        if (
+            userData.avatarSrc &&
+            userData.avatarSrc.length < 500000
+        ) {
 
-    }, 1500);
+            localStorage.setItem(
+                'userAvatar',
+                userData.avatarSrc
+            );
+
+        }
+
+        showSuccess();
+
+        console.log(
+            'Регистрация:',
+            userData
+        );
+
+        // ПЕРЕХОД
+        setTimeout(() => {
+
+            window.location.href =
+                'loading.html';
+
+        }, 1500);
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            'Ошибка сохранения профиля'
+        );
+
+    }
 
 }
 
-registerForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+registerForm.addEventListener(
+    'submit',
+    (e) => {
 
-    if (!validateForm()) return;
+        e.preventDefault();
 
-    openPrivacyModal(collectFormData());
-});
+        if (!validateForm()) return;
 
-agreeCheckbox.addEventListener('change', () => {
-    continueBtn.disabled = !agreeCheckbox.checked;
-});
+        openPrivacyModal(
+            collectFormData()
+        );
 
-continueBtn.addEventListener('click', () => {
-    if (!agreeCheckbox.checked) return;
-
-    if (pendingFormData) {
-        finishRegistration(pendingFormData);
     }
-});
+);
 
-cancelModalBtn.addEventListener('click', closePrivacyModal);
-closeModalBtn.addEventListener('click', closePrivacyModal);
+agreeCheckbox.addEventListener(
+    'change',
+    () => {
 
-privacyModal.addEventListener('click', (e) => {
-    if (e.target === privacyModal) {
-        closePrivacyModal();
+        continueBtn.disabled =
+            !agreeCheckbox.checked;
+
     }
-});
+);
 
-avatarUpload.addEventListener('change', (event) => {
-    const file = event.target.files[0];
+continueBtn.addEventListener(
+    'click',
+    () => {
 
-    if (file && file.type.startsWith('image/')) {
-        const reader = new FileReader();
+        if (!agreeCheckbox.checked)
+            return;
 
-        reader.onload = (e) => {
-            avatarImg.src = e.target.result;
-        };
+        if (pendingFormData) {
 
-        reader.readAsDataURL(file);
+            finishRegistration(
+                pendingFormData
+            );
+
+        }
+
     }
-});
+);
+
+cancelModalBtn.addEventListener(
+    'click',
+    closePrivacyModal
+);
+
+closeModalBtn.addEventListener(
+    'click',
+    closePrivacyModal
+);
+
+privacyModal.addEventListener(
+    'click',
+    (e) => {
+
+        if (e.target === privacyModal) {
+
+            closePrivacyModal();
+
+        }
+
+    }
+);
+
+if (avatarUpload) {
+
+    avatarUpload.addEventListener(
+        'change',
+        (event) => {
+
+            const file =
+                event.target.files[0];
+
+            if (
+                file &&
+                file.type.startsWith('image/')
+            ) {
+
+                const reader =
+                    new FileReader();
+
+                reader.onload = (e) => {
+
+                    avatarImg.src =
+                        e.target.result;
+
+                };
+
+                reader.readAsDataURL(file);
+
+            }
+
+        }
+    );
+
+}
 
 const allInputs = [
     userNameInput,
@@ -233,18 +441,39 @@ const allInputs = [
 ];
 
 allInputs.forEach(input => {
-    input.addEventListener('input', () => {
-        if (input.classList.contains('register-input-error')) {
 
-            input.classList.remove('register-input-error');
+    input.addEventListener(
+        'input',
+        () => {
 
-            const errorMsg = input
-                .closest('.register-form-group')
-                ?.querySelector('.register-error');
+            if (
+                input.classList.contains(
+                    'register-input-error'
+                )
+            ) {
 
-            if (errorMsg) {
-                errorMsg.remove();
+                input.classList.remove(
+                    'register-input-error'
+                );
+
+                const errorMsg =
+                    input
+                    .closest(
+                        '.register-form-group'
+                    )
+                    ?.querySelector(
+                        '.register-error'
+                    );
+
+                if (errorMsg) {
+
+                    errorMsg.remove();
+
+                }
+
             }
+
         }
-    });
+    );
+
 });

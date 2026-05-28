@@ -1,350 +1,386 @@
 // =========================
-// MOOD SELECT
+// API FUNCTION
 // =========================
 
-const moods = document.querySelectorAll(".mood");
-
-const moodScores = {
-    "Плохо": 1,
-    "Не очень": 2,
-    "Нормально": 3,
-    "Хорошо": 4,
-    "Отлично": 5
-};
-
-let selectedMood = "Нормально";
-
-moods.forEach((mood) => {
-
-    mood.addEventListener("click", () => {
-
-        // убрать active у всех
-        moods.forEach((m) => {
-            m.classList.remove("active");
-        });
-
-        // добавить active текущему
-        mood.classList.add("active");
-
-        // сохранить выбранное настроение
-        selectedMood = mood.querySelector("span").textContent.trim();
-
-        console.log("Настроение:", selectedMood);
-    });
-
-});
-
-
-
-// =========================
-// TAGS
-// =========================
-
-const tags = document.querySelectorAll(".tag");
-
-let selectedTags = [];
-
-tags.forEach((tag) => {
-
-    // пропускаем кнопку добавления
-    if (tag.classList.contains("add-tag-btn")) return;
-
-    tag.addEventListener("click", () => {
-
-        tag.classList.toggle("active");
-
-        const tagText = tag.innerText.trim();
-
-        if (selectedTags.includes(tagText)) {
-
-            selectedTags = selectedTags.filter(t => t !== tagText);
-
-        } else {
-
-            selectedTags.push(tagText);
-
-        }
-
-        console.log("Теги:", selectedTags);
-    });
-
-});
-
-
-
-// =========================
-// TAG MODAL
-// =========================
-
-const addTagBtn = document.querySelector(".add-tag-btn");
-const tagsBar = document.querySelector(".tags-bar");
-
-const tagModal = document.getElementById("tagModal");
-const tagInput = document.getElementById("tagInput");
-const saveTagBtn = document.getElementById("saveTagBtn");
-
-
-// открыть модалку
-addTagBtn.addEventListener("click", () => {
-
-    tagModal.classList.add("show");
-
-    tagInput.focus();
-
-});
-
-
-// закрыть модалку
-function closeTagModal() {
-
-    tagModal.classList.remove("show");
-
-    tagInput.value = "";
-
-}
-
-
-// сохранить тег
-saveTagBtn.addEventListener("click", createTag);
-
-
-// ENTER
-tagInput.addEventListener("keydown", (e) => {
-
-    if (e.key === "Enter") {
-
-        createTag();
-
-    }
-
-});
-
-
-// создание нового тега
-function createTag() {
-
-    const newTag = tagInput.value.trim();
-
-    if (!newTag) return;
-
-    // проверка на дубликаты
-    const existingTags = document.querySelectorAll(".tag");
-
-    for (let tag of existingTags) {
-
-        if (tag.textContent.toLowerCase() === newTag.toLowerCase()) {
-
-            alert("Такой тег уже существует");
-
-            return;
-        }
-
-    }
-
-    // создать тег
-    const tag = document.createElement("span");
-
-    tag.className = "tag";
-
-    tag.textContent = newTag;
-
-    // вставляем перед кнопкой
-    tagsBar.insertBefore(tag, addTagBtn);
-
-    // обработчик клика
-    tag.addEventListener("click", () => {
-
-        tag.classList.toggle("active");
-
-        if (selectedTags.includes(newTag)) {
-
-            selectedTags = selectedTags.filter(t => t !== newTag);
-
-        } else {
-
-            selectedTags.push(newTag);
-
-        }
-
-    });
-
-    closeTagModal();
-
-}
-
-
-// закрытие по фону
-tagModal.addEventListener("click", (e) => {
-
-    if (e.target === tagModal) {
-
-        closeTagModal();
-
-    }
-
-});
-
-
-
-
-// =========================
-// SAVE ENTRY
-// =========================
-
-const saveBtn = document.querySelector(".save-btn");
-
-const textarea = document.querySelector("textarea");
-
-saveBtn.addEventListener("click", saveEntry);
-
-
-async function saveEntry() {
-
-    const note = textarea.value.trim();
-
-    // объект для backend
-    const entry = {
-
-        user_id: 1,
-        score: moodScores[selectedMood],
-        tags: selectedTags.join(","),
-        note: note
-
-    };
-
-    console.log("Отправка:", entry);
+async function createMood(entry) {
 
     try {
 
-        // createMood() приходит из api.js
-        const response = await createMood(entry);
+        return await fetch(
+            "http://localhost:8080/api/moods",
+            {
+                method: "POST",
 
-        // сервер недоступен
-        if (!response) {
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-            throw new Error("Сервер недоступен");
+                body: JSON.stringify(entry)
+            }
+        )
 
-        }
+    } catch (e) {
 
-        // ошибка сервера
-        if (!response.ok) {
+        console.error(e)
 
-            const errorText = await response.text();
+        return null
+    }
+}
 
-            throw new Error(errorText || "Ошибка сервера");
+document.addEventListener("DOMContentLoaded", () => {
 
-        }
+    // =========================
+    // CHECK AUTH
+    // =========================
 
-        // JSON ответ
-        const result = await response.json();
+    const token =
+        localStorage.getItem("token")
 
-        console.log("Ответ сервера:", result);
+    if (!token) {
 
-        // если пришла поддержка
-        if (result.support) {
+        window.location.href =
+            "./register.html"
 
-            showSupportModal(result.support);
-
-        } else {
-
-            alert("Запись сохранена ✅");
-
-        }
-
-        // очистка формы
-        resetForm();
-
-    } catch (error) {
-
-        console.error("Ошибка:", error);
-
-        alert("Ошибка соединения с сервером");
-
+        return
     }
 
-}
+    // =========================
+    // MOODS
+    // =========================
 
+    const moods =
+        document.querySelectorAll(".mood")
 
-
-// =========================
-// RESET FORM
-// =========================
-
-function resetForm() {
-
-    // очистить textarea
-    textarea.value = "";
-
-    // reset moods
-    moods.forEach((m) => {
-        m.classList.remove("active");
-    });
-
-    document.querySelector(".mood-normal").classList.add("active");
-
-    selectedMood = "Нормально";
-
-    // reset tags
-    selectedTags = [];
-
-    document.querySelectorAll(".tag.active").forEach((tag) => {
-
-        tag.classList.remove("active");
-
-    });
-
-}
-
-
-
-// =========================
-// SUPPORT MODAL
-// =========================
-
-function showSupportModal(support) {
-
-    const modal = document.getElementById("supportModal");
-
-    const data = document.getElementById("supportData");
-
-    data.innerHTML = "";
-
-    // joke
-    if (support.type === "joke") {
-
-        const p = document.createElement("p");
-
-        p.textContent = support.content;
-
-        data.appendChild(p);
-
+    const moodScores = {
+        "Плохо": 1,
+        "Не очень": 2,
+        "Нормально": 3,
+        "Хорошо": 4,
+        "Отлично": 5
     }
 
-    // image
-    else if (support.type === "image") {
+    let selectedMood = "Нормально"
 
-        const img = document.createElement("img");
+    moods.forEach((mood) => {
 
-        img.src = `http://localhost:8080${support.content}`;
+        mood.addEventListener("click", () => {
 
-        img.alt = "Support meme";
+            moods.forEach((m) => {
+                m.classList.remove("active")
+            })
 
-        data.appendChild(img);
+            mood.classList.add("active")
 
+            selectedMood =
+                mood.querySelector("span")
+                    .textContent
+                    .trim()
+        })
+    })
+
+    // =========================
+    // TAGS
+    // =========================
+
+    let selectedTags = []
+
+    document.querySelectorAll(".tag")
+        .forEach((tag) => {
+
+            tag.addEventListener("click", () => {
+
+                tag.classList.toggle("active")
+
+                const text =
+                    tag.innerText.trim()
+
+                if (selectedTags.includes(text)) {
+
+                    selectedTags =
+                        selectedTags.filter(
+                            t => t !== text
+                        )
+
+                } else {
+
+                    selectedTags.push(text)
+                }
+            })
+        })
+
+    // =========================
+    // SAVE
+    // =========================
+
+    const saveBtn =
+        document.querySelector(".save-btn")
+
+    const textarea =
+        document.querySelector("textarea")
+
+    saveBtn.addEventListener(
+        "click",
+        saveEntry
+    )
+
+    async function saveEntry() {
+
+        const note =
+            textarea.value.trim()
+
+        const entry = {
+
+            mood:
+                moodScores[selectedMood],
+
+            note: note,
+
+            tags: selectedTags
+        }
+
+        console.log(
+            "Отправка:",
+            entry
+        )
+
+        try {
+
+            saveBtn.disabled = true
+
+            saveBtn.textContent =
+                "Сохранение..."
+
+            const response =
+                await createMood(entry)
+
+            if (!response) {
+
+                throw new Error(
+                    "Сервер недоступен"
+                )
+            }
+
+            if (!response.ok) {
+
+                const text =
+                    await response.text()
+
+                throw new Error(text)
+            }
+
+            const result =
+                await response.json()
+
+            console.log(result)
+
+            alert("Настроение сохранено ✅")
+
+            // =========================
+            // SUPPORT ONLY FOR BAD MOOD
+            // =========================
+
+            if (
+                result.support &&
+                (
+                    selectedMood === "Плохо" ||
+                    selectedMood === "Не очень"
+                )
+            ) {
+
+                showSupportModal(
+                    result.support
+                )
+            }
+
+            resetForm()
+
+        } catch (e) {
+
+            console.error(e)
+
+            alert(
+                "Ошибка: " + e.message
+            )
+
+        } finally {
+
+            saveBtn.disabled = false
+
+            saveBtn.textContent =
+                "Сохранить"
+        }
     }
 
-    modal.style.display = "flex";
+    // =========================
+    // RESET
+    // =========================
 
-}
+    function resetForm() {
 
+        textarea.value = ""
 
-// закрытие модалки
-function closeSupportModal() {
+        selectedTags = []
 
-    document.getElementById("supportModal").style.display = "none";
+        document
+            .querySelectorAll(".tag.active")
+            .forEach((tag) => {
 
-}
+                tag.classList.remove(
+                    "active"
+                )
+            })
 
+        moods.forEach((m) => {
+            m.classList.remove("active")
+        })
 
-// делаем глобальной для HTML onclick
-window.closeSupportModal = closeSupportModal;
+        const normal =
+            document.querySelector(
+                ".mood-normal"
+            )
+
+        if (normal) {
+
+            normal.classList.add(
+                "active"
+            )
+        }
+
+        selectedMood = "Нормально"
+    }
+
+    // =========================
+    // SUPPORT MODAL
+    // =========================
+
+    function showSupportModal(
+        support
+    ) {
+
+        const modal =
+            document.getElementById(
+                "supportModal"
+            )
+
+        const data =
+            document.getElementById(
+                "supportData"
+            )
+
+        const closeBtn =
+            document.getElementById(
+                "supportCloseBtn"
+            )
+
+        data.innerHTML = ""
+
+        // =========================
+        // MEME
+        // =========================
+
+        if (
+            support.type === "meme"
+        ) {
+
+            const img =
+                document.createElement(
+                    "img"
+                )
+
+            img.src =
+                "http://localhost:8080" +
+                support.content
+
+            img.className =
+                "support-image"
+
+            data.appendChild(img)
+
+            const text =
+                document.createElement(
+                    "p"
+                )
+
+            text.innerHTML =
+                "Держи мем ❤️"
+
+            text.style.marginTop =
+                "16px"
+
+            text.style.textAlign =
+                "center"
+
+            text.style.fontSize =
+                "18px"
+
+            data.appendChild(text)
+        }
+
+        // =========================
+        // JOKE
+        // =========================
+
+        if (
+            support.type === "joke"
+        ) {
+
+            const p =
+                document.createElement(
+                    "p"
+                )
+
+            p.textContent =
+                support.content
+
+            p.style.fontSize =
+                "18px"
+
+            p.style.lineHeight =
+                "1.6"
+
+            p.style.whiteSpace =
+                "pre-line"
+
+            data.appendChild(p)
+        }
+
+        // =========================
+        // RANDOM BUTTON TEXT
+        // =========================
+
+        const phrases = [
+
+            "Мне полегчало 😌",
+            "Спасибо ❤️",
+            "Стало лучше 🫶",
+            "Подняло настроение ✨",
+            "Ещё мем и я счастлив 😭",
+            "Улыбнуло 😄"
+        ]
+
+        const randomPhrase =
+            phrases[
+                Math.floor(
+                    Math.random() *
+                    phrases.length
+                )
+            ]
+
+        closeBtn.textContent =
+            randomPhrase
+
+        modal.style.display = "flex"
+    }
+
+    // =========================
+    // CLOSE SUPPORT MODAL
+    // =========================
+
+    window.closeSupportModal =
+        function () {
+
+            document.getElementById(
+                "supportModal"
+            ).style.display = "none"
+        }
+})

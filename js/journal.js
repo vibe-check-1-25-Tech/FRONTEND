@@ -1,517 +1,509 @@
+const API_BASE = "http://localhost:8080";
+
 // =======================
 // STATE
 // =======================
 
 let entries = [];
-
 let currentFilter = "all";
-
 let currentEditId = null;
-
 let currentDeleteId = null;
 
-
 // =======================
-// ELEMENTS
-// =======================
-
-const entriesList =
-    document.getElementById("entriesList");
-
-const searchInput =
-    document.getElementById("searchInput");
-
-const clearSearch =
-    document.getElementById("clearSearch");
-
-const searchResultInfo =
-    document.getElementById("searchResultInfo");
-
-
-// ===== MODAL EDIT =====
-
-const modal =
-    document.getElementById("modal");
-
-const editText =
-    document.getElementById("editText");
-
-const editMood =
-    document.getElementById("editMood");
-
-const saveBtn =
-    document.getElementById("saveBtn");
-
-const modalCloseBtn =
-    document.getElementById("modalCloseBtn");
-
-
-// ===== MODAL DELETE =====
-
-const deleteModal =
-    document.getElementById("deleteModal");
-
-const confirmDeleteBtn =
-    document.getElementById("confirmDeleteBtn");
-
-const cancelDeleteBtn =
-    document.getElementById("cancelDeleteBtn");
-
-
-// ===== FILTERS =====
-
-const filterButtons =
-    document.querySelectorAll(".mood-filter-btn");
-
-
-// =======================
-// EMOJI
+// API
 // =======================
 
-const moodEmoji = {
+async function getAllMoods() {
+    return fetch(`${API_BASE}/api/moods`);
+}
 
-    1: "😢",
-    2: "😐",
-    3: "🙂",
-    4: "😊",
-    5: "😁"
+async function getMoodById(id) {
+    return fetch(`${API_BASE}/api/moods/${id}`);
+}
 
-};
+async function searchMoods(query) {
+    return fetch(`${API_BASE}/api/moods/search?q=${encodeURIComponent(query)}`);
+}
 
+async function updateMood(data) {
+    return fetch(`${API_BASE}/api/moods/${data.id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+}
+
+async function deleteMood(id) {
+    return fetch(`${API_BASE}/api/moods/${id}`, {
+        method: "DELETE"
+    });
+}
 
 // =======================
-// LOAD DATA
+// DOM READY
 // =======================
 
-async function loadEntries() {
+document.addEventListener("DOMContentLoaded", () => {
 
-    try {
+    // =======================
+    // ELEMENTS
+    // =======================
 
-        const response =
-            await getAllMoods();
+    const entriesList =
+        document.getElementById("entriesList");
 
-        if (!response.ok) {
+    const searchInput =
+        document.getElementById("searchInput");
 
-            throw new Error("Ошибка загрузки");
+    const clearSearch =
+        document.getElementById("clearSearch");
 
+    const searchResultInfo =
+        document.getElementById("searchResultInfo");
+
+    // ===== MODAL EDIT =====
+
+    const modal =
+        document.getElementById("modal");
+
+    const editText =
+        document.getElementById("editText");
+
+    const editMood =
+        document.getElementById("editMood");
+
+    const saveBtn =
+        document.getElementById("saveBtn");
+
+    const modalCloseBtn =
+        document.getElementById("modalCloseBtn");
+
+    // ===== MODAL DELETE =====
+
+    const deleteModal =
+        document.getElementById("deleteModal");
+
+    const confirmDeleteBtn =
+        document.getElementById("confirmDeleteBtn");
+
+    const cancelDeleteBtn =
+        document.getElementById("cancelDeleteBtn");
+
+    // ===== FILTERS =====
+
+    const filterButtons =
+        document.querySelectorAll(".mood-filter-btn");
+
+    // =======================
+    // EMOJI
+    // =======================
+
+    const moodEmoji = {
+        1: "😢",
+        2: "😐",
+        3: "🙂",
+        4: "😊",
+        5: "😁"
+    };
+
+    // =======================
+    // LOAD DATA
+    // =======================
+
+    async function loadEntries() {
+
+        try {
+
+            const response =
+                await getAllMoods();
+
+            if (!response.ok) {
+                throw new Error("Ошибка загрузки");
+            }
+
+            entries =
+                await response.json();
+
+            renderEntries(entries);
+
+        } catch (error) {
+
+            console.error(error);
+
+            entriesList.innerHTML = `
+                <div class="empty">
+                    Ошибка загрузки данных
+                </div>
+            `;
+        }
+    }
+
+    // =======================
+    // RENDER
+    // =======================
+
+    function renderEntries(data = entries) {
+
+        entriesList.innerHTML = "";
+
+        if (!data.length) {
+
+            entriesList.innerHTML = `
+                <div class="empty">
+                    Ничего не найдено
+                </div>
+            `;
+
+            return;
         }
 
-        entries =
-            await response.json();
+        data.forEach(entry => {
 
-        renderEntries(entries);
+            const card =
+                document.createElement("div");
 
-    } catch (error) {
+            card.className = "card";
 
-        console.error(error);
+            card.innerHTML = `
+                <div class="icon m${entry.score}">
+                    ${moodEmoji[entry.score]}
+                </div>
 
-        entriesList.innerHTML = `
-            <div class="empty">
-                Ошибка загрузки данных
-            </div>
-        `;
-    }
+                <div class="content">
 
-}
+                    <div class="top">
 
+                        <div>
 
-// =======================
-// RENDER
-// =======================
+                            <div class="date">
+                                ${formatDate(entry.timestamp)}
+                            </div>
 
-function renderEntries(data = entries) {
+                            <div class="title">
+                                Настроение: ${entry.score}/5
+                            </div>
 
-    entriesList.innerHTML = "";
-
-    if (!data.length) {
-
-        entriesList.innerHTML = `
-            <div class="empty">
-                Ничего не найдено
-            </div>
-        `;
-
-        return;
-    }
-
-    data.forEach(entry => {
-
-        const card =
-            document.createElement("div");
-
-        card.className = "card";
-
-        card.innerHTML = `
-            <div class="icon m${entry.score}">
-                ${moodEmoji[entry.score]}
-            </div>
-
-            <div class="content">
-
-                <div class="top">
-
-                    <div>
-
-                        <div class="date">
-                            ${formatDate(entry.timestamp)}
                         </div>
 
-                        <div class="title">
-                            Настроение: ${entry.score}/5
+                        <div class="actions">
+
+                            <button
+                                class="btn edit-btn"
+                                data-id="${entry.id}"
+                            >
+                                ✏️
+                            </button>
+
+                            <button
+                                class="btn delete-btn"
+                                data-id="${entry.id}"
+                            >
+                                🗑️
+                            </button>
+
                         </div>
 
                     </div>
 
-                    <div class="actions">
-
-                        <button
-                            class="btn edit-btn"
-                            data-id="${entry.id}"
-                        >
-                            ✏️
-                        </button>
-
-                        <button
-                            class="btn delete-btn"
-                            data-id="${entry.id}"
-                        >
-                            🗑️
-                        </button>
-
+                    <div class="note">
+                        ${entry.note || ""}
                     </div>
 
                 </div>
+            `;
 
-                <div class="note">
-                    ${entry.note || ""}
-                </div>
+            entriesList.appendChild(card);
 
-            </div>
-        `;
+        });
 
-        entriesList.appendChild(card);
+        attachEvents();
+    }
+
+    // =======================
+    // DATE FORMAT
+    // =======================
+
+    function formatDate(dateString) {
+
+        const date =
+            new Date(dateString);
+
+        return date.toLocaleString("ru-RU", {
+
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+
+        });
+    }
+
+    // =======================
+    // SEARCH
+    // =======================
+
+    async function searchEntries() {
+
+        const query =
+            searchInput.value.trim();
+
+        if (!query) {
+            applyFilter(entries);
+            return;
+        }
+
+        try {
+
+            const response =
+                await searchMoods(query);
+
+            if (!response.ok) {
+                throw new Error("Ошибка поиска");
+            }
+
+            const results =
+                await response.json();
+
+            applyFilter(results);
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+    }
+
+    // =======================
+    // FILTER
+    // =======================
+
+    function applyFilter(data) {
+
+        let filtered = data;
+
+        if (currentFilter !== "all") {
+
+            filtered = data.filter(entry =>
+                String(entry.score) === currentFilter
+            );
+        }
+
+        renderEntries(filtered);
+
+        searchResultInfo.textContent =
+            `Найдено записей: ${filtered.length}`;
+    }
+
+    // =======================
+    // FILTER BUTTONS
+    // =======================
+
+    filterButtons.forEach(btn => {
+
+        btn.addEventListener("click", async () => {
+
+            filterButtons.forEach(button => {
+                button.classList.remove("active");
+            });
+
+            btn.classList.add("active");
+
+            currentFilter =
+                btn.dataset.mood;
+
+            await searchEntries();
+
+        });
 
     });
 
-    attachEvents();
+    // =======================
+    // CLEAR SEARCH
+    // =======================
 
-}
+    clearSearch.addEventListener("click", () => {
 
-
-// =======================
-// DATE FORMAT
-// =======================
-
-function formatDate(dateString) {
-
-    const date =
-        new Date(dateString);
-
-    return date.toLocaleString("ru-RU", {
-
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-
-    });
-
-}
-
-
-// =======================
-// SEARCH
-// =======================
-
-async function searchEntries() {
-
-    const query =
-        searchInput.value.trim();
-
-    // если пусто
-    if (!query) {
+        searchInput.value = "";
 
         applyFilter(entries);
 
-        return;
-    }
-
-    try {
-
-        const response =
-            await searchMoods(query);
-
-        if (!response.ok) {
-
-            throw new Error("Ошибка поиска");
-
-        }
-
-        const results =
-            await response.json();
-
-        applyFilter(results);
-
-    } catch (error) {
-
-        console.error(error);
-
-    }
-
-}
-
-
-// =======================
-// FILTER
-// =======================
-
-function applyFilter(data) {
-
-    let filtered = data;
-
-    if (currentFilter !== "all") {
-
-        filtered = data.filter(entry =>
-
-            String(entry.score) === currentFilter
-
-        );
-    }
-
-    renderEntries(filtered);
-
-    searchResultInfo.textContent =
-        `Найдено записей: ${filtered.length}`;
-
-}
-
-
-// =======================
-// FILTER BUTTONS
-// =======================
-
-filterButtons.forEach(btn => {
-
-    btn.addEventListener("click", async () => {
-
-        filterButtons.forEach(button => {
-
-            button.classList.remove("active");
-
-        });
-
-        btn.classList.add("active");
-
-        currentFilter =
-            btn.dataset.mood;
-
-        await searchEntries();
-
     });
 
-});
+    // =======================
+    // INPUT SEARCH
+    // =======================
 
+    searchInput.addEventListener(
+        "input",
+        searchEntries
+    );
 
-// =======================
-// CLEAR SEARCH
-// =======================
+    // =======================
+    // EVENTS
+    // =======================
 
-clearSearch.addEventListener("click", () => {
+    function attachEvents() {
 
-    searchInput.value = "";
+        // ===== EDIT =====
 
-    applyFilter(entries);
+        document.querySelectorAll(".edit-btn")
+            .forEach(btn => {
 
-});
+                btn.addEventListener("click", async () => {
 
+                    try {
 
-// =======================
-// INPUT SEARCH
-// =======================
+                        const id =
+                            Number(btn.dataset.id);
 
-searchInput.addEventListener(
-    "input",
-    searchEntries
-);
+                        const response =
+                            await getMoodById(id);
 
+                        if (!response.ok) {
+                            throw new Error("Ошибка");
+                        }
 
-// =======================
-// EVENTS
-// =======================
+                        const entry =
+                            await response.json();
 
-function attachEvents() {
+                        currentEditId = id;
 
-    // ===== EDIT =====
+                        editText.value =
+                            entry.note || "";
 
-    document.querySelectorAll(".edit-btn")
-        .forEach(btn => {
+                        editMood.value =
+                            entry.score;
 
-            btn.addEventListener("click", async () => {
+                        modal.classList.remove("hidden");
 
-                try {
+                    } catch (error) {
 
-                    const id =
-                        Number(btn.dataset.id);
+                        console.error(error);
 
-                    const response =
-                        await getMoodById(id);
-
-                    if (!response.ok) {
-
-                        throw new Error("Ошибка");
+                        alert("Ошибка загрузки записи");
 
                     }
 
-                    const entry =
-                        await response.json();
-
-                    currentEditId = id;
-
-                    editText.value =
-                        entry.note || "";
-
-                    editMood.value =
-                        entry.score;
-
-                    modal.classList.remove("hidden");
-
-                } catch (error) {
-
-                    console.error(error);
-
-                    alert("Ошибка загрузки записи");
-
-                }
+                });
 
             });
 
-        });
+        // ===== DELETE =====
 
+        document.querySelectorAll(".delete-btn")
+            .forEach(btn => {
 
-    // ===== DELETE =====
+                btn.addEventListener("click", () => {
 
-    document.querySelectorAll(".delete-btn")
-        .forEach(btn => {
+                    currentDeleteId =
+                        Number(btn.dataset.id);
 
-            btn.addEventListener("click", () => {
+                    deleteModal.classList.remove("hidden");
 
-                currentDeleteId =
-                    Number(btn.dataset.id);
-
-                deleteModal.classList.remove("hidden");
+                });
 
             });
 
-        });
+    }
 
-}
+    // =======================
+    // SAVE UPDATE
+    // =======================
 
+    saveBtn.addEventListener("click", async () => {
 
-// =======================
-// SAVE UPDATE
-// =======================
+        const updatedData = {
 
-saveBtn.addEventListener("click", async () => {
+            id: currentEditId,
+            score: Number(editMood.value),
+            note: editText.value,
+            tags: []
 
-    const updatedData = {
+        };
 
-        id: currentEditId,
+        try {
 
-        score: Number(editMood.value),
+            const response =
+                await updateMood(updatedData);
 
-        note: editText.value,
+            if (!response.ok) {
+                throw new Error("Ошибка обновления");
+            }
 
-        tags: ""
+            modal.classList.add("hidden");
 
-    };
+            await loadEntries();
 
-    try {
+            await searchEntries();
 
-        const response =
-            await updateMood(updatedData);
+        } catch (error) {
 
-        if (!response.ok) {
+            console.error(error);
 
-            throw new Error("Ошибка обновления");
+            alert("Ошибка обновления");
 
         }
+
+    });
+
+    // =======================
+    // CLOSE EDIT MODAL
+    // =======================
+
+    modalCloseBtn.addEventListener("click", () => {
 
         modal.classList.add("hidden");
 
-        await loadEntries();
+    });
 
-        await searchEntries();
+    // =======================
+    // CONFIRM DELETE
+    // =======================
 
-    } catch (error) {
+    confirmDeleteBtn.addEventListener("click", async () => {
 
-        console.error(error);
+        try {
 
-        alert("Ошибка обновления");
+            const response =
+                await deleteMood(currentDeleteId);
 
-    }
+            if (!response.ok) {
+                throw new Error("Ошибка удаления");
+            }
 
-});
+            deleteModal.classList.add("hidden");
 
+            await loadEntries();
 
-// =======================
-// CLOSE EDIT MODAL
-// =======================
+            await searchEntries();
 
-modalCloseBtn.addEventListener("click", () => {
+        } catch (error) {
 
-    modal.classList.add("hidden");
+            console.error(error);
 
-});
-
-
-// =======================
-// CONFIRM DELETE
-// =======================
-
-confirmDeleteBtn.addEventListener("click", async () => {
-
-    try {
-
-        const response =
-            await deleteMood(currentDeleteId);
-
-        if (!response.ok) {
-
-            throw new Error("Ошибка удаления");
+            alert("Ошибка удаления");
 
         }
 
+    });
+
+    // =======================
+    // CANCEL DELETE
+    // =======================
+
+    cancelDeleteBtn.addEventListener("click", () => {
+
         deleteModal.classList.add("hidden");
 
-        await loadEntries();
+    });
 
-        await searchEntries();
+    // =======================
+    // INIT
+    // =======================
 
-    } catch (error) {
-
-        console.error(error);
-
-        alert("Ошибка удаления");
-
-    }
+    loadEntries();
 
 });
-
-
-// =======================
-// CANCEL DELETE
-// =======================
-
-cancelDeleteBtn.addEventListener("click", () => {
-
-    deleteModal.classList.add("hidden");
-
-});
-
-
-// =======================
-// INIT
-// =======================
-
-loadEntries();

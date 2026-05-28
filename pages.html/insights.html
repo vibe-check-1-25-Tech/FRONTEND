@@ -1,80 +1,288 @@
 <!DOCTYPE html>
+
 <html lang="ru">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Insights</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="..//FRONTEND/css/styles.css">
+    <meta charset="UTF-8">
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Insights</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../FRONTEND/css/styles.css"
+    >
+
+    <!-- CHART JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
 
-<button class="menu-btn" id="menuBtn">☰</button>
-<div class="overlay" id="overlay"></div>
+<!-- ========================= -->
+<!-- MENU -->
+<!-- ========================= -->
 
-<nav class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <h3>Vibe Check</h3>
-    <button id="closeBtn">✕</button>
-  </div>
+<button
+    class="menu-btn"
+    id="menuBtn"
+>
+    ☰
+</button>
 
-  <a href="checkin.html"> Главная</a>
-  <a href="journal.html"> Дневник</a>
-  <a href="insights.html">Аналитика</a>
-  <a href="calendar.html">Календарь</a>
-  <a href="tags.html">Теги</a>
-  <a href="team.html"> Команда</a>
-  <a href="support.html"> Поддержка</a>
-  <a href="profile.html"> Профиль</a>
-  <a href="export.html"> Экспорт</a>
-  <a href="metod.html"> О методологии</a>
-  <a href="npumin.html"> Напоминания</a>
+<div
+    class="overlay"
+    id="overlay"
+></div>
+
+<nav
+    class="sidebar"
+    id="sidebar"
+>
+
+    <div class="sidebar-header">
+
+        <h3>Vibe Check</h3>
+
+        <button id="closeBtn">
+            ✕
+        </button>
+
+    </div>
+
+    <a href="checkin.html">
+        Главная
+    </a>
+
+    <a href="journal.html">
+        Дневник
+    </a>
+
+    <a href="insights.html">
+        Аналитика
+    </a>
+
+    <a href="calendar.html">
+        Календарь
+    </a>
+
+    <a href="tags.html">
+        Теги
+    </a>
+
+    <a href="team.html">
+        Команда
+    </a>
+
+    <a href="support.html">
+        Поддержка
+    </a>
+
+    <a href="profile.html">
+        Профиль
+    </a>
+
+    <a href="export.html">
+        Экспорт
+    </a>
+
+    <a href="metod.html">
+        О методологии
+    </a>
+
+    <a href="npumin.html">
+        Напоминания
+    </a>
+
 </nav>
 
-<div class="container">
 
-  
-  <h1 style="text-align: center;">Аналитика</h1>
-  
-  <p class="subtitle">Твое настроение за период</p>
+<!-- ========================= -->
+<!-- CONTENT -->
+<!-- ========================= -->
 
-  <!-- ✅ ФИЛЬТР -->
-  <div class="filter">
-    <button class="filter-btn active" data-days="3">3 дня</button>
-    <button class="filter-btn" data-days="7">7 дней</button>
-    <button class="filter-btn" data-days="14">14 дней</button>
-    <button class="filter-btn" data-days="30">30 дней</button>
-  </div>
+<main class="container">
 
-  <!-- 📈 ГРАФИК -->
-<div class="card">
-  <h3>Динамика настроения</h3>
+    <h1
+        style="
+            text-align: center;
+            margin-bottom: 10px;
+        "
+    >
+        Аналитика
+    </h1>
 
-  <div class="chart-box">
-    <canvas id="lineChart"></canvas>
-  </div>
-</div>
+    <p
+        class="subtitle"
+        style="
+            text-align: center;
+            margin-bottom: 25px;
+        "
+    >
+        Твое настроение за период
+    </p>
 
-<!-- 🟡 PIE -->
-<div class="card">
-  <h3>Распределение эмоций</h3>
 
-  <div class="chart-box">
-    <canvas id="pieChart"></canvas>
-  </div>
-</div>
-  <!-- 📊 СРЕДНЕЕ -->
-  <div class="card">
-    <h3>Среднее настроение</h3>
-    <div class="team-score" id="avgMood">0</div>
-  </div>
+    <!-- ========================= -->
+    <!-- FILTERS -->
+    <!-- ========================= -->
 
-</div>
-<script src="../js/app.js"></script>
-<script src="../js/api.js"></script>
+    <div
+        class="filter"
+        style="
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        "
+    >
+
+        <button
+            class="filter-btn active"
+            data-days="3"
+        >
+            3 дня
+        </button>
+
+        <button
+            class="filter-btn"
+            data-days="7"
+        >
+            7 дней
+        </button>
+
+        <button
+            class="filter-btn"
+            data-days="14"
+        >
+            14 дней
+        </button>
+
+        <button
+            class="filter-btn"
+            data-days="30"
+        >
+            30 дней
+        </button>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- LINE CHART -->
+    <!-- ========================= -->
+
+    <div class="card">
+
+        <h3
+            style="
+                margin-bottom: 15px;
+            "
+        >
+            Динамика настроения
+        </h3>
+
+        <div
+            class="chart-box"
+            style="
+                position: relative;
+                height: 350px;
+            "
+        >
+
+            <canvas id="lineChart"></canvas>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- PIE CHART -->
+    <!-- ========================= -->
+
+    <div
+        class="card"
+        style="
+            margin-top: 25px;
+        "
+    >
+
+        <h3
+            style="
+                margin-bottom: 15px;
+            "
+        >
+            Распределение эмоций
+        </h3>
+
+        <div
+            class="chart-box"
+            style="
+                position: relative;
+                height: 350px;
+            "
+        >
+
+            <canvas id="pieChart"></canvas>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- AVERAGE -->
+    <!-- ========================= -->
+
+    <div
+        class="card"
+        style="
+            margin-top: 25px;
+            text-align: center;
+        "
+    >
+
+        <h3
+            style="
+                margin-bottom: 15px;
+            "
+        >
+            Среднее настроение
+        </h3>
+
+        <div
+            class="team-score"
+            id="avgMood"
+            style="
+                font-size: 48px;
+                font-weight: bold;
+            "
+        >
+            0
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- ========================= -->
+<!-- SCRIPTS -->
+<!-- ========================= -->
+
 <script src="../js/insights.js"></script>
+
+<script src="../js/app.js"></script>
+
 </body>
-</html>>
+
+</html>
