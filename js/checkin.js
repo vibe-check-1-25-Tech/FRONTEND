@@ -1,5 +1,13 @@
+
 // =========================
-// API FUNCTION
+// GLOBAL STATE
+// =========================
+
+let selectedTags = []
+
+
+// =========================
+// API FUNCTIONS
 // =========================
 
 async function createMood(entry) {
@@ -27,7 +35,80 @@ async function createMood(entry) {
     }
 }
 
+
+async function createTag(tag) {
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:8080/api/tags",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(tag)
+            }
+        )
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Ошибка создания тега"
+            )
+        }
+
+        return await response.json()
+
+    } catch (e) {
+
+        console.error(e)
+
+        return null
+    }
+}
+
+// =========================
+// STATS LOGIC (ДОБАВЛЕНО)
+// =========================
+async function loadTagsStats() {
+    try {
+        const response = await fetch("http://localhost:8080/api/tags/stats");
+        if (response.ok) {
+            const stats = await response.json();
+            
+            document.querySelectorAll(".tag").forEach(tagElement => {
+                // Берем текст тега чисто, без учета цифр, если они там уже есть
+                const fullText = tagElement.innerText;
+                const tagName = fullText.split('(')[0].trim();
+                const count = stats[tagName] || 0;
+                
+                // Ищем или создаем спан для счетчика
+                let countSpan = tagElement.querySelector(".tag-count");
+                if (!countSpan) {
+                    countSpan = document.createElement("span");
+                    countSpan.className = "tag-count";
+                    tagElement.appendChild(countSpan);
+                }
+                // Обновляем только содержимое счетчика, не трогая текст тега
+                countSpan.textContent = ` (${count})`;
+            });
+        }
+    } catch (e) {
+        console.error("Ошибка загрузки статистики:", e);
+    }
+}
+
+// =========================
+// MAIN
+// =========================
+
 document.addEventListener("DOMContentLoaded", () => {
+    
+    // Загружаем статистику при старте
+    loadTagsStats();
 
     // =========================
     // CHECK AUTH
@@ -44,6 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return
     }
 
+
     // =========================
     // MOODS
     // =========================
@@ -52,6 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll(".mood")
 
     const moodScores = {
+
         "Плохо": 1,
         "Не очень": 2,
         "Нормально": 3,
@@ -59,64 +142,89 @@ document.addEventListener("DOMContentLoaded", () => {
         "Отлично": 5
     }
 
-    let selectedMood = "Нормально"
+    let selectedMood =
+        "Нормально"
 
     moods.forEach((mood) => {
 
-        mood.addEventListener("click", () => {
+        mood.addEventListener(
+            "click",
+            () => {
 
-            moods.forEach((m) => {
-                m.classList.remove("active")
-            })
+                moods.forEach((m) => {
 
-            mood.classList.add("active")
+                    m.classList.remove(
+                        "active"
+                    )
+                })
 
-            selectedMood =
-                mood.querySelector("span")
-                    .textContent
-                    .trim()
-        })
+                mood.classList.add(
+                    "active"
+                )
+
+                selectedMood =
+                    mood.querySelector("span")
+                        .textContent
+                        .trim()
+            }
+        )
     })
+
 
     // =========================
     // TAGS
     // =========================
 
-    let selectedTags = []
-
-    document.querySelectorAll(".tag")
+    document
+        .querySelectorAll(".tag")
         .forEach((tag) => {
 
-            tag.addEventListener("click", () => {
+            tag.addEventListener(
+                "click",
+                () => {
 
-                tag.classList.toggle("active")
+                    tag.classList.toggle(
+                        "active"
+                    )
 
-                const text =
-                    tag.innerText.trim()
+                    const text =
+                        tag.innerText.split('(')[0].trim()
 
-                if (selectedTags.includes(text)) {
-
-                    selectedTags =
-                        selectedTags.filter(
-                            t => t !== text
+                    if (
+                        selectedTags.includes(
+                            text
                         )
+                    ) {
 
-                } else {
+                        selectedTags =
+                            selectedTags.filter(
+                                t => t !== text
+                            )
 
-                    selectedTags.push(text)
+                    } else {
+
+                        selectedTags.push(
+                            text
+                        )
+                    }
                 }
-            })
+            )
         })
 
+
     // =========================
-    // SAVE
+    // SAVE ENTRY
     // =========================
 
     const saveBtn =
-        document.querySelector(".save-btn")
+        document.querySelector(
+            ".save-btn"
+        )
 
     const textarea =
-        document.querySelector("textarea")
+        document.querySelector(
+            "textarea"
+        )
 
     saveBtn.addEventListener(
         "click",
@@ -130,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const entry = {
 
-            mood:
+            score:
                 moodScores[selectedMood],
 
             note: note,
@@ -173,11 +281,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             console.log(result)
 
-            alert("Настроение сохранено ✅")
-
-            // =========================
-            // SUPPORT ONLY FOR BAD MOOD
-            // =========================
+            alert(
+                "Настроение сохранено ✅"
+            )
+            
+            // ОБНОВЛЯЕМ СТАТИСТИКУ ПОСЛЕ СОХРАНЕНИЯ
+            loadTagsStats();
 
             if (
                 result.support &&
@@ -204,12 +313,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } finally {
 
-            saveBtn.disabled = false
+            saveBtn.disabled =
+                false
 
             saveBtn.textContent =
                 "Сохранить"
         }
     }
+
 
     // =========================
     // RESET
@@ -222,7 +333,9 @@ document.addEventListener("DOMContentLoaded", () => {
         selectedTags = []
 
         document
-            .querySelectorAll(".tag.active")
+            .querySelectorAll(
+                ".tag.active"
+            )
             .forEach((tag) => {
 
                 tag.classList.remove(
@@ -231,7 +344,10 @@ document.addEventListener("DOMContentLoaded", () => {
             })
 
         moods.forEach((m) => {
-            m.classList.remove("active")
+
+            m.classList.remove(
+                "active"
+            )
         })
 
         const normal =
@@ -246,8 +362,10 @@ document.addEventListener("DOMContentLoaded", () => {
             )
         }
 
-        selectedMood = "Нормально"
+        selectedMood =
+            "Нормально"
     }
+
 
     // =========================
     // SUPPORT MODAL
@@ -274,9 +392,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         data.innerHTML = ""
 
-        // =========================
-        // MEME
-        // =========================
 
         if (
             support.type === "meme"
@@ -316,9 +431,6 @@ document.addEventListener("DOMContentLoaded", () => {
             data.appendChild(text)
         }
 
-        // =========================
-        // JOKE
-        // =========================
 
         if (
             support.type === "joke"
@@ -344,9 +456,6 @@ document.addEventListener("DOMContentLoaded", () => {
             data.appendChild(p)
         }
 
-        // =========================
-        // RANDOM BUTTON TEXT
-        // =========================
 
         const phrases = [
 
@@ -369,8 +478,10 @@ document.addEventListener("DOMContentLoaded", () => {
         closeBtn.textContent =
             randomPhrase
 
-        modal.style.display = "flex"
+        modal.style.display =
+            "flex"
     }
+
 
     // =========================
     // CLOSE SUPPORT MODAL
@@ -381,6 +492,193 @@ document.addEventListener("DOMContentLoaded", () => {
 
             document.getElementById(
                 "supportModal"
-            ).style.display = "none"
+            ).style.display =
+                "none"
         }
+
+
+    // =========================
+    // TAG MODAL
+    // =========================
+
+    const addTagBtn =
+        document.querySelector(
+            ".add-tag-btn"
+        )
+
+    const tagModal =
+        document.getElementById(
+            "tagModal"
+        )
+
+    const tagInput =
+        document.getElementById(
+            "tagInput"
+        )
+
+    const saveTagBtn =
+        document.getElementById(
+            "saveTagBtn"
+        )
+
+
+    // OPEN MODAL
+
+    addTagBtn.addEventListener(
+        "click",
+        () => {
+
+            tagModal.style.display =
+                "flex"
+
+            tagInput.focus()
+        }
+    )
+
+
+    // CLOSE MODAL
+
+    function closeTagModal() {
+
+        tagModal.style.display =
+            "none"
+
+        tagInput.value = ""
+    }
+
+    window.closeTagModal =
+        closeTagModal
+
+
+    // SAVE TAG
+
+    saveTagBtn.addEventListener(
+        "click",
+        async () => {
+
+            const value =
+                tagInput.value.trim()
+
+            if (!value) {
+
+                alert(
+                    "Введите тег"
+                )
+
+                return
+            }
+
+            try {
+
+                const createdTag =
+                    await createTag({
+
+                        name: value,
+
+                        icon: "🏷️",
+
+                        type: "neutral"
+                    })
+
+                console.log(createdTag)
+
+                if (!createdTag) {
+
+                    alert(
+                        "Ошибка создания тега"
+                    )
+
+                    return
+                }
+
+
+                // =========================
+                // CREATE TAG ELEMENT
+                // =========================
+
+                const tag =
+                    document.createElement(
+                        "span"
+                    )
+
+                tag.classList.add(
+                    "tag",
+                    "active"
+                )
+
+                tag.textContent =
+                    createdTag.name
+
+
+                // =========================
+                // ADD TO PAGE
+                // =========================
+
+                const tagsBar =
+                    document.querySelector(
+                        ".tags-bar"
+                    )
+
+                tagsBar.appendChild(tag)
+
+
+                // =========================
+                // ADD TO ARRAY
+                // =========================
+
+                selectedTags.push(
+                    createdTag.name
+                )
+
+
+                // =========================
+                // CLICK EVENT
+                // =========================
+
+                tag.addEventListener(
+                    "click",
+                    () => {
+
+                        tag.classList.toggle(
+                            "active"
+                        )
+
+                        const text =
+                            tag.innerText.split('(')[0].trim()
+
+                        if (
+                            selectedTags.includes(
+                                text
+                            )
+                        ) {
+
+                            selectedTags =
+                                selectedTags.filter(
+                                    t => t !== text
+                                )
+
+                        } else {
+
+                            selectedTags.push(
+                                text
+                            )
+                        }
+                    }
+                )
+                
+                // ОБНОВЛЯЕМ СТАТИСТИКУ ПРИ ДОБАВЛЕНИИ ТЕГА
+                loadTagsStats();
+
+                closeTagModal()
+
+            } catch (e) {
+
+                console.error(e)
+
+                alert(
+                    "Ошибка сервера"
+                )
+            }
+        }
+    )
 })
