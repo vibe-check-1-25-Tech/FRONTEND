@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>О методологии | Vibe Check</title>
-  <link rel="stylesheet" href="..//FRONTEND/css/styles.css">
+  <title>Инструкция | Vibe Check</title>
+
+  <link rel="stylesheet" href="../FRONTEND/css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
 <!-- КНОПКА МЕНЮ -->
@@ -18,7 +20,8 @@
   <div class="sidebar-header">
     <h3>Vibe Check</h3>
     <button id="closeBtn">✕</button>
-</div>
+  </div>
+
   <a href="checkin.html">Главная</a>
   <a href="journal.html">Дневник</a>
   <a href="insights.html">Аналитика</a>
@@ -28,102 +31,108 @@
   <a href="support.html">Поддержка</a>
   <a href="profile.html">Профиль</a>
   <a href="export.html">Экспорт</a>
-  <a href="metod.html">О методологии</a>
+  <a href="metod.html">Инструкция</a>
   <a href="npumin.html">Напоминания</a>
 </nav>
 
 <div class="methodology-container">
-  
+
   <!-- ЗАГОЛОВОК -->
   <div class="methodology-header">
-    <h1>📖 О методологии</h1>
-    <p class="subtitle">Как работает Vibe Check и почему вы можете нам доверять</p>
+    <h1>📖 Инструкция</h1>
+    <p class="subtitle">Как пользоваться Vibe Check</p>
   </div>
 
-  <!-- О ПРОЕКТЕ -->
+  <!-- КРАТКО -->
   <div class="section">
-    <h2><i class="fas fa-heart"></i> О проекте Vibe Check</h2>
-    <p><strong>Vibe Check</strong> — это современное веб-приложение для отслеживания эмоционального состояния и ведения дневника настроения. Приложение помогает пользователям лучше понимать свои эмоции, замечать закономерности и своевременно реагировать на изменения настроения.</p>
-    <p>Мы создали Vibe Check, потому что верим: регулярное наблюдение за своим эмоциональным состоянием — это первый шаг к лучшему пониманию себя и улучшению качества жизни.</p>
+    <h2>О приложении</h2>
+    <p>Vibe Check — приложение для отслеживания настроения, дневника и команд.</p>
   </div>
 
-  <!-- ОСНОВНЫЕ ФУНКЦИИ -->
+  <!-- ГЛАВНАЯ -->
   <div class="section">
-    <h2><i class="fas fa-star"></i> Основные функции</h2>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">😊</div>
-        <h3>Ежедневный check-in</h3>
-        <p>Выбор настроения из 5 уровней с визуальной цветовой индикацией</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🏷️</div>
-        <h3>Теги</h3>
-        <p>Добавление тегов к записям для анализа влияния различных факторов</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📔</div>
-        <h3>Дневник</h3>
-        <p>Все записи сохраняются в хронологическом порядке с возможностью редактирования</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <h3>Аналитика</h3>
-        <p>Графики динамики настроения, статистика и средние показатели</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📅</div>
-        <h3>Календарь</h3>
-        <p>Визуальное отображение настроения по дням с цветовой индикацией</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">👥</div>
-        <h3>Команды</h3>
-        <p>Создание команд, общение в чатах, анонимная статистика настроения</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- НАУЧНАЯ БАЗА -->
-  <div class="section">
-   
-    
-    <h2>📊 Шкала настроения (1-5)</h2>
-    <p>Используется 5-балльная шкала оценки настроения, которая позволяет точно и быстро зафиксировать эмоциональное состояние.</p>
-    
-    <div class="mood-scale">
-      <div class="mood-item"><span class="mood-color" style="background:#ff5252;"></span> 1 — Плохо</div>
-      <div class="mood-item"><span class="mood-color" style="background:#ff9800;"></span> 2 — Не очень</div>
-      <div class="mood-item"><span class="mood-color" style="background:#ffd54f;"></span> 3 — Нормально</div>
-      <div class="mood-item"><span class="mood-color" style="background:#4caf50;"></span> 4 — Хорошо</div>
-      <div class="mood-item"><span class="mood-color" style="background:#2e7d32;"></span> 5 — Отлично</div>
-    </div>
-  </div>
-
-  <!-- КОНФИДЕНЦИАЛЬНОСТЬ -->
-  <div class="section">
-    <h2><i class="fas fa-shield-alt"></i> Конфиденциальность и безопасность</h2>
-    <p>Мы серьезно относимся к защите ваших данных:</p>
+    <h2>🏠 Главная страница</h2>
     <ul class="privacy-list">
-      <li><i class="fas fa-check-circle"></i> Все данные хранятся локально на вашем устройстве</li>
-      <li><i class="fas fa-check-circle"></i> Никакие данные не передаются на сервер</li>
-      <li><i class="fas fa-check-circle"></i> Полная анонимность — никакой регистрации</li>
-      <li><i class="fas fa-check-circle"></i> PIN-код для дополнительной защиты</li>
-      <li><i class="fas fa-check-circle"></i> Вы можете экспортировать и удалить свои данные в любой момент</li>
+      <li>Выбираем настроение (1–5)</li>
+      <li>Выбираем тег или пишем свою заметку</li>
+      <li>Нажимаем «Сохранить»</li>
+      <li>Запись сохраняется в дневник автоматически</li>
     </ul>
   </div>
 
-
-  <!-- КОМАНДА -->
+  <!-- ДНЕВНИК -->
   <div class="section">
-    <h2><i class="fas fa-users"></i> Команда</h2>
-    <p>Vibe Check создан командой энтузиастов, объединенных общей целью — сделать инструмент для заботы о ментальном здоровье доступным каждому.</p>
-    <p>Мы постоянно развиваем приложение и добавляем новые функции. Если у вас есть предложения или вопросы, свяжитесь с нами через раздел "Поддержка".</p>
+    <h2>📔 Дневник</h2>
+    <ul class="privacy-list">
+      <li>Отображаются все сохранённые записи</li>
+      <li>Можно открыть запись по дате</li>
+      <li>Можно искать записи по дате</li>
+      <li>Можно фильтровать по настроению (смайликам)</li>
+    </ul>
   </div>
 
-  <!-- ВЕРСИЯ -->
-  <div class="version-info">
-    <p><i class="fas fa-code-branch"></i> Версия 1.0.0 | © 2026 Vibe Check</p>
+  <!-- ТЕГИ -->
+  <div class="section">
+    <h2>🏷️ Теги</h2>
+    <ul class="privacy-list">
+      <li>Добавляются при создании записи</li>
+      <li>Помогают группировать записи</li>
+      <li>Можно анализировать частые причины настроения</li>
+    </ul>
+  </div>
+
+  <!-- АНАЛИТИКА -->
+  <div class="section">
+    <h2>📊 Аналитика</h2>
+    <ul class="privacy-list">
+      <li>Показывает график настроения</li>
+      <li>Показывает среднее настроение</li>
+      <li>Можно выбрать период просмотра</li>
+    </ul>
+  </div>
+
+  <!-- КАЛЕНДАРЬ -->
+  <div class="section">
+    <h2>📅 Календарь</h2>
+    <ul class="privacy-list">
+      <li>Каждый день отмечен цветом настроения</li>
+      <li>Нажатие на день открывает запись</li>
+      <li>Можно быстро просматривать историю</li>
+    </ul>
+  </div>
+
+  <!-- КОМАНДЫ -->
+  <div class="section">
+    <h2>👥 Команды</h2>
+    <ul class="privacy-list">
+      <li>Можно создать команду</li>
+      <li>Можно добавить участников</li>
+      <li>Есть общий чат команды</li>
+      <li>Показывается общая статистика настроения</li>
+    </ul>
+  </div>
+
+  <!-- ДОБАВЛЕНИЕ УЧАСТНИКОВ -->
+  <div class="section">
+    <h2>➕ Добавление участников</h2>
+    <ul class="privacy-list">
+      <li>Нажимаем «Добавить участника»</li>
+      <li>Получаем код приглашения</li>
+      <li>Отправляем код другому пользователю</li>
+      <li>Он вводит код и присоединяется к команде</li>
+    </ul>
+  </div>
+
+  <!-- НАСТРОЙКИ -->
+  <div class="section">
+    <h2>Профиль</h2>
+    <ul class="privacy-list">
+      <li>Профиль — изменение данных пользователя</li>
+      <li>Жалобы - можете написать что не понравилось</li>
+      <li> Советы - можете написать, что стоит добавить для улучшения Vibe-Chek </li>
+      <li>Уведомления — включение/выключение напоминаний</li>
+       <li>Отзывы - можете написать ваше мнение, как вам наше приложение.</li> 
+    </ul>
   </div>
 
 </div>
