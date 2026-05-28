@@ -1,5 +1,3 @@
-/* global getAllMoods */
-
 // ===== DATA =====
 
 let allData = [];
@@ -27,6 +25,29 @@ const moodColors = {
 };
 
 
+// ===== API =====
+
+async function getAllMoods() {
+
+    try {
+
+        return await fetch(
+            "http://localhost:8080/api/moods"
+        );
+
+    } catch (error) {
+
+        console.error(
+            "GET MOODS ERROR:",
+            error
+        );
+
+        return null;
+    }
+
+}
+
+
 // ===== LINE CHART =====
 
 const lineChart = new Chart(
@@ -34,32 +55,38 @@ const lineChart = new Chart(
     document.getElementById("lineChart"),
 
     {
+
         type: "line",
 
         data: {
 
             labels: [],
 
-            datasets: [{
+            datasets: [
 
-                label: "Настроение",
+                {
 
-                data: [],
+                    label: "Настроение",
 
-                borderColor: "#6366f1",
+                    data: [],
 
-                backgroundColor:
-                    "rgba(99,102,241,0.2)",
+                    borderColor: "#6366f1",
 
-                tension: 0.4,
+                    backgroundColor:
+                        "rgba(99,102,241,0.2)",
 
-                fill: true,
+                    tension: 0.4,
 
-                pointRadius: 5,
+                    fill: true,
 
-                pointHoverRadius: 7
+                    pointRadius: 5,
 
-            }]
+                    pointHoverRadius: 7
+
+                }
+
+            ]
+
         },
 
         options: {
@@ -77,7 +104,9 @@ const lineChart = new Chart(
                     max: 5,
 
                     ticks: {
+
                         stepSize: 1
+
                     }
 
                 }
@@ -113,21 +142,26 @@ const pieChart = new Chart(
 
             ],
 
-            datasets: [{
+            datasets: [
 
-                data: [],
+                {
 
-                backgroundColor: [
+                    data: [],
 
-                    moodColors[1],
-                    moodColors[2],
-                    moodColors[3],
-                    moodColors[4],
-                    moodColors[5]
+                    backgroundColor: [
 
-                ]
+                        moodColors[1],
+                        moodColors[2],
+                        moodColors[3],
+                        moodColors[4],
+                        moodColors[5]
 
-            }]
+                    ]
+
+                }
+
+            ]
+
         },
 
         options: {
@@ -149,8 +183,12 @@ const pieChart = new Chart(
 
                             const total =
                                 data.reduce(
-                                    (a, b) => a + b,
+
+                                    (a, b) =>
+                                        a + b,
+
                                     0
+
                                 );
 
                             const value =
@@ -165,9 +203,7 @@ const pieChart = new Chart(
                                     ).toFixed(1)
                                     : 0;
 
-                            return `
-${context.label}: ${percent}%
-`;
+                            return `${context.label}: ${percent}%`;
 
                         }
 
@@ -190,53 +226,89 @@ async function loadAnalytics() {
 
     try {
 
+        console.log(
+            "Загрузка аналитики..."
+        );
+
         const response =
             await getAllMoods();
 
+        console.log(
+            "RESPONSE:",
+            response
+        );
+
+        if (!response) {
+
+            throw new Error(
+                "Сервер недоступен"
+            );
+
+        }
+
         if (!response.ok) {
 
-            throw new Error("Ошибка загрузки");
+            throw new Error(
+                "Ошибка загрузки"
+            );
 
         }
 
         const moods =
-            await response.json() || [];
+            await response.json();
 
-        // преобразуем данные
-        allData = moods.map((item, index) => ({
+        console.log(
+            "MOODS:",
+            moods
+        );
 
-            id: item.id,
+        allData = moods.map(
 
-            day: index + 1,
+            (item, index) => ({
 
-            mood: item.score,
+                id: item.id,
 
-            date: new Date(item.timestamp)
+                day: index + 1,
 
-        }));
+                mood: item.score,
+
+                date: new Date(
+                    item.timestamp
+                )
+
+            })
+
+        );
+
+        console.log(
+            "ALL DATA:",
+            allData
+        );
 
         updateCharts(3);
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "ANALYTICS ERROR:",
+            error
+        );
 
-        avgMood.textContent = "Ошибка";
+        avgMood.textContent =
+            "Ошибка";
 
     }
 
 }
 
 
-// ===== UPDATE =====
+// ===== UPDATE CHARTS =====
 
 function updateCharts(days) {
 
-    // последние N записей
     const filtered =
         allData.slice(-days);
 
-    // если данных нет
     if (!filtered.length) {
 
         lineChart.data.labels = [];
@@ -246,7 +318,8 @@ function updateCharts(days) {
         lineChart.update();
 
         pieChart.data.datasets[0].data =
-            [0,0,0,0,0];
+
+            [0, 0, 0, 0, 0];
 
         pieChart.update();
 
@@ -255,16 +328,23 @@ function updateCharts(days) {
         return;
     }
 
+
     // ===== LINE =====
 
     lineChart.data.labels =
+
         filtered.map(
+
             d => `#${d.day}`
+
         );
 
     lineChart.data.datasets[0].data =
+
         filtered.map(
+
             d => d.mood
+
         );
 
     lineChart.update();
@@ -273,13 +353,20 @@ function updateCharts(days) {
     // ===== PIE =====
 
     const counts =
-        [1,2,3,4,5].map(mood => {
 
-            return filtered.filter(
-                d => d.mood === mood
-            ).length;
+        [1, 2, 3, 4, 5].map(
 
-        });
+            mood => {
+
+                return filtered.filter(
+
+                    d => d.mood === mood
+
+                ).length;
+
+            }
+
+        );
 
     pieChart.data.datasets[0].data =
         counts;
@@ -290,9 +377,11 @@ function updateCharts(days) {
     // ===== AVG =====
 
     const avg =
+
         filtered.reduce(
 
             (sum, item) =>
+
                 sum + item.mood,
 
             0
@@ -305,11 +394,15 @@ function updateCharts(days) {
 
     // ===== ANIMATION =====
 
-    avgMood.classList.remove("pulse");
+    avgMood.classList.remove(
+        "pulse"
+    );
 
     void avgMood.offsetWidth;
 
-    avgMood.classList.add("pulse");
+    avgMood.classList.add(
+        "pulse"
+    );
 
 }
 
@@ -318,24 +411,35 @@ function updateCharts(days) {
 
 filterButtons.forEach(btn => {
 
-    btn.addEventListener("click", () => {
+    btn.addEventListener(
 
-        // active
-        filterButtons.forEach(button => {
+        "click",
 
-            button.classList.remove("active");
+        () => {
 
-        });
+            filterButtons.forEach(button => {
 
-        btn.classList.add("active");
+                button.classList.remove(
+                    "active"
+                );
 
-        // days
-        const days =
-            Number(btn.dataset.days);
+            });
 
-        updateCharts(days);
+            btn.classList.add(
+                "active"
+            );
 
-    });
+            const days =
+
+                Number(
+                    btn.dataset.days
+                );
+
+            updateCharts(days);
+
+        }
+
+    );
 
 });
 

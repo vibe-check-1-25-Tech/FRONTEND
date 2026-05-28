@@ -31,41 +31,21 @@
   <a href="npumin.html">Напоминания</a>
 </nav>
 
-<!-- ГЛАВНАЯ СТРАНИЦА -->
 <div id="mainPage" class="container">
-  <div class="section-title">
-    <i class="fas fa-users"></i>
-    <span>Мои команды</span>
-  </div>
+  <div class="section-title"><i class="fas fa-users"></i> <span>Мои команды</span></div>
   <div id="teamsList" class="team-list"></div>
 </div>
 
-<!-- СТРАНИЦА ДЕТАЛЕЙ КОМАНДЫ -->
 <div id="teamDetailPage" class="team-detail-page">
-  <button class="back-btn" id="backToTeamsBtn">
-    <i class="fas fa-arrow-left"></i> Назад к командам
-  </button>
-  
-  <div class="detail-header">
-    <h2 id="detailTeamName">Команда</h2>
-  </div>
-  
+  <button class="back-btn" id="backToTeamsBtn"><i class="fas fa-arrow-left"></i> Назад к командам</button>
+  <div class="detail-header"><h2 id="detailTeamName">Команда</h2></div>
+
   <div class="detail-stats">
-    <div class="stat-card">
-      <div class="stat-value" id="detailMemberCount">0</div>
-      <div class="stat-label">участников</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value" id="detailRating">0</div>
-      <div class="stat-label">рейтинг</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value" id="detailVotes">0</div>
-      <div class="stat-label">всего голосов</div>
-    </div>
+    <div class="stat-card"><div class="stat-value" id="detailMemberCount">0</div><div class="stat-label">участников</div></div>
+    <div class="stat-card"><div class="stat-value" id="detailRating">0</div><div class="stat-label">рейтинг</div></div>
+    <div class="stat-card"><div class="stat-value" id="detailVotes">0</div><div class="stat-label">всего голосов</div></div>
   </div>
-  
-  <!-- ОТДЕЛЬНОЕ НАСТРОЕНИЕ ВНУТРИ КОМАНДЫ -->
+
   <div class="team-mood-section">
     <h4><i class="fas fa-smile"></i> Ваше настроение сегодня в команде</h4>
     <div class="team-mood-grid" id="teamMoodGrid">
@@ -75,51 +55,46 @@
       <div class="team-mood-option" data-mood="4">😊<span>Хорошо</span></div>
       <div class="team-mood-option" data-mood="5">😁<span>Отлично</span></div>
     </div>
-    
-    <div style="display: flex; justify-content: space-between; align-items: center; margin: 12px 0 8px;">
-      <span style="font-weight: 600;"><i class="fas fa-tags"></i> Теги настроения</span>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin:12px 0 8px;">
+      <span style="font-weight:600;"><i class="fas fa-tags"></i> Теги настроения</span>
       <button id="openAddTagBtn" class="add-tag-btn"><i class="fas fa-plus"></i> Добавить тег</button>
     </div>
     <div class="team-tags-grid" id="teamTagsGrid"></div>
-    
-    <button class="team-save-mood-btn" id="saveTeamMoodBtn">
-      <i class="fas fa-vote-yea"></i> Сохранить
-    </button>
+    <button class="team-save-mood-btn" id="saveTeamMoodBtn"><i class="fas fa-vote-yea"></i> Сохранить</button>
     <div class="anonymous-note">🔒 Анонимно. Команда видит только общую статистику</div>
   </div>
-  
+
   <div class="detail-tabs">
     <button class="detail-tab active" data-tab="members">👥 Участники</button>
     <button class="detail-tab" data-tab="chat">💬 Чат команды</button>
     <button class="detail-tab" data-tab="analytics">📊 Аналитика</button>
   </div>
-  
+
   <div id="tabMembers" class="tab-content active">
     <button class="add-member-btn" id="openAddMemberBtn"><i class="fas fa-user-plus"></i> Добавить участника</button>
     <div id="membersList" class="members-list"></div>
   </div>
-  
+
   <div id="tabChat" class="tab-content">
     <div class="chat-box" id="chatMessages"></div>
     <div class="chat-input-area">
       <input type="text" id="chatInput" class="chat-input" placeholder="Сообщение в команду...">
       <button class="chat-send-btn" id="sendChatBtn"><i class="fas fa-paper-plane"></i></button>
+      <button class="chat-clear-btn" id="clearChatBtn"><i class="fas fa-trash"></i> Очистить чат</button>
     </div>
   </div>
-  
+
   <div id="tabAnalytics" class="tab-content">
     <div class="analytics-section">
       <h4><i class="fas fa-chart-line"></i> Динамика настроения</h4>
-      <div class="chart-container">
-        <canvas id="teamChart"></canvas>
-      </div>
+      <div class="chart-container"><canvas id="teamChart"></canvas></div>
     </div>
     <div class="analytics-section">
       <h4><i class="fas fa-tags"></i> Статистика тегов</h4>
       <div id="tagsStatsList" class="tags-stats-list"></div>
     </div>
   </div>
-  
+
   <button class="delete-team-btn" id="deleteTeamBtn"><i class="fas fa-trash-alt"></i> Удалить команду</button>
 </div>
 
@@ -197,6 +172,5 @@
 </div>
 
 <script src="../js/team.js"></script>
-
 </body>
 </html>

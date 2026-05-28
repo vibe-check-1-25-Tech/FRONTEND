@@ -5,10 +5,12 @@ const API_BASE = "http://localhost:8080/api";
 
 
 // =========================
-// HELPER (ОБЯЗАТЕЛЬНО)
+// HELPER
 // =========================
 async function request(url, options = {}) {
+
     try {
+
         const res = await fetch(url, {
             headers: {
                 "Content-Type": "application/json",
@@ -18,15 +20,25 @@ async function request(url, options = {}) {
         });
 
         if (!res.ok) {
-            throw new Error(`API error: ${res.status}`);
+
+            throw new Error(
+                `API error: ${res.status}`
+            );
         }
 
         const text = await res.text();
 
-        return text ? JSON.parse(text) : null;
+        return text
+            ? JSON.parse(text)
+            : null;
 
     } catch (err) {
-        console.error("API REQUEST ERROR:", err);
+
+        console.error(
+            "API REQUEST ERROR:",
+            err
+        );
+
         return null;
     }
 }
@@ -36,75 +48,137 @@ async function request(url, options = {}) {
 // AUTH
 // =========================
 async function loginUser(data) {
-    return request(`${API_BASE}/login`, {
-        method: "POST",
-        body: JSON.stringify(data)
-    });
+
+    return request(
+        `${API_BASE}/login`,
+        {
+            method: "POST",
+
+            body: JSON.stringify(data)
+        }
+    );
 }
 
 async function registerUser(data) {
-    return request(`${API_BASE}/register`, {
-        method: "POST",
-        body: JSON.stringify(data)
-    });
+
+    return request(
+        `${API_BASE}/register`,
+        {
+            method: "POST",
+
+            body: JSON.stringify(data)
+        }
+    );
 }
 
 async function deleteUser(email) {
-    return request(`${API_BASE}/user/delete?email=${encodeURIComponent(email)}`, {
-        method: "DELETE"
-    });
+
+    return request(
+        `${API_BASE}/user/delete?email=${encodeURIComponent(email)}`,
+        {
+            method: "DELETE"
+        }
+    );
 }
 
 
 // =========================
-// MOODS (CHECK-IN + JOURNAL + CALENDAR + INSIGHTS)
+// MOODS
 // =========================
+
+// CREATE
 async function createMood(data) {
-    return request(`${API_BASE}/moods`, {
-        method: "POST",
-        body: JSON.stringify(data)
-    });
+
+    return request(
+        `${API_BASE}/moods`,
+        {
+            method: "POST",
+
+            body: JSON.stringify(data)
+        }
+    );
 }
 
+
+// GET ALL
 async function getAllMoods() {
-    return request(`${API_BASE}/moods`);
+
+    return request(
+        `${API_BASE}/moods`
+    );
 }
 
+
+// ALIAS
 async function getMoods() {
-    return getAllMoods(); // alias для journal.js (чтобы не ломать старый код)
+
+    return getAllMoods();
 }
 
+
+// GET ONE
 async function getMoodById(id) {
-    return request(`${API_BASE}/moods/get?id=${id}`);
+
+    return request(
+        `${API_BASE}/moods/${id}`
+    );
 }
 
-async function updateMood(data) {
-    return request(`${API_BASE}/moods/update`, {
-        method: "PUT",
-        body: JSON.stringify(data)
-    });
+
+// UPDATE
+async function updateMood(id, data) {
+
+    return request(
+        `${API_BASE}/moods/${id}`,
+        {
+            method: "PUT",
+
+            body: JSON.stringify(data)
+        }
+    );
 }
 
+
+// DELETE
 async function deleteMood(id) {
-    return request(`${API_BASE}/moods/delete?id=${id}`, {
-        method: "DELETE"
-    });
+
+    return request(
+        `${API_BASE}/moods/${id}`,
+        {
+            method: "DELETE"
+        }
+    );
 }
 
+
+// SEARCH
 async function searchMoods(query) {
-    return request(`${API_BASE}/moods/search?q=${encodeURIComponent(query)}`);
+
+    return request(
+        `${API_BASE}/moods/search?q=${encodeURIComponent(query)}`
+    );
 }
 
+
 // =========================
-// TAGS API
+// TAGS
 // =========================
 
-// GET ALL TAGS
+// GET TAGS
 async function getTags() {
-    const res = await fetch(`${API_BASE}/tags`);
+
+    const res =
+        await fetch(
+            `${API_BASE}/tags`
+        );
 
     if (!res.ok) {
-        console.error("GET TAGS ERROR:", res.status);
+
+        console.error(
+            "GET TAGS ERROR:",
+            res.status
+        );
+
         return [];
     }
 
@@ -114,16 +188,28 @@ async function getTags() {
 
 // CREATE TAG
 async function createTag(data) {
-    const res = await fetch(`${API_BASE}/tags`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    });
+
+    const res =
+        await fetch(
+            `${API_BASE}/tags`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(data)
+            }
+        );
 
     if (!res.ok) {
-        console.error("CREATE TAG ERROR:", res.status);
+
+        console.error(
+            "CREATE TAG ERROR:",
+            res.status
+        );
+
         return null;
     }
 
@@ -133,16 +219,28 @@ async function createTag(data) {
 
 // UPDATE TAG
 async function updateTag(data) {
-    const res = await fetch(`${API_BASE}/tags/update`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    });
+
+    const res =
+        await fetch(
+            `${API_BASE}/tags/update`,
+            {
+                method: "PUT",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(data)
+            }
+        );
 
     if (!res.ok) {
-        console.error("UPDATE TAG ERROR:", res.status);
+
+        console.error(
+            "UPDATE TAG ERROR:",
+            res.status
+        );
+
         return null;
     }
 
@@ -152,12 +250,22 @@ async function updateTag(data) {
 
 // DELETE TAG
 async function deleteTag(id) {
-    const res = await fetch(`${API_BASE}/tags/delete?id=${id}`, {
-        method: "DELETE"
-    });
+
+    const res =
+        await fetch(
+            `${API_BASE}/tags/delete?id=${id}`,
+            {
+                method: "DELETE"
+            }
+        );
 
     if (!res.ok) {
-        console.error("DELETE TAG ERROR:", res.status);
+
+        console.error(
+            "DELETE TAG ERROR:",
+            res.status
+        );
+
         return null;
     }
 
@@ -167,29 +275,48 @@ async function deleteTag(id) {
 
 // SEARCH TAGS
 async function searchTagsApi(query) {
-    const res = await fetch(`${API_BASE}/tags/search?q=${encodeURIComponent(query)}`);
+
+    const res =
+        await fetch(
+            `${API_BASE}/tags/search?q=${encodeURIComponent(query)}`
+        );
 
     if (!res.ok) {
-        console.error("SEARCH TAGS ERROR:", res.status);
+
+        console.error(
+            "SEARCH TAGS ERROR:",
+            res.status
+        );
+
         return [];
     }
 
     return await res.json();
 }
 
+
 // =========================
 // ANALYTICS
 // =========================
 async function getStats() {
-    return request(`${API_BASE}/stats`);
+
+    return request(
+        `${API_BASE}/stats`
+    );
 }
 
 async function getTopTags() {
-    return request(`${API_BASE}/tags/top`);
+
+    return request(
+        `${API_BASE}/tags/top`
+    );
 }
 
 async function getTeamStats() {
-    return request(`${API_BASE}/team/aggregate`);
+
+    return request(
+        `${API_BASE}/team/aggregate`
+    );
 }
 
 
@@ -197,7 +324,10 @@ async function getTeamStats() {
 // SUPPORT
 // =========================
 async function getSupportContent() {
-    return request(`${API_BASE}/support`);
+
+    return request(
+        `${API_BASE}/support`
+    );
 }
 
 
@@ -205,10 +335,15 @@ async function getSupportContent() {
 // REMINDERS
 // =========================
 async function setReminder(data) {
-    return request(`${API_BASE}/user/reminders`, {
-        method: "POST",
-        body: JSON.stringify(data)
-    });
+
+    return request(
+        `${API_BASE}/user/reminders`,
+        {
+            method: "POST",
+
+            body: JSON.stringify(data)
+        }
+    );
 }
 
 
@@ -216,11 +351,17 @@ async function setReminder(data) {
 // EXPORT
 // =========================
 function exportCSV() {
-    window.open(`${API_BASE}/export/csv`);
+
+    window.open(
+        `${API_BASE}/export/csv`
+    );
 }
 
 function exportPDF() {
-    window.open(`${API_BASE}/export/pdf`);
+
+    window.open(
+        `${API_BASE}/export/pdf`
+    );
 }
 
 
@@ -228,5 +369,8 @@ function exportPDF() {
 // SYSTEM
 // =========================
 async function pingServer() {
-    return request(`${API_BASE}/ping`);
+
+    return request(
+        `${API_BASE}/ping`
+    );
 }

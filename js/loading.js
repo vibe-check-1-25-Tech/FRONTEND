@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(() => {
 
                 // Переход на главную
-                window.location.href = 'checkin.html';
+                window.location.href = './checkin.html';
 
             }, 2500);
 

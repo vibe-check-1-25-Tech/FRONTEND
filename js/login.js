@@ -4,9 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginBtn = document.getElementById("loginBtn");
     const errorMessage = document.getElementById("errorMessage");
 
-    // Получаем PIN из localStorage
-    const savedPin = localStorage.getItem("userPin");
-
     // ===== INPUT =====
     pinInputs.forEach((input, index) => {
 
@@ -14,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             let value = e.target.value;
 
-            // Только цифры
             value = value.replace(/\D/g, "");
             e.target.value = value;
 
@@ -22,18 +18,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             input.classList.remove("error");
 
-            // Следующий input
             if (value && index < pinInputs.length - 1) {
                 pinInputs[index + 1].focus();
             }
 
-            // Автовход
             if (getPin().length === 4) {
                 login();
             }
         });
 
-        // Backspace
         input.addEventListener("keydown", (e) => {
 
             if (e.key === "Backspace" && !input.value && index > 0) {
@@ -44,10 +37,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-    // Кнопка
+    // ===== BUTTON =====
     loginBtn.addEventListener("click", login);
 
-    // Enter
+    // ===== ENTER =====
     document.addEventListener("keydown", (e) => {
 
         if (e.key === "Enter") {
@@ -56,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-    // ===== Получить PIN =====
+    // ===== GET PIN =====
     function getPin() {
 
         return Array.from(pinInputs)
@@ -66,39 +59,106 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ===== LOGIN =====
-    function login() {
+    async function login() {
 
         const enteredPin = getPin();
 
-        // Если PIN не установлен
-        if (!savedPin) {
-            showError("Сначала установите PIN в профиле");
-            showInputError();
+        if (enteredPin.length !== 4) {
             return;
         }
 
-        // Проверка
-        if (enteredPin === savedPin) {
+        try {
 
-            loginBtn.innerHTML = `<i class="fas fa-check"></i> Успешно`;
+            loginBtn.disabled = true;
 
-            // Авторизация
-            localStorage.setItem("isAuthenticated", "true");
+            loginBtn.innerHTML =
+                `<i class="fas fa-spinner fa-spin"></i> Вход...`;
 
-            // Переход на главную
+            // EMAIL берём из localStorage
+            const savedEmail =
+                localStorage.getItem("userEmail");
+
+            if (!savedEmail) {
+
+                showError("Сначала зарегистрируйтесь");
+
+                resetButton();
+
+                return;
+            }
+console.log("EMAIL:", localStorage.getItem("userEmail"));
+console.log("PIN:", enteredPin);
+            const response = await fetch(
+                "http://localhost:8080/api/login",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        email: savedEmail,
+                        password: enteredPin
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+
+                showError("Неверный PIN-код");
+
+                showInputError();
+
+                clearInputs();
+
+                resetButton();
+
+                return;
+            }
+
+            // ===== СОХРАНЯЕМ АВТОРИЗАЦИЮ =====
+
+            localStorage.setItem(
+                "isAuthenticated",
+                "true"
+            );
+
+            localStorage.setItem(
+                "userId",
+                data.user_id
+            );
+
+            loginBtn.innerHTML =
+                `<i class="fas fa-check"></i> Успешно`;
+
             setTimeout(() => {
-                window.location.href = "checkin.html";
+
+                window.location.href =
+                    "checkin.html";
+
             }, 700);
 
-        } else {
+        } catch (error) {
 
-            showError("Неверный PIN-код");
+            console.error(error);
 
-            showInputError();
+            showError("Ошибка сервера");
 
-            clearInputs();
-
+            resetButton();
         }
+
+    }
+
+    // ===== RESET BUTTON =====
+    function resetButton() {
+
+        loginBtn.disabled = false;
+
+        loginBtn.innerHTML =
+            `<i class="fas fa-arrow-right"></i> Войти`;
 
     }
 
