@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Напоминания</title>
+  <link rel="stylesheet" href="../FRONTEND/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<button class="menu-btn" id="menuBtn">☰</button>
+<div class="overlay" id="overlay"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h3>Vibe Check</h3>
+    <button id="closeBtn">✕</button>
+ </div>
+
+  <a href="checkin.html">Главная</a>
+  <a href="journal.html">Дневник</a>
+  <a href="insights.html">Аналитика</a>
+  <a href="calendar.html">Календарь</a>
+  <a href="tags.html">Теги</a>
+  <a href="team.html">Команда</a>
+  <a href="support.html"> Поддержка</a>
+  <a href="profile.html">Профиль</a>
+  <a href="metod.html">  О методологии</a>
+  <a href="npumin.html">Напоминания</a>
+
+</nav>
+
+
+<div class="reminders-container">
+  <h1>⏰ Напоминания</h1>
+  <p class="subtitle">Настройте уведомления, чтобы не забывать делать записи</p>
+
+  <!-- КАРТОЧКА ДОБАВЛЕНИЯ -->
+  <div class="reminder-card">
+    <h2><i class="fas fa-plus-circle"></i> Новое напоминание</h2>
+    
+    <div class="time-group">
+      <label>Время</label>
+      <input type="time" class="time-input" id="reminderTime" value="19:00">
+    </div>
+    
+    <div class="days-group">
+      <label>Дни недели</label>
+      <div class="days-buttons" id="daysButtons">
+        <button class="day-btn" data-day="0">Пн</button>
+        <button class="day-btn" data-day="1">Вт</button>
+        <button class="day-btn" data-day="2">Ср</button>
+        <button class="day-btn" data-day="3">Чт</button>
+        <button class="day-btn" data-day="4">Пт</button>
+        <button class="day-btn" data-day="5">Сб</button>
+        <button class="day-btn" data-day="6">Вс</button>
+      </div>
+    </div>
+    
+    <button class="add-btn" id="addReminderBtn">
+      <i class="fas fa-bell"></i> Добавить напоминание
+    </button>
+  </div>
+
+  <!-- СПИСОК НАПОМИНАНИЙ -->
+  <div class="reminders-list" id="remindersList"></div>
+
+  <!-- ИНФОРМАЦИЯ -->
+  <div class="info-card">
+    <div class="info-icon"><i class="fas fa-bell"></i></div>
+    <div class="info-text">
+      <p>Напоминания приходят в указанное время. Разрешите уведомления в браузере.</p>
+    </div>
+    <button class="permission-btn" id="requestPermissionBtn">
+      <i class="fas fa-bell"></i> Включить уведомления
+    </button>
+  </div>
+</div>
+
+
+<script src="../js/app.js"></script>
+<script src="../js/npumin.js"></script>
+</body>
+</html>

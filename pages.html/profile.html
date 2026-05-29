@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Профиль | Vibe Check</title>
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../FRONTEND/css/styles.css"
+  >
+</head>
+
+<body class="profile-app">
+
+<!-- КНОПКА МЕНЮ -->
+<button
+  class="profile-menu-btn"
+  id="menuBtn"
+>
+  ☰
+</button>
+
+<div
+  class="profile-overlay"
+  id="overlay"
+></div>
+
+<!-- SIDEBAR -->
+<nav
+  class="profile-sidebar"
+  id="sidebar"
+>
+
+  <div class="profile-sidebar-header">
+
+    <h3>Vibe Check</h3>
+
+    <button
+      class="profile-sidebar-close"
+      id="closeSidebarBtn"
+    >
+      ✕
+    </button>
+
+  </div>
+
+  <a href="checkin.html">Главная</a>
+  <a href="journal.html">Дневник</a>
+  <a href="insights.html">Аналитика</a>
+  <a href="calendar.html">Календарь</a>
+  <a href="tags.html">Теги</a>
+  <a href="team.html">Команда</a>
+  <a href="support.html">Поддержка</a>
+  <a href="profile.html">Профиль</a>
+  <a href="export.html">Экспорт</a>
+  <a href="metod.html">О методологии</a>
+  <a href="npumin.html">Напоминания</a>
+
+</nav>
+
+<div class="profile-page">
+
+  <div class="profile-header">
+
+    <h1>
+      <i class="fas fa-user-circle"></i>
+      Мой профиль
+    </h1>
+
+    <p class="profile-subtitle">
+      Управление личными данными и настройками
+    </p>
+
+  </div>
+
+  <!-- АВАТАР -->
+  <div class="profile-card">
+
+    <div class="profile-card-title">
+
+      <div class="profile-card-icon blue">
+        <i class="fas fa-camera"></i>
+      </div>
+
+      <div>
+        <h2>Фото профиля</h2>
+        <p>Выберите изображение для аккаунта</p>
+      </div>
+
+    </div>
+
+    <div class="profile-avatar-section">
+
+      <div class="profile-avatar-preview">
+
+        <img
+          id="avatarImg"
+          src="https://i.pravatar.cc/150?img=12"
+          alt="Avatar"
+        >
+
+      </div>
+
+      <label class="profile-avatar-btn">
+
+        <i class="fas fa-upload"></i>
+        Выбрать фото
+
+        <input
+          type="file"
+          id="avatarUpload"
+          accept="image/*"
+          hidden
+        >
+
+      </label>
+
+    </div>
+
+  </div>
+
+  <!-- ЛИЧНАЯ ИНФОРМАЦИЯ -->
+  <div class="profile-card">
+
+    <div class="profile-card-title">
+
+      <div class="profile-card-icon purple">
+        <i class="fas fa-id-card"></i>
+      </div>
+
+      <div>
+        <h2>Личная информация</h2>
+        <p>Основные данные вашего аккаунта</p>
+      </div>
+
+    </div>
+
+    <div class="profile-form">
+
+      <div class="profile-form-group">
+
+        <label>
+          <i class="fas fa-user"></i>
+          Имя
+        </label>
+
+        <input
+          type="text"
+          id="userName"
+        >
+
+      </div>
+
+      <div class="profile-form-group">
+
+        <label>
+          <i class="fas fa-envelope"></i>
+          Email
+        </label>
+
+        <input
+          type="email"
+          id="userEmail"
+        >
+
+      </div>
+
+      <div class="profile-form-group">
+
+        <label>
+          <i class="fas fa-phone"></i>
+          Телефон
+        </label>
+
+        <input
+          type="tel"
+          id="userPhone"
+        >
+
+      </div>
+
+      <!-- ПАРОЛЬ -->
+      <div class="profile-password-box">
+
+        <h4>
+          <i class="fas fa-key"></i>
+          Смена пароля
+        </h4>
+
+        <div class="profile-password-input">
+
+          <input
+            type="password"
+            id="currentPassword"
+            placeholder="Текущий пароль"
+          >
+
+        </div>
+
+        <div class="profile-password-input">
+
+          <input
+            type="password"
+            id="newPassword"
+            placeholder="Новый пароль"
+          >
+
+        </div>
+
+        <div class="profile-password-input">
+
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Подтвердите пароль"
+          >
+
+        </div>
+
+        <div
+          id="passwordError"
+          class="profile-password-error"
+        ></div>
+
+      </div>
+
+      <button
+        class="profile-save-btn"
+        id="saveProfileBtn"
+      >
+
+        <i class="fas fa-save"></i>
+        Сохранить изменения
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ВЫХОД -->
+  <button
+    class="profile-logout-btn"
+    id="logoutBtn"
+  >
+
+    <i class="fas fa-sign-out-alt"></i>
+    Выйти из аккаунта
+
+  </button>
+
+</div>
+
+<script>
+
+// =========================
+// MENU
+// =========================
+const menuBtn =
+    document.getElementById("menuBtn");
+
+const sidebar =
+    document.getElementById("sidebar");
+
+const overlay =
+    document.getElementById("overlay");
+
+const closeSidebarBtn =
+    document.getElementById(
+        "closeSidebarBtn"
+    );
+
+function toggleMenu() {
+
+    sidebar.classList.toggle(
+        "show"
+    );
+
+    overlay.classList.toggle(
+        "show"
+    );
+
+}
+
+menuBtn.addEventListener(
+    "click",
+    toggleMenu
+);
+
+closeSidebarBtn.addEventListener(
+    "click",
+    toggleMenu
+);
+
+overlay.addEventListener(
+    "click",
+    toggleMenu
+);
+
+// =========================
+// LOAD PROFILE
+// =========================
+function loadProfileData() {
+
+    const savedName =
+        localStorage.getItem(
+            "userName"
+        );
+
+    const savedEmail =
+        localStorage.getItem(
+            "userEmail"
+        );
+
+    const savedPhone =
+        localStorage.getItem(
+            "userPhone"
+        );
+
+    const savedAvatar =
+        localStorage.getItem(
+            "userAvatar"
+        );
+
+    if (savedName) {
+
+        document.getElementById(
+            "userName"
+        ).value = savedName;
+
+    }
+
+    if (savedEmail) {
+
+        document.getElementById(
+            "userEmail"
+        ).value = savedEmail;
+
+    }
+
+    if (savedPhone) {
+
+        document.getElementById(
+            "userPhone"
+        ).value = savedPhone;
+
+    }
+
+    if (savedAvatar) {
+
+        document.getElementById(
+            "avatarImg"
+        ).src = savedAvatar;
+
+    }
+
+}
+
+// =========================
+// SAVE PROFILE
+// =========================
+function saveProfile() {
+
+    const name =
+        document.getElementById(
+            "userName"
+        ).value;
+
+    const email =
+        document.getElementById(
+            "userEmail"
+        ).value;
+
+    const phone =
+        document.getElementById(
+            "userPhone"
+        ).value;
+
+    localStorage.setItem(
+        "userName",
+        name
+    );
+
+    localStorage.setItem(
+        "userEmail",
+        email
+    );
+
+    localStorage.setItem(
+        "userPhone",
+        phone
+    );
+
+    // PASSWORD
+    const currentPassword =
+        document.getElementById(
+            "currentPassword"
+        ).value;
+
+    const newPassword =
+        document.getElementById(
+            "newPassword"
+        ).value;
+
+    const confirmPassword =
+        document.getElementById(
+            "confirmPassword"
+        ).value;
+
+    const passwordError =
+        document.getElementById(
+            "passwordError"
+        );
+
+    passwordError.textContent =
+        "";
+
+    if (
+        newPassword ||
+        confirmPassword
+    ) {
+
+        const savedPassword =
+            localStorage.getItem(
+                "userPassword"
+            );
+
+        if (
+            currentPassword !==
+            savedPassword
+        ) {
+
+            passwordError.textContent =
+                "Неверный текущий пароль";
+
+            return;
+
+        }
+
+        if (
+            newPassword.length < 4
+        ) {
+
+            passwordError.textContent =
+                "Минимум 4 символа";
+
+            return;
+
+        }
+
+        if (
+            newPassword !==
+            confirmPassword
+        ) {
+
+            passwordError.textContent =
+                "Пароли не совпадают";
+
+            return;
+
+        }
+
+        localStorage.setItem(
+            "userPassword",
+            newPassword
+        );
+
+    }
+
+    showToast(
+        "✅ Профиль сохранен"
+    );
+
+    document.getElementById(
+        "currentPassword"
+    ).value = "";
+
+    document.getElementById(
+        "newPassword"
+    ).value = "";
+
+    document.getElementById(
+        "confirmPassword"
+    ).value = "";
+
+}
+
+// =========================
+// SAVE BTN
+// =========================
+document
+    .getElementById(
+        "saveProfileBtn"
+    )
+    .addEventListener(
+        "click",
+        saveProfile
+    );
+
+// =========================
+// AVATAR
+// =========================
+const avatarUpload =
+    document.getElementById(
+        "avatarUpload"
+    );
+
+avatarUpload.addEventListener(
+    "change",
+    e => {
+
+        const file =
+            e.target.files[0];
+
+        if (!file) return;
+
+        const reader =
+            new FileReader();
+
+        reader.onload = event => {
+
+            document.getElementById(
+                "avatarImg"
+            ).src =
+                event.target.result;
+
+            localStorage.setItem(
+                "userAvatar",
+                event.target.result
+            );
+
+            showToast(
+                "✅ Аватар обновлен"
+            );
+
+        };
+
+        reader.readAsDataURL(file);
+
+    }
+);
+
+// =========================
+// STATS
+// =========================
+function loadStats() {
+
+    const entries =
+        JSON.parse(
+            localStorage.getItem(
+                "globalMoodEntries"
+            )
+        ) || [];
+
+    const total =
+        entries.length;
+
+    const avg =
+        total
+            ? (
+                entries.reduce(
+                    (sum, e) =>
+                        sum + Number(e.mood || 0),
+                    0
+                ) / total
+            ).toFixed(1)
+            : 0;
+
+    const best =
+        total
+            ? Math.max(
+                ...entries.map(
+                    e =>
+                        Number(e.mood || 0)
+                )
+            )
+            : 0;
+
+    const moodEmoji = {
+        1: "😢",
+        2: "😐",
+        3: "🙂",
+        4: "😊",
+        5: "😁"
+    };
+
+    document.getElementById(
+        "totalEntries"
+    ).textContent = total;
+
+    document.getElementById(
+        "avgMood"
+    ).textContent = avg;
+
+    document.getElementById(
+        "bestMood"
+    ).textContent =
+        best
+            ? moodEmoji[best]
+            : "—";
+
+}
+
+// =========================
+// TOAST
+// =========================
+function showToast(message) {
+
+    const oldToast =
+        document.querySelector(
+            ".profile-toast"
+        );
+
+    if (oldToast) {
+        oldToast.remove();
+    }
+
+    const toast =
+        document.createElement(
+            "div"
+        );
+
+    toast.className =
+        "profile-toast";
+
+    toast.innerHTML = `
+        <i class="fas fa-check-circle"></i>
+        ${message}
+    `;
+
+    toast.style.position =
+        "fixed";
+
+    toast.style.bottom =
+        "20px";
+
+    toast.style.right =
+        "20px";
+
+    toast.style.background =
+        "#3b1c5a";
+
+    toast.style.color =
+        "white";
+
+    toast.style.padding =
+        "14px 20px";
+
+    toast.style.borderRadius =
+        "14px";
+
+    toast.style.zIndex =
+        "9999";
+
+    document.body.appendChild(
+        toast
+    );
+
+    setTimeout(() => {
+
+        toast.remove();
+
+    }, 2500);
+
+}
+
+// =========================
+// LOGOUT
+// =========================
+document
+    .getElementById(
+        "logoutBtn"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            const confirmLogout =
+                confirm(
+                    "Выйти из аккаунта?"
+                );
+
+            if (
+                confirmLogout
+            ) {
+
+                localStorage.removeItem(
+                    "isAuthenticated"
+                );
+
+                window.location.href =
+                    "login.html";
+
+            }
+
+        }
+    );
+
+// =========================
+// INIT
+// =========================
+loadProfileData();
+
+loadStats();
+
+</script>
+
+</body>
+</html>

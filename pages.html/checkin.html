@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Check-in</title>
+
+    <link
+        rel="stylesheet"
+        href="../FRONTEND/css/styles.css"
+    >
+
+</head>
+
+<body>
+
+<!-- ========================= -->
+<!-- MENU BUTTON -->
+<!-- ========================= -->
+
+<button
+    class="menu-btn"
+    id="menuBtn"
+>
+    ☰
+</button>
+
+<!-- ========================= -->
+<!-- OVERLAY -->
+<!-- ========================= -->
+
+<div
+    class="overlay"
+    id="overlay"
+></div>
+
+<!-- ========================= -->
+<!-- SIDEBAR -->
+<!-- ========================= -->
+
+<nav
+    class="sidebar"
+    id="sidebar"
+>
+
+    <div class="sidebar-header">
+
+        <h3>Vibe Check</h3>
+
+        <button id="closeBtn">
+            ✕
+        </button>
+
+    </div>
+
+    <a href="checkin.html">
+        Главная
+    </a>
+
+    <a href="journal.html">
+        Дневник
+    </a>
+
+    <a href="insights.html">
+        Аналитика
+    </a>
+
+    <a href="calendar.html">
+        Календарь
+    </a>
+
+    <a href="tags.html">
+        Теги
+    </a>
+
+    <a href="team.html">
+        Команда
+    </a>
+
+    <a href="support.html">
+        Поддержка
+    </a>
+
+    <a href="profile.html">
+        Профиль
+    </a>
+
+    <a href="export.html">
+        Экспорт
+    </a>
+
+    <a href="metod.html">
+        О методологии
+    </a>
+
+    <a href="npumin.html">
+        Напоминания
+    </a>
+
+</nav>
+
+<!-- ========================= -->
+<!-- MAIN -->
+<!-- ========================= -->
+
+<main class="container">
+
+    <h1>
+        Как ваше настроение?
+    </h1>
+
+    <!-- ========================= -->
+    <!-- MOODS -->
+    <!-- ========================= -->
+
+    <div class="mood-grid">
+
+        <div class="mood mood-bad">
+
+            😢
+
+            <span>
+                Плохо
+            </span>
+
+        </div>
+
+        <div class="mood mood-ok">
+
+            😐
+
+            <span>
+                Не очень
+            </span>
+
+        </div>
+
+        <div class="mood mood-normal active">
+
+            🙂
+
+            <span>
+                Нормально
+            </span>
+
+        </div>
+
+        <div class="mood mood-good">
+
+            😊
+
+            <span>
+                Хорошо
+            </span>
+
+        </div>
+
+        <div class="mood mood-excellent">
+
+            😁
+
+            <span>
+                Отлично
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- CARD -->
+    <!-- ========================= -->
+
+    <div class="card">
+
+        <!-- ========================= -->
+        <!-- TAGS -->
+        <!-- ========================= -->
+
+        <div class="tags-bar">
+
+            <span class="tag">
+                Работа
+            </span>
+
+            <span class="tag">
+                Учёба
+            </span>
+
+            <span class="tag">
+                Сон
+            </span>
+
+            <span class="tag">
+                Хобби
+            </span>
+
+            <span class="tag">
+                Семья
+            </span>
+
+            <span class="tag">
+                Отношения
+            </span>
+
+            <button class="add-tag-btn">
+                + Добавить тег
+            </button>
+
+        </div>
+
+        <!-- ========================= -->
+        <!-- NOTE -->
+        <!-- ========================= -->
+
+        <div class="note-box">
+
+            <textarea
+                placeholder="Напиши пару слов..."
+            ></textarea>
+
+        </div>
+
+        <!-- ========================= -->
+        <!-- SAVE BUTTON -->
+        <!-- ========================= -->
+
+        <button class="save-btn">
+            Сохранить
+        </button>
+
+    </div>
+
+</main>
+
+<!-- ========================= -->
+<!-- SUPPORT MODAL -->
+<!-- ========================= -->
+
+<div
+    class="support-modal"
+    id="supportModal"
+>
+
+    <div class="support-content">
+
+        <!-- CONTENT -->
+
+        <div id="supportData"></div>
+
+        <!-- BUTTON -->
+
+        <button
+            id="supportCloseBtn"
+            onclick="closeSupportModal()"
+        >
+            Мне полегчало 😌
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- TAG MODAL -->
+<!-- ========================= -->
+
+<div
+    class="tag-modal-overlay"
+    id="tagModal"
+>
+
+    <div class="tag-modal-window">
+
+        <h3>
+            Новый тег
+        </h3>
+
+        <p class="modal-subtitle">
+            Добавь тег для настроения
+        </p>
+
+        <input
+            type="text"
+            id="tagInput"
+            class="tag-modal-input"
+            placeholder="Например: Спорт"
+        >
+
+        <div class="tag-modal-buttons">
+
+            <button
+                class="tag-modal-btn cancel"
+                onclick="closeTagModal()"
+            >
+                Отмена
+            </button>
+
+            <button
+                class="tag-modal-btn save"
+                id="saveTagBtn"
+            >
+                Добавить
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- SCRIPTS -->
+<!-- ========================= -->
+
+<script src="../js/checkin.js"></script>
+
+<script src="../js/app.js"></script>
+
+</body>
+
+</html>
