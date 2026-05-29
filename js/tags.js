@@ -1,141 +1,399 @@
-// ===== STATE =====
-let tags = [];
 
-// ===== ЭЛЕМЕНТЫ =====
-const tagsGrid =
-    document.getElementById("tagsGrid");
+// =======================
+// API URL
+// =======================
 
-const newTagInput =
-    document.getElementById("newTagInput");
-
-const addTagBtn =
-    document.getElementById("addTagBtn");
-
-const tagSearchInput =
-    document.getElementById("tagSearchInput");
-
-const clearSearchBtn =
-    document.getElementById("clearSearchBtn");
-
-const searchResultInfo =
-    document.getElementById("searchResultInfo");
-
-// ===== МОДАЛКИ =====
-const editModal =
-    document.getElementById("editModal");
-
-const editTagInput =
-    document.getElementById("editTagInput");
-
-const saveEditBtn =
-    document.getElementById("saveEditBtn");
-
-const cancelEditBtn =
-    document.getElementById("cancelEditBtn");
-
-const deleteModal =
-    document.getElementById("deleteModal");
-
-const deleteTagName =
-    document.getElementById("deleteTagName");
-
-const confirmDeleteBtn =
-    document.getElementById("confirmDeleteBtn");
-
-const cancelDeleteBtn =
-    document.getElementById("cancelDeleteBtn");
-
-// ===== STATE =====
-let currentEditId = null;
-let currentDeleteId = null;
+const API_URL =
+    "http://localhost:8080/api"
 
 
 // =======================
-// LOAD TAGS
+// API
 // =======================
-async function loadTags() {
+
+async function getTags() {
 
     try {
 
-        const result = await getTags();
+        const response =
+            await fetch(
+                `${API_URL}/tags`
+            )
 
-        console.log("TAGS:", result);
+        if (!response.ok) {
 
-        if (!Array.isArray(result)) {
-
-            tags = [];
-
-        } else {
-
-            tags = result;
+            throw new Error(
+                "Ошибка загрузки тегов"
+            )
         }
 
-        renderTags(tags);
+        return await response.json()
 
     } catch (err) {
 
-        console.error("LOAD TAGS ERROR:", err);
+        console.error(
+            "GET TAGS ERROR:",
+            err
+        )
 
-        tags = [];
+        return []
+    }
+}
 
-        renderTags([]);
+
+async function createTag(tag) {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/tags`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(tag)
+                }
+            )
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Ошибка создания"
+            )
+        }
+
+        return await response.json()
+
+    } catch (err) {
+
+        console.error(
+            "CREATE TAG ERROR:",
+            err
+        )
+
+        return null
+    }
+}
+
+
+async function updateTag(tag) {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/tags/${tag.id}`,
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(tag)
+                }
+            )
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Ошибка обновления"
+            )
+        }
+
+        return await response.json()
+
+    } catch (err) {
+
+        console.error(
+            "UPDATE TAG ERROR:",
+            err
+        )
+
+        return null
+    }
+}
+
+
+async function deleteTag(id) {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/tags/${id}`,
+                {
+                    method: "DELETE"
+                }
+            )
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Ошибка удаления"
+            )
+        }
+
+        return true
+
+    } catch (err) {
+
+        console.error(
+            "DELETE TAG ERROR:",
+            err
+        )
+
+        return false
+    }
+}
+
+
+async function searchTagsApi(query) {
+
+    try {
+
+        const tags =
+            await getTags()
+
+        return tags.filter(tag =>
+
+            tag.name
+                .toLowerCase()
+                .includes(
+                    query.toLowerCase()
+                )
+        )
+
+    } catch (err) {
+
+        console.error(
+            "SEARCH ERROR:",
+            err
+        )
+
+        return []
     }
 }
 
 
 // =======================
-// RENDER
+// STATE
 // =======================
-function renderTags(data = tags) {
 
-    tagsGrid.innerHTML = "";
+let tags = []
 
-    if (!Array.isArray(data) || data.length === 0) {
+
+let currentEditId =
+    null
+
+let currentDeleteId =
+    null
+
+
+// =======================
+// ELEMENTS
+// =======================
+
+const tagsGrid =
+    document.getElementById(
+        "tagsGrid"
+    )
+
+const newTagInput =
+    document.getElementById(
+        "newTagInput"
+    )
+
+const addTagBtn =
+    document.getElementById(
+        "addTagBtn"
+    )
+
+const tagSearchInput =
+    document.getElementById(
+        "tagSearchInput"
+    )
+
+const clearSearchBtn =
+    document.getElementById(
+        "clearSearchBtn"
+    )
+
+const searchResultInfo =
+    document.getElementById(
+        "searchResultInfo"
+    )
+
+
+// =======================
+// MODALS
+// =======================
+
+const editModal =
+    document.getElementById(
+        "editModal"
+    )
+
+const editTagInput =
+    document.getElementById(
+        "editTagInput"
+    )
+
+const saveEditBtn =
+    document.getElementById(
+        "saveEditBtn"
+    )
+
+const cancelEditBtn =
+    document.getElementById(
+        "cancelEditBtn"
+    )
+
+const deleteModal =
+    document.getElementById(
+        "deleteModal"
+    )
+
+const deleteTagName =
+    document.getElementById(
+        "deleteTagName"
+    )
+
+const confirmDeleteBtn =
+    document.getElementById(
+        "confirmDeleteBtn"
+    )
+
+const cancelDeleteBtn =
+    document.getElementById(
+        "cancelDeleteBtn"
+    )
+
+
+// =======================
+// LOAD TAGS
+// =======================
+
+async function loadTags() {
+
+    try {
+
+        const result =
+            await getTags()
+
+        console.log(
+            "TAGS:",
+            result
+        )
+
+        if (
+            !Array.isArray(result)
+        ) {
+
+            tags = []
+
+        } else {
+
+            tags = result
+        }
+
+        renderTags(tags)
+
+    } catch (err) {
+
+        console.error(
+            "LOAD TAGS ERROR:",
+            err
+        )
+
+        tags = []
+
+        renderTags([])
+    }
+}
+
+
+// =======================
+// RENDER TAGS
+// =======================
+
+function renderTags(
+    data = tags
+) {
+
+    tagsGrid.innerHTML = ""
+
+    if (
+
+        !Array.isArray(data) ||
+
+        data.length === 0
+    ) {
 
         tagsGrid.innerHTML = `
+
             <div class="empty">
                 Теги не найдены
             </div>
-        `;
+        `
 
-        return;
+        return
     }
 
     data.forEach(tag => {
 
         const card =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            )
 
         card.className =
-            `tag-card ${tag.type || "neutral"}`;
+            `tag-card ${tag.type || "neutral"}`
 
         card.innerHTML = `
+
             <div class="tag-card-content">
 
                 <div class="tag-icon-wrapper ${tag.type || "neutral"}">
+
                     ${tag.icon || "🏷️"}
+
                 </div>
 
                 <div class="tag-info">
+
                     <div class="tag-name">
+
                         ${tag.name || "Без названия"}
+
                     </div>
 
                     <div class="tag-count">
+
                         ${tag.count || 0} раз
+
                     </div>
+
                 </div>
 
                 <div class="tag-actions">
 
-                    <button 
+                    <button
                         class="tag-edit-btn"
                         data-id="${tag.id}"
                     >
                         ✏️
                     </button>
 
-                    <button 
+                    <button
                         class="tag-delete-btn"
                         data-id="${tag.id}"
                     >
@@ -145,111 +403,141 @@ function renderTags(data = tags) {
                 </div>
 
             </div>
-        `;
+        `
 
-        tagsGrid.appendChild(card);
-    });
+        tagsGrid.appendChild(
+            card
+        )
+    })
 
     searchResultInfo.textContent =
-        `Всего тегов: ${data.length}`;
+        `Всего тегов: ${data.length}`
 }
 
 
 // =======================
 // ADD TAG
 // =======================
-addTagBtn.addEventListener("click", async () => {
 
-    const value =
-        newTagInput.value.trim();
+addTagBtn.addEventListener(
+    "click",
+    async () => {
 
-    if (!value) {
+        const value =
+            newTagInput.value.trim()
 
-        alert("Введите название тега");
+        if (!value) {
 
-        return;
-    }
+            alert(
+                "Введите название тега"
+            )
 
-    const newTag = {
-
-        name: value,
-
-        icon: "🏷️",
-
-        type: "neutral",
-
-        count: 0
-    };
-
-    console.log("CREATE TAG:", newTag);
-
-    try {
-
-        const result =
-            await createTag(newTag);
-
-        console.log("CREATE RESULT:", result);
-
-        if (!result) {
-
-            alert("Ошибка создания тега");
-
-            return;
+            return
         }
 
-        newTagInput.value = "";
+        const newTag = {
 
-        await loadTags();
+            name: value,
 
-    } catch (err) {
+            icon: "🏷️",
 
-        console.error("CREATE TAG ERROR:", err);
+            type: "neutral",
 
-        alert("Ошибка сервера");
+            count: 0
+        }
+
+        try {
+
+            const result =
+                await createTag(
+                    newTag
+                )
+
+            console.log(
+                "CREATE RESULT:",
+                result
+            )
+
+            if (!result) {
+
+                alert(
+                    "Ошибка создания тега"
+                )
+
+                return
+            }
+
+            newTagInput.value = ""
+
+            await loadTags()
+
+        } catch (err) {
+
+            console.error(
+                "CREATE TAG ERROR:",
+                err
+            )
+
+            alert(
+                "Ошибка сервера"
+            )
+        }
     }
-});
+)
 
 
+// =======================
 // ENTER
-newTagInput.addEventListener("keydown", async (e) => {
+// =======================
 
-    if (e.key === "Enter") {
+newTagInput.addEventListener(
+    "keydown",
+    async (e) => {
 
-        addTagBtn.click();
+        if (e.key === "Enter") {
+
+            addTagBtn.click()
+        }
     }
-});
+)
 
 
 // =======================
 // SEARCH
 // =======================
+
 async function searchTags() {
 
     const query =
         tagSearchInput.value
             .trim()
-            .toLowerCase();
+            .toLowerCase()
 
     if (!query) {
 
-        renderTags(tags);
+        renderTags(tags)
 
-        return;
+        return
     }
 
     try {
 
         const results =
-            await searchTagsApi(query);
+            await searchTagsApi(
+                query
+            )
 
-        renderTags(results || []);
+        renderTags(results || [])
 
         searchResultInfo.textContent =
-            `Найдено тегов: ${(results || []).length}`;
+            `Найдено тегов: ${(results || []).length}`
 
     } catch (err) {
 
-        console.error("SEARCH ERROR:", err);
+        console.error(
+            "SEARCH ERROR:",
+            err
+        )
     }
 }
 
@@ -257,128 +545,194 @@ async function searchTags() {
 // =======================
 // CLEAR SEARCH
 // =======================
-clearSearchBtn.addEventListener("click", async () => {
 
-    tagSearchInput.value = "";
+clearSearchBtn.addEventListener(
+    "click",
+    async () => {
 
-    await loadTags();
-});
+        tagSearchInput.value = ""
+
+        await loadTags()
+    }
+)
 
 tagSearchInput.addEventListener(
     "input",
     searchTags
-);
+)
 
 
 // =======================
-// EDIT / DELETE BUTTONS
+// EDIT / DELETE
 // =======================
-tagsGrid.addEventListener("click", (e) => {
 
-    // EDIT
-    if (e.target.classList.contains("tag-edit-btn")) {
+tagsGrid.addEventListener(
+    "click",
+    (e) => {
 
-        const id =
-            Number(e.target.dataset.id);
+        // EDIT
 
-        const tag =
-            tags.find(t => t.id === id);
+        if (
+            e.target.classList.contains(
+                "tag-edit-btn"
+            )
+        ) {
 
-        if (!tag) return;
+            const id =
+                Number(
+                    e.target.dataset.id
+                )
 
-        currentEditId = id;
+            const tag =
+                tags.find(
+                    t => t.id === id
+                )
 
-        editTagInput.value = tag.name;
+            if (!tag) return
 
-        editModal.classList.add("show");
+            currentEditId = id
+
+            editTagInput.value =
+                tag.name
+
+            editModal.classList.add(
+                "show"
+            )
+        }
+
+
+        // DELETE
+
+        if (
+            e.target.classList.contains(
+                "tag-delete-btn"
+            )
+        ) {
+
+            const id =
+                Number(
+                    e.target.dataset.id
+                )
+
+            const tag =
+                tags.find(
+                    t => t.id === id
+                )
+
+            if (!tag) return
+
+            currentDeleteId = id
+
+            deleteTagName.textContent =
+                tag.name
+
+            deleteModal.classList.add(
+                "show"
+            )
+        }
     }
-
-    // DELETE
-    if (e.target.classList.contains("tag-delete-btn")) {
-
-        const id =
-            Number(e.target.dataset.id);
-
-        const tag =
-            tags.find(t => t.id === id);
-
-        if (!tag) return;
-
-        currentDeleteId = id;
-
-        deleteTagName.textContent =
-            tag.name;
-
-        deleteModal.classList.add("show");
-    }
-});
+)
 
 
 // =======================
 // SAVE EDIT
 // =======================
-saveEditBtn.addEventListener("click", async () => {
 
-    const value =
-        editTagInput.value.trim();
+saveEditBtn.addEventListener(
+    "click",
+    async () => {
 
-    if (!value) return;
+        const value =
+            editTagInput.value.trim()
 
-    try {
+        if (!value) return
 
-        await updateTag({
+        try {
 
-            id: currentEditId,
+            await updateTag({
 
-            name: value
-        });
+                id:
+                    currentEditId,
 
-        editModal.classList.remove("show");
+                name:
+                    value
+            })
 
-        await loadTags();
+            editModal.classList.remove(
+                "show"
+            )
 
-    } catch (err) {
+            await loadTags()
 
-        console.error("UPDATE ERROR:", err);
+        } catch (err) {
+
+            console.error(
+                "UPDATE ERROR:",
+                err
+            )
+        }
     }
-});
+)
 
 
 // =======================
-// DELETE
+// DELETE TAG
 // =======================
-confirmDeleteBtn.addEventListener("click", async () => {
 
-    try {
+confirmDeleteBtn.addEventListener(
+    "click",
+    async () => {
 
-        await deleteTag(currentDeleteId);
+        try {
 
-        deleteModal.classList.remove("show");
+            await deleteTag(
+                currentDeleteId
+            )
 
-        await loadTags();
+            deleteModal.classList.remove(
+                "show"
+            )
 
-    } catch (err) {
+            await loadTags()
 
-        console.error("DELETE ERROR:", err);
+        } catch (err) {
+
+            console.error(
+                "DELETE ERROR:",
+                err
+            )
+        }
     }
-});
+)
 
 
 // =======================
-// CANCEL
+// CANCEL BUTTONS
 // =======================
-cancelEditBtn.addEventListener("click", () => {
 
-    editModal.classList.remove("show");
-});
+cancelEditBtn.addEventListener(
+    "click",
+    () => {
 
-cancelDeleteBtn.addEventListener("click", () => {
+        editModal.classList.remove(
+            "show"
+        )
+    }
+)
 
-    deleteModal.classList.remove("show");
-});
+cancelDeleteBtn.addEventListener(
+    "click",
+    () => {
+
+        deleteModal.classList.remove(
+            "show"
+        )
+    }
+)
 
 
 // =======================
 // INIT
 // =======================
-loadTags();
+
+loadTags()

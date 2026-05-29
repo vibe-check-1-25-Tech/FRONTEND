@@ -374,3 +374,7 @@ async function pingServer() {
         `${API_BASE}/ping`
     );
 }
+
+async function getTagsStats() {
+    return request(`${API_BASE}/tags/stats`); 
+}
