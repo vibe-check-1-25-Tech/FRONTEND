@@ -70,45 +70,12 @@ async function createTag(tag) {
     }
 }
 
-// =========================
-// STATS LOGIC (ДОБАВЛЕНО)
-// =========================
-async function loadTagsStats() {
-    try {
-        const response = await fetch("http://localhost:8080/api/tags/stats");
-        if (response.ok) {
-            const stats = await response.json();
-            
-            document.querySelectorAll(".tag").forEach(tagElement => {
-                // Берем текст тега чисто, без учета цифр, если они там уже есть
-                const fullText = tagElement.innerText;
-                const tagName = fullText.split('(')[0].trim();
-                const count = stats[tagName] || 0;
-                
-                // Ищем или создаем спан для счетчика
-                let countSpan = tagElement.querySelector(".tag-count");
-                if (!countSpan) {
-                    countSpan = document.createElement("span");
-                    countSpan.className = "tag-count";
-                    tagElement.appendChild(countSpan);
-                }
-                // Обновляем только содержимое счетчика, не трогая текст тега
-                countSpan.textContent = ` (${count})`;
-            });
-        }
-    } catch (e) {
-        console.error("Ошибка загрузки статистики:", e);
-    }
-}
 
 // =========================
 // MAIN
 // =========================
 
 document.addEventListener("DOMContentLoaded", () => {
-    
-    // Загружаем статистику при старте
-    loadTagsStats();
 
     // =========================
     // CHECK AUTH
@@ -188,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     )
 
                     const text =
-                        tag.innerText.split('(')[0].trim()
+                        tag.textContent.trim()
 
                     if (
                         selectedTags.includes(
@@ -284,9 +251,6 @@ document.addEventListener("DOMContentLoaded", () => {
             alert(
                 "Настроение сохранено ✅"
             )
-            
-            // ОБНОВЛЯЕМ СТАТИСТИКУ ПОСЛЕ СОХРАНЕНИЯ
-            loadTagsStats();
 
             if (
                 result.support &&
@@ -619,7 +583,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         ".tags-bar"
                     )
 
-                tagsBar.appendChild(tag)
+                tagsBar.insertBefore(
+                    tag,
+                    addTagBtn
+                )
 
 
                 // =========================
@@ -644,7 +611,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         )
 
                         const text =
-                            tag.innerText.split('(')[0].trim()
+                            tag.textContent.trim()
 
                         if (
                             selectedTags.includes(
@@ -665,9 +632,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     }
                 )
-                
-                // ОБНОВЛЯЕМ СТАТИСТИКУ ПРИ ДОБАВЛЕНИИ ТЕГА
-                loadTagsStats();
 
                 closeTagModal()
 

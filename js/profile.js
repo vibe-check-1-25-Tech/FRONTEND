@@ -1,166 +1,395 @@
-console.log("profile.js подключен");
+
+console.log("profile.js connected")
+
+
+// =========================
+// API URL
+// =========================
+
+const API_URL =
+    "http://localhost:8080/api"
+
+
+// =========================
+// API
+// =========================
+
+async function getProfile() {
+
+    try {
+
+        const token =
+            localStorage.getItem("token")
+
+        const response =
+            await fetch(
+                `${API_URL}/profile`,
+                {
+                    method: "GET",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            )
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Ошибка загрузки профиля"
+            )
+        }
+
+        return await response.json()
+
+    } catch (err) {
+
+        console.error(
+            "GET PROFILE ERROR:",
+            err
+        )
+
+        return null
+    }
+}
+
+
+async function updateProfile(data) {
+
+    try {
+
+        const token =
+            localStorage.getItem("token")
+
+        const response =
+            await fetch(
+                `${API_URL}/profile`,
+                {
+                    method: "PUT",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+                    },
+
+                    body:
+                        JSON.stringify(data)
+                }
+            )
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Ошибка обновления"
+            )
+        }
+
+        return await response.json()
+
+    } catch (err) {
+
+        console.error(
+            "UPDATE PROFILE ERROR:",
+            err
+        )
+
+        return null
+    }
+}
+
+
+async function getMoods() {
+
+    try {
+
+        const token =
+            localStorage.getItem("token")
+
+        const response =
+            await fetch(
+                `${API_URL}/moods`,
+                {
+                    method: "GET",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            )
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Ошибка moods"
+            )
+        }
+
+        return await response.json()
+
+    } catch (err) {
+
+        console.error(
+            "MOODS ERROR:",
+            err
+        )
+
+        return []
+    }
+}
+
 
 // =========================
 // LOAD PROFILE
 // =========================
-function loadProfileData() {
 
-    const savedName =
-        localStorage.getItem("userName");
+async function loadProfileData() {
 
-    const savedEmail =
-        localStorage.getItem("userEmail");
+    try {
 
-    const savedPhone =
-        localStorage.getItem("userPhone");
+        const profile =
+            await getProfile()
 
-    const savedAvatar =
-        localStorage.getItem("userAvatar");
+        console.log(
+            "PROFILE:",
+            profile
+        )
 
-    // NAME
-    if (savedName) {
+        if (!profile) return
 
-        document.getElementById("userName").value =
-            savedName;
 
+        // =========================
+        // NAME
+        // =========================
+
+        document.getElementById(
+            "userName"
+        ).value =
+            profile.name || ""
+
+
+        // =========================
+        // EMAIL
+        // =========================
+
+        document.getElementById(
+            "userEmail"
+        ).value =
+            profile.email || ""
+
+
+        // =========================
+        // PHONE
+        // =========================
+
+        document.getElementById(
+            "userPhone"
+        ).value =
+            profile.phone || ""
+
+
+        // =========================
+        // AVATAR
+        // =========================
+
+        if (profile.avatar) {
+
+            document.getElementById(
+                "avatarImg"
+            ).src =
+                profile.avatar
+        }
+
+    } catch (err) {
+
+        console.error(
+            "LOAD PROFILE ERROR:",
+            err
+        )
     }
-
-    // EMAIL
-    if (savedEmail) {
-
-        document.getElementById("userEmail").value =
-            savedEmail;
-
-    }
-
-    // PHONE
-    if (savedPhone) {
-
-        document.getElementById("userPhone").value =
-            savedPhone;
-
-    }
-
-    // AVATAR
-    if (savedAvatar) {
-
-        document.getElementById("avatarImg").src =
-            savedAvatar;
-
-    }
-
 }
+
 
 // =========================
 // SAVE PROFILE
 // =========================
-function saveProfile() {
+
+async function saveProfile() {
 
     const name =
-        document.getElementById("userName").value;
+        document.getElementById(
+            "userName"
+        ).value
 
     const email =
-        document.getElementById("userEmail").value;
+        document.getElementById(
+            "userEmail"
+        ).value
 
     const phone =
-        document.getElementById("userPhone").value;
+        document.getElementById(
+            "userPhone"
+        ).value
 
-    localStorage.setItem(
-        "userName",
-        name
-    );
+    const avatar =
+        document.getElementById(
+            "avatarImg"
+        ).src
 
-    localStorage.setItem(
-        "userEmail",
-        email
-    );
 
-    localStorage.setItem(
-        "userPhone",
-        phone
-    );
+    // =========================
+    // PASSWORD
+    // =========================
 
-    // PASSWORD CHANGE
     const currentPassword =
-        document.getElementById("currentPassword").value;
+        document.getElementById(
+            "currentPassword"
+        ).value
 
     const newPassword =
-        document.getElementById("newPassword").value;
+        document.getElementById(
+            "newPassword"
+        ).value
 
     const confirmPassword =
-        document.getElementById("confirmPassword").value;
+        document.getElementById(
+            "confirmPassword"
+        ).value
 
     const passwordError =
-        document.getElementById("passwordError");
+        document.getElementById(
+            "passwordError"
+        )
 
-    passwordError.textContent = "";
+    passwordError.textContent =
+        ""
+
 
     if (
         newPassword ||
         confirmPassword
     ) {
 
-        const savedPassword =
-            localStorage.getItem("userPassword");
-
-        if (
-            currentPassword !== savedPassword
-        ) {
-
-            passwordError.textContent =
-                "Неверный текущий пароль";
-
-            return;
-
-        }
-
         if (
             newPassword.length < 4
         ) {
 
             passwordError.textContent =
-                "Минимум 4 символа";
+                "Минимум 4 символа"
 
-            return;
-
+            return
         }
 
         if (
-            newPassword !== confirmPassword
+            newPassword !==
+            confirmPassword
         ) {
 
             passwordError.textContent =
-                "Пароли не совпадают";
+                "Пароли не совпадают"
 
-            return;
-
+            return
         }
-
-        localStorage.setItem(
-            "userPassword",
-            newPassword
-        );
-
     }
 
-    showToast(
-        "✅ Профиль сохранен"
-    );
 
-    // CLEAR
-    document.getElementById("currentPassword").value = "";
+    // =========================
+    // REQUEST
+    // =========================
 
-    document.getElementById("newPassword").value = "";
+    const body = {
 
-    document.getElementById("confirmPassword").value = "";
+        name:
+            name,
 
+        email:
+            email,
+
+        phone:
+            phone,
+
+        avatar:
+            avatar,
+
+        currentPassword:
+            currentPassword,
+
+        newPassword:
+            newPassword
+    }
+
+
+    try {
+
+        const result =
+            await updateProfile(
+                body
+            )
+
+        console.log(
+            "SAVE RESULT:",
+            result
+        )
+
+        if (!result) {
+
+            alert(
+                "Ошибка сохранения"
+            )
+
+            return
+        }
+
+        showToast(
+            "✅ Профиль сохранён"
+        )
+
+
+        // CLEAR PASSWORDS
+
+        document.getElementById(
+            "currentPassword"
+        ).value = ""
+
+        document.getElementById(
+            "newPassword"
+        ).value = ""
+
+        document.getElementById(
+            "confirmPassword"
+        ).value = ""
+
+    } catch (err) {
+
+        console.error(
+            "SAVE PROFILE ERROR:",
+            err
+        )
+    }
 }
+
 
 // =========================
 // AVATAR
 // =========================
+
 const avatarUpload =
-    document.getElementById("avatarUpload");
+    document.getElementById(
+        "avatarUpload"
+    )
 
 if (avatarUpload) {
 
@@ -169,154 +398,247 @@ if (avatarUpload) {
         e => {
 
             const file =
-                e.target.files[0];
+                e.target.files[0]
 
-            if (!file) return;
+            if (!file) return
 
             const reader =
-                new FileReader();
+                new FileReader()
 
-            reader.onload = event => {
+            reader.onload =
+                event => {
 
-                const avatar =
                     document.getElementById(
                         "avatarImg"
-                    );
+                    ).src =
+                        event.target.result
 
-                avatar.src =
-                    event.target.result;
+                    showToast(
+                        "✅ Аватар обновлён"
+                    )
+                }
 
-                localStorage.setItem(
-                    "userAvatar",
-                    event.target.result
-                );
-
-                showToast(
-                    "✅ Аватар обновлен"
-                );
-
-            };
-
-            reader.readAsDataURL(file);
-
+            reader.readAsDataURL(
+                file
+            )
         }
-    );
-
+    )
 }
+
+
+// =========================
+// LOAD STATS
+// =========================
+
+async function loadStats() {
+
+    try {
+
+        const moods =
+            await getMoods()
+
+        console.log(
+            "MOODS:",
+            moods
+        )
+
+        const total =
+            moods.length
+
+        let avg = 0
+
+        if (total > 0) {
+
+            avg =
+                (
+                    moods.reduce(
+                        (
+                            sum,
+                            mood
+                        ) =>
+
+                            sum +
+                            Number(
+                                mood.score || 0
+                            ),
+
+                        0
+                    ) / total
+                ).toFixed(1)
+        }
+
+        const bestScore =
+            total > 0
+
+            ? Math.max(
+                ...moods.map(
+                    mood =>
+                        Number(
+                            mood.score || 0
+                        )
+                )
+            )
+
+            : 0
+
+
+        const moodEmoji = {
+
+            1: "😢",
+            2: "😐",
+            3: "🙂",
+            4: "😊",
+            5: "😁"
+        }
+
+
+        document.getElementById(
+            "totalEntries"
+        ).textContent =
+            total
+
+        document.getElementById(
+            "avgMood"
+        ).textContent =
+            avg
+
+        document.getElementById(
+            "bestMood"
+        ).textContent =
+
+            bestScore
+                ? moodEmoji[
+                    bestScore
+                ]
+                : "—"
+
+    } catch (err) {
+
+        console.error(
+            "STATS ERROR:",
+            err
+        )
+    }
+}
+
 
 // =========================
 // TOAST
 // =========================
+
 function showToast(message) {
 
     const oldToast =
         document.querySelector(
             ".profile-toast"
-        );
+        )
 
     if (oldToast) {
-        oldToast.remove();
+
+        oldToast.remove()
     }
 
     const toast =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        )
 
     toast.className =
-        "profile-toast";
+        "profile-toast"
 
     toast.innerHTML = `
+
         <i class="fas fa-check-circle"></i>
+
         ${message}
-    `;
+    `
 
-    toast.style.position = "fixed";
+    toast.style.position =
+        "fixed"
 
-    toast.style.bottom = "20px";
+    toast.style.bottom =
+        "20px"
 
-    toast.style.right = "20px";
+    toast.style.right =
+        "20px"
 
     toast.style.background =
-        "#3b1c5a";
+        "#3b1c5a"
 
     toast.style.color =
-        "white";
+        "white"
 
     toast.style.padding =
-        "14px 20px";
+        "14px 20px"
 
     toast.style.borderRadius =
-        "14px";
+        "14px"
 
     toast.style.zIndex =
-        "9999";
+        "9999"
 
     document.body.appendChild(
         toast
-    );
+    )
 
     setTimeout(() => {
 
-        toast.remove();
+        toast.remove()
 
-    }, 2500);
-
+    }, 2500)
 }
 
+
 // =========================
-// SAVE BTN
+// SAVE BUTTON
 // =========================
-const saveProfileBtn =
-    document.getElementById(
+
+document
+    .getElementById(
         "saveProfileBtn"
-    );
-
-if (saveProfileBtn) {
-
-    saveProfileBtn.addEventListener(
+    )
+    .addEventListener(
         "click",
         saveProfile
-    );
+    )
 
-}
 
 // =========================
 // LOGOUT
 // =========================
-const logoutBtn =
-    document.getElementById(
+
+document
+    .getElementById(
         "logoutBtn"
-    );
-
-if (logoutBtn) {
-
-    logoutBtn.addEventListener(
+    )
+    .addEventListener(
         "click",
         () => {
 
             const confirmLogout =
                 confirm(
                     "Выйти из аккаунта?"
-                );
+                )
 
             if (
                 confirmLogout
             ) {
 
                 localStorage.removeItem(
-                    "isAuthenticated"
-                );
+                    "token"
+                )
 
                 window.location.href =
-                    "login.html";
-
+                    "login.html"
             }
-
         }
-    );
+    )
 
-}
 
 // =========================
 // INIT
 // =========================
-loadProfileData();
+
+loadProfileData()
+
+loadStats()
